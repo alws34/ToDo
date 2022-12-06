@@ -1,6 +1,6 @@
 ﻿namespace DoYourTasks.UserControls
 {
-    partial class ProjectTaskView
+    partial class TaskView
     {
         /// <summary> 
         /// Required designer variable.

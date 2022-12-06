@@ -35,20 +35,20 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMaximizar = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.btnAddNewList = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBoxAddSubTask = new System.Windows.Forms.TextBox();
             this.tlpTaskProperties = new System.Windows.Forms.TableLayoutPanel();
-            this.btnAddDueDate = new DoYourTasks.UserControls.CustomButtonV2();
-            this.btnReminder = new DoYourTasks.UserControls.CustomButtonV2();
-            this.btnRepeat = new DoYourTasks.UserControls.CustomButtonV2();
             this.tlpSubTasks = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
             this.tbAddTask = new System.Windows.Forms.TextBox();
             this.lblProjName = new System.Windows.Forms.Label();
             this.tlpTasks = new System.Windows.Forms.TableLayoutPanel();
             this.tlpProjects = new System.Windows.Forms.TableLayoutPanel();
-            this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.btnAddNewList = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -143,6 +143,22 @@
             this.pnlMain.TabIndex = 13;
             this.pnlMain.Click += new System.EventHandler(this.panel1_Click);
             // 
+            // btnAddNewList
+            // 
+            this.btnAddNewList.AutoSize = true;
+            this.btnAddNewList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAddNewList.Depth = 0;
+            this.btnAddNewList.Icon = null;
+            this.btnAddNewList.Location = new System.Drawing.Point(3, 664);
+            this.btnAddNewList.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAddNewList.Name = "btnAddNewList";
+            this.btnAddNewList.Primary = true;
+            this.btnAddNewList.Size = new System.Drawing.Size(144, 36);
+            this.btnAddNewList.TabIndex = 11;
+            this.btnAddNewList.Text = "Add New Project";
+            this.btnAddNewList.UseVisualStyleBackColor = true;
+            this.btnAddNewList.Click += new System.EventHandler(this.btnNewList_Click);
+            // 
             // panel3
             // 
             this.panel3.AutoScroll = true;
@@ -156,7 +172,7 @@
             // 
             // textBoxAddSubTask
             // 
-            this.textBoxAddSubTask.Location = new System.Drawing.Point(3, 370);
+            this.textBoxAddSubTask.Location = new System.Drawing.Point(4, 364);
             this.textBoxAddSubTask.Multiline = true;
             this.textBoxAddSubTask.Name = "textBoxAddSubTask";
             this.textBoxAddSubTask.Size = new System.Drawing.Size(297, 41);
@@ -173,9 +189,9 @@
             this.tlpTaskProperties.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
             this.tlpTaskProperties.ColumnCount = 1;
             this.tlpTaskProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpTaskProperties.Controls.Add(this.btnAddDueDate, 0, 0);
-            this.tlpTaskProperties.Controls.Add(this.btnReminder, 0, 1);
-            this.tlpTaskProperties.Controls.Add(this.btnRepeat, 0, 2);
+            this.tlpTaskProperties.Controls.Add(this.materialRaisedButton3, 0, 2);
+            this.tlpTaskProperties.Controls.Add(this.materialRaisedButton2, 0, 1);
+            this.tlpTaskProperties.Controls.Add(this.materialRaisedButton1, 0, 0);
             this.tlpTaskProperties.Location = new System.Drawing.Point(3, 238);
             this.tlpTaskProperties.Name = "tlpTaskProperties";
             this.tlpTaskProperties.Padding = new System.Windows.Forms.Padding(3);
@@ -186,60 +202,6 @@
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpTaskProperties.Size = new System.Drawing.Size(299, 126);
             this.tlpTaskProperties.TabIndex = 13;
-            // 
-            // btnAddDueDate
-            // 
-            this.btnAddDueDate.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddDueDate.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnAddDueDate.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnAddDueDate.BorderRadius = 0;
-            this.btnAddDueDate.BorderSize = 0;
-            this.btnAddDueDate.FlatAppearance.BorderSize = 0;
-            this.btnAddDueDate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddDueDate.ForeColor = System.Drawing.Color.White;
-            this.btnAddDueDate.Location = new System.Drawing.Point(6, 6);
-            this.btnAddDueDate.Name = "btnAddDueDate";
-            this.btnAddDueDate.Size = new System.Drawing.Size(287, 30);
-            this.btnAddDueDate.TabIndex = 1;
-            this.btnAddDueDate.Text = "Add Due Date";
-            this.btnAddDueDate.TextColor = System.Drawing.Color.White;
-            this.btnAddDueDate.UseVisualStyleBackColor = false;
-            // 
-            // btnReminder
-            // 
-            this.btnReminder.BackColor = System.Drawing.Color.Transparent;
-            this.btnReminder.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnReminder.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnReminder.BorderRadius = 0;
-            this.btnReminder.BorderSize = 0;
-            this.btnReminder.FlatAppearance.BorderSize = 0;
-            this.btnReminder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReminder.ForeColor = System.Drawing.Color.White;
-            this.btnReminder.Location = new System.Drawing.Point(6, 46);
-            this.btnReminder.Name = "btnReminder";
-            this.btnReminder.Size = new System.Drawing.Size(287, 30);
-            this.btnReminder.TabIndex = 2;
-            this.btnReminder.Text = "RemindMe";
-            this.btnReminder.TextColor = System.Drawing.Color.White;
-            this.btnReminder.UseVisualStyleBackColor = false;
-            // 
-            // btnRepeat
-            // 
-            this.btnRepeat.BackColor = System.Drawing.Color.Transparent;
-            this.btnRepeat.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnRepeat.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnRepeat.BorderRadius = 0;
-            this.btnRepeat.BorderSize = 0;
-            this.btnRepeat.FlatAppearance.BorderSize = 0;
-            this.btnRepeat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRepeat.ForeColor = System.Drawing.Color.White;
-            this.btnRepeat.Location = new System.Drawing.Point(6, 86);
-            this.btnRepeat.Name = "btnRepeat";
-            this.btnRepeat.Size = new System.Drawing.Size(287, 30);
-            this.btnRepeat.TabIndex = 0;
-            this.btnRepeat.Text = "Repeat";
-            this.btnRepeat.TextColor = System.Drawing.Color.White;
-            this.btnRepeat.UseVisualStyleBackColor = false;
             // 
             // tlpSubTasks
             // 
@@ -266,6 +228,22 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(450, 702);
             this.panel2.TabIndex = 8;
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSave.Depth = 0;
+            this.btnSave.Icon = null;
+            this.btnSave.Location = new System.Drawing.Point(392, 1);
+            this.btnSave.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Primary = true;
+            this.btnSave.Size = new System.Drawing.Size(55, 36);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // tbAddTask
             // 
@@ -321,37 +299,53 @@
             this.tlpProjects.Size = new System.Drawing.Size(304, 656);
             this.tlpProjects.TabIndex = 7;
             // 
-            // btnSave
+            // materialRaisedButton1
             // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSave.Depth = 0;
-            this.btnSave.Icon = null;
-            this.btnSave.Location = new System.Drawing.Point(392, 1);
-            this.btnSave.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Primary = true;
-            this.btnSave.Size = new System.Drawing.Size(55, 36);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.materialRaisedButton1.AutoSize = true;
+            this.materialRaisedButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialRaisedButton1.Depth = 0;
+            this.materialRaisedButton1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialRaisedButton1.Icon = null;
+            this.materialRaisedButton1.Location = new System.Drawing.Point(6, 6);
+            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton1.Name = "materialRaisedButton1";
+            this.materialRaisedButton1.Primary = true;
+            this.materialRaisedButton1.Size = new System.Drawing.Size(287, 34);
+            this.materialRaisedButton1.TabIndex = 12;
+            this.materialRaisedButton1.Text = "Add New Project";
+            this.materialRaisedButton1.UseVisualStyleBackColor = true;
             // 
-            // btnAddNewList
+            // materialRaisedButton2
             // 
-            this.btnAddNewList.AutoSize = true;
-            this.btnAddNewList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAddNewList.Depth = 0;
-            this.btnAddNewList.Icon = null;
-            this.btnAddNewList.Location = new System.Drawing.Point(3, 664);
-            this.btnAddNewList.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnAddNewList.Name = "btnAddNewList";
-            this.btnAddNewList.Primary = true;
-            this.btnAddNewList.Size = new System.Drawing.Size(144, 36);
-            this.btnAddNewList.TabIndex = 11;
-            this.btnAddNewList.Text = "Add New Project";
-            this.btnAddNewList.UseVisualStyleBackColor = true;
-            this.btnAddNewList.Click += new System.EventHandler(this.btnNewList_Click);
+            this.materialRaisedButton2.AutoSize = true;
+            this.materialRaisedButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialRaisedButton2.Depth = 0;
+            this.materialRaisedButton2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialRaisedButton2.Icon = null;
+            this.materialRaisedButton2.Location = new System.Drawing.Point(6, 46);
+            this.materialRaisedButton2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton2.Name = "materialRaisedButton2";
+            this.materialRaisedButton2.Primary = true;
+            this.materialRaisedButton2.Size = new System.Drawing.Size(287, 34);
+            this.materialRaisedButton2.TabIndex = 13;
+            this.materialRaisedButton2.Text = "Add New Project";
+            this.materialRaisedButton2.UseVisualStyleBackColor = true;
+            // 
+            // materialRaisedButton3
+            // 
+            this.materialRaisedButton3.AutoSize = true;
+            this.materialRaisedButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialRaisedButton3.Depth = 0;
+            this.materialRaisedButton3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialRaisedButton3.Icon = null;
+            this.materialRaisedButton3.Location = new System.Drawing.Point(6, 86);
+            this.materialRaisedButton3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton3.Name = "materialRaisedButton3";
+            this.materialRaisedButton3.Primary = true;
+            this.materialRaisedButton3.Size = new System.Drawing.Size(287, 34);
+            this.materialRaisedButton3.TabIndex = 14;
+            this.materialRaisedButton3.Text = "Add New Project";
+            this.materialRaisedButton3.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -372,6 +366,7 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tlpTaskProperties.ResumeLayout(false);
+            this.tlpTaskProperties.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -399,6 +394,9 @@
         private System.Windows.Forms.TextBox textBoxAddSubTask;
         private MaterialSkin.Controls.MaterialRaisedButton btnSave;
         private MaterialSkin.Controls.MaterialRaisedButton btnAddNewList;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton3;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton2;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
     }
 }
 

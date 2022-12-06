@@ -17,8 +17,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Security.AccessControl;
 using System.Runtime.CompilerServices;
 
-using System.Xml;
-using System.Xml.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DoYourTasks
 {
@@ -29,8 +29,9 @@ namespace DoYourTasks
         ProjectView currentProjectView;
         ProjectTaskView currentProjectTaskView;
         SubTaskView currentSubTaskView;
-        int lx, ly;
-        int sw, sh;
+        int lx, ly, sw, sh;
+        Serializer serializer;
+        private DataController DataController;
         #endregion
 
         #region Constructors
@@ -40,6 +41,8 @@ namespace DoYourTasks
             tbAddTask.GotFocus += TbAddTask_GotFocus;
             tbAddTask.LostFocus += TbAddTask_LostFocus;
             Opacity = 1;
+            serializer = new Serializer();
+            DataController = new DataController();
             CenterToScreen();
         }
         #endregion
@@ -83,15 +86,11 @@ namespace DoYourTasks
         #region ConstructViews
         private ProjectView GetProjectView(string projectName = "")
         {
-            ProjectView projectList = new ProjectView()
-            {
-                ID = GetUniqueID(new GetUniqueIDEventArgs()),
-                IsIndicating = true,
-            };
-            #region subscribe_to_events
+            ProjectView projectList = new ProjectView(GetUniqueID(null));
+            projectList.pc.IsIndicating = true;
+
             projectList.SetProjectTasksView += SetProjectViewOnScreen;
             projectList.ProjectViewDeleted += DeletedProject;
-            #endregion
 
             projects.Add(projectList);
 
@@ -99,20 +98,15 @@ namespace DoYourTasks
         }
         private SubTaskView GetSubTaskView(string subtaskName = "")
         {
-            return new SubTaskView()
-            {
-                ParentID = currentProjectView.ID,
-                ID = GetUniqueID(new GetUniqueIDEventArgs()),
-                SubTask = new SubTask(subtaskName, currentProjectTaskView.ID/*parent id*/, GetUniqueID(new GetUniqueIDEventArgs())/*new unique id*/),
-            };
+            SubTaskView stv = new SubTaskView(currentProjectView.pc.ID, GetUniqueID(new GetUniqueIDEventArgs()));
+            stv.stc.SubTask = new SubTask(subtaskName, currentProjectTaskView.ptc.ID, GetUniqueID(new GetUniqueIDEventArgs())/*new unique id*/);
+            return stv;
         }
         private ProjectTaskView GetProjectTaskView(string taskname = "")
         {
-            ProjectTaskView ptv = new ProjectTaskView()
-            {
-                ID = GetUniqueID(new GetUniqueIDEventArgs()),
-                ParentID = currentProjectView.ID,
-            };
+            ProjectTaskView ptv = new ProjectTaskView(GetUniqueID(null));
+            ptv.ptc.ParentID = currentProjectView.pc.ID;
+
             ptv.UpdateCurrentTaskView += UpdateCurrentTaskView;
             ptv.UpdateSubTaskView += SetNewTasksView;
             ptv.GetUniqueID += GetUniqueID;
@@ -157,9 +151,8 @@ namespace DoYourTasks
         private void SetTaskViewsOnScreen()
         {
             tlpSubTasks.Controls.Clear();
-
-            foreach (SubTaskView subTaskView in currentProjectTaskView.SubTasks)
-                tlpSubTasks.Controls.Add(subTaskView);
+            foreach (SubTask subTask in currentProjectTaskView.ptc.SubTasks)
+                tlpSubTasks.Controls.Add(new SubTaskView(subTask.ParentID, GetUniqueID(null)));
         }
 
         private void SetProjectViewOnScreen(SetProjectTasksViewEventArgs arg)
@@ -167,7 +160,7 @@ namespace DoYourTasks
             /*
              This method will load the tasks sub tasks for the selected project
              */
-            if (currentProjectView.Tasks == null)
+            if (currentProjectView.pc.ProjectTasks == null)
                 return;
 
             currentProjectView = arg.PV;
@@ -182,16 +175,18 @@ namespace DoYourTasks
             SetIndicator(currentProjectView);
             #endregion
 
-            foreach (ProjectTaskView taskView in currentProjectView.Tasks)//load Tasks and SubTasks.
+            foreach (Task task in currentProjectView.pc.ProjectTasks)//load Tasks and SubTasks.
             {
-                tlpTasks.Controls.Add(taskView);
-                foreach (SubTaskView subTaskView in taskView.SubTasks)
-                    tlpSubTasks.Controls.Add(subTaskView);
+               
+                tlpTasks.Controls.Add(new ProjectTaskView(task));
+                foreach (Task ptask in currentProjectView.pc.ProjectTasks)
+                    foreach(SubTask subTask in ptask.SubTasks)
+                        tlpSubTasks.Controls.Add(new SubTaskView(subTask.ID,GetUniqueID()));
             }
 
         }
 
-        private string GetUniqueID(GetUniqueIDEventArgs args)
+        private string GetUniqueID()
         {//calculates a hash (sha512) -- (*ID*) based on current datetime milliseconds
             byte[] result = default;
             using (var stream = new MemoryStream())
@@ -215,6 +210,7 @@ namespace DoYourTasks
             }
             return string.Concat(text);
         }
+        
 
         #endregion
 
@@ -253,7 +249,10 @@ namespace DoYourTasks
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-                //TODO MAKE ALL DATA AS CONTROLLERS (SINGLE OBJECTS)
+            foreach (ProjectView project in projects)
+                serializer.JsonSerialize_(project);
+
+
         }
 
         private void btnNormal_Click(object sender, EventArgs e)
@@ -305,13 +304,13 @@ namespace DoYourTasks
         private void ResetIndicators()
         {
             foreach (ProjectView pv in tlpProjects.Controls)//disable all other indicators
-                if (pv.IsIndicating)
+                if (pv.pc.IsIndicating)
                     pv.SetIndicator(false);
         }
 
         private void SetIndicator(ProjectView projectView)
         {
-            if (!projectView.IsIndicating)
+            if (!projectView.pc.IsIndicating)
             {
                 currentProjectView = projectView;
                 currentProjectView.SetIndicator(true);

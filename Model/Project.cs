@@ -8,33 +8,37 @@ namespace DoYourTasks
 {
     public class Project
     {
-        int projectID;
-        string projectName;
-        DateTime dateCreated;
-        List<ProjectTask> tasks;
+        public string ID { get; set; }
+        public string ProjectName { get; set; }
+        public DateTime DateCreated { get; }
 
-        public int ProjectID { get => projectID; set => projectID = value; }
-        public string ProjectName { get => projectName; set => projectName = value; }
-        public DateTime DateCreated { get => dateCreated; }
-        public List<ProjectTask> Tasks { get => tasks; set => tasks = value; }
+        public Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
 
-        public Project(int projectID, string projectName)
+        public Project(string projectID, string projectName)
         {
-            ProjectID = projectID;
+            ID = projectID;
             ProjectName = projectName;
-            dateCreated = DateTime.Now;
+            DateCreated = DateTime.Now;
         }
-        public Project( string projectName)
+        public Project(string projectName)
         {
             ProjectName = projectName;
-            dateCreated = DateTime.Now;
+            DateCreated = DateTime.Now;
         }
 
-        public void AddTask(string taskName) {
-            ProjectTask task = new ProjectTask(taskName);
-            Tasks.Add(task);
-
+        public void AddTask(Task task)
+        {
+            Tasks.Add(task.ID, task);
+        }
+        public void RemoveTask(string taskID)
+        {
+            Tasks.Remove(taskID);
         }
 
+        public void AddSubTask(string taskID, SubTask subTask)
+        {
+           
+            Tasks[taskID].SubTasks.Add(subTask.ID, subTask);
+        }
     }
 }

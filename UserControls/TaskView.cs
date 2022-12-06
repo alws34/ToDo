@@ -12,40 +12,17 @@ using System.Windows.Forms;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class ProjectTaskView : UserControl
+    public partial class TaskView : UserControl
     {
-        #region Fields
-        int totalCompleted = 0;
-        bool isCompleted = false;
         Color startBackgroundColor;
-        #endregion
 
-        #region Properties
-        public List<SubTaskView> SubTasks = new List<SubTaskView>();
-        public bool IsCompleted { get; set; }
-        public string ID { get; set; }
-        public string ParentID { get; set; }
-        #endregion
-
-        #region CustomEvents
         public event UpdateSubTaskViewEventHandler UpdateSubTaskView;
-        public event UpdateCurrentTaskViewEventHandler UpdateCurrentTaskView;
-        public event GetUniqueIDEventHandler GetUniqueID;
-        #endregion
 
-        #region Contructors
-        public ProjectTaskView()
+        public TaskView()
         {
             InitializeComponent();
             SetBackColor();
         }
-        public ProjectTaskView(ProjectTask task)
-        {
-            InitializeComponent();
-            SetTasklbl(task.TaskName);
-            SetBackColor();
-        }
-        #endregion
 
         private void SetBackColor()
         {
@@ -54,9 +31,14 @@ namespace DoYourTasks.UserControls
 
         public void AddSubTask(SubTask subtask)
         {
-           // SubTasks.Add(subtask);
+            ptc.SubTasks.Add(subtask);
         }
 
+        private void RemoveSelected()
+        {
+            if(customRadioButtonTaskName.Checked)
+                customRadioButtonTaskName.Checked = false;
+        }
 
 
         public void MarkSubTaskAsCompleted(SubTask subTask)
@@ -73,13 +55,10 @@ namespace DoYourTasks.UserControls
         public void SetCompletedlbl(SubTask subTask)
         {
             subTask.SetCompleted(true);
-            totalCompleted++;
-
-            int totalTasks = SubTasks.Count;
-
-
-
-            lblCompletedSubTasks.Text = $"{totalCompleted}/{totalTasks}";  //update completed label. 
+            int totalTasks = ptc.SubTasks.Count;
+            ptc.TotalCompleted++;
+            
+            lblCompletedSubTasks.Text = $"{ptc.TotalCompleted}/{totalTasks}";  //update completed label. 
         }
 
         private void TaskView_Click(object sender, EventArgs e)

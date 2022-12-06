@@ -33,9 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Text.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,10 +52,12 @@
     <Compile Include="Animations\AnimationDirection.cs" />
     <Compile Include="Animations\AnimationManager.cs" />
     <Compile Include="Animations\Animations.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="DataLayer\DBWorker.cs" />
+    <Compile Include="DataLayer\Serializer.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\SubTask.cs" />
-    <Compile Include="Model\ProjectTask.cs" />
+    <Compile Include="Model\Task.cs" />
     <Compile Include="UserControls\CustomControls\CustomButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -99,6 +103,7 @@
       <DependentUpon>ProjectTaskView.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Delegates.cs" />
+    <Compile Include="Utils\Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

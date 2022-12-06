@@ -13,19 +13,26 @@ namespace DoYourTasks.UserControls
     public partial class SubTaskView : UserControl
     {
 
-        public string ID { get; set; }
-        public string ParentID { get; set; }
-        public SubTask SubTask { get; set; }
+        public SubTaskController stc = new SubTaskController();
 
-        public SubTaskView()
+        public SubTaskView(string parent_id, string id)
         {
             InitializeComponent();
             EventSubscriber();
+            stc.ParentID = parent_id;
+            stc.ID = id;
         }
 
         public void SetSubTaskText(string text)
         {
             customTextBox.SetText(text);
+        }
+
+        public void AddSubTask(SubTask subTask) {
+            stc.SubTask = subTask;
+        }
+        public SubTask GetSubTask() {
+            return stc.SubTask;
         }
 
         private void EventSubscriber() {

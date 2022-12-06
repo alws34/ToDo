@@ -13,32 +13,21 @@ namespace DoYourTasks.UserControls
 {
     public partial class ProjectView : UserControl
     {
-        #region Fields
-        bool isIndicating = false;
-        string id;
-        #endregion
-
-        #region Events
         public event SetProjectTasksViewEventHandler SetProjectTasksView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
-        #endregion
 
-        #region Properties
-        public bool IsIndicating { get => isIndicating; set => isIndicating = value; }
-        public string ID { get => id; set => id = value; }
-        public List<ProjectTaskView> Tasks { get; set; }
-        #endregion
+        public string ID { get; set; }
+        public string ProjectName { get; set; }
 
-        #region Constructors
-        public ProjectView()
+        public ProjectView(string projectID)
         {
             InitializeComponent();
             SetIndicator(false);
             EventSubscriber();
-        }
-        #endregion
 
-        #region Methods
+            ID = projectID;
+        }
+
         private void EventSubscriber()
         {
             GotFocus += ProjectView_GotFocus;
@@ -49,24 +38,20 @@ namespace DoYourTasks.UserControls
         public void SetIndicator(bool mode)
         {
             pnlIndicator.Hide();
-            IsIndicating = mode;
+            pc.IsIndicating = mode;
 
             if (mode)
             {
                 pnlIndicator.Show();
-                IsIndicating = mode;
+                pc.IsIndicating = mode;
             }
-
-
         }
 
         public string GetProjName()
         {
             return lblName.Text;
         }
-        #endregion
 
-        #region Events
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
             lblName.Text = customTextBox.GetText();
@@ -93,6 +78,6 @@ namespace DoYourTasks.UserControls
             customTextBox.Show();
             //delegate to main to change the list's name in object
         }
-        #endregion
+
     }
 }
