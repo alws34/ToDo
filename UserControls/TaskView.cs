@@ -12,26 +12,24 @@ using System.Windows.Forms;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class TaskView : UserControl
+    public partial class TaskView : UserControl,IViewAble
     {
         Color startBackgroundColor;
-
-        public event UpdateSubTaskViewEventHandler UpdateSubTaskView;
-
-        public TaskView()
+        public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
+        public string ID { get; set; }
+   
+        public TaskView(string id)
         {
             InitializeComponent();
             SetBackColor();
+            ID = id;
+            Name = "TaskView";
         }
 
+        #region Methods
         private void SetBackColor()
         {
             startBackgroundColor = customRadioButtonTaskName.BackColor;
-        }
-
-        public void AddSubTask(SubTask subtask)
-        {
-            ptc.SubTasks.Add(subtask);
         }
 
         private void RemoveSelected()
@@ -41,36 +39,45 @@ namespace DoYourTasks.UserControls
         }
 
 
-        public void MarkSubTaskAsCompleted(SubTask subTask)
+        public void Rename(string newName)
         {
-            SetCompletedlbl(subTask);
-        }
-     
-        public void SetTasklbl(string text)
-        {
-            this.customRadioButtonTaskName.Text = text;
-            UpdateCurrentTaskView.Invoke(new UpdateCurrentTaskViewEventHandlerArgs(this));
+            customRadioButtonTaskName.Text = newName;
         }
 
-        public void SetCompletedlbl(SubTask subTask)
+        public string GetName()
         {
-            subTask.SetCompleted(true);
-            int totalTasks = ptc.SubTasks.Count;
-            ptc.TotalCompleted++;
-            
-            lblCompletedSubTasks.Text = $"{ptc.TotalCompleted}/{totalTasks}";  //update completed label. 
+            return customRadioButtonTaskName.Text;
         }
+
+        public string GetID()
+        {
+            return ID;
+        }
+       
+        public string GetParentID()
+        {
+            return null;
+        }
+
+        public bool GetCheckedState()
+        {
+            return customRadioButtonTaskName.Checked;
+        }
+
+        public void SetCheckedState(bool mode)
+        {
+            customRadioButtonTaskName.Checked= mode;
+        }
+
+        public void Delete()
+        {
+            //throw new NotImplementedException();
+        }
+        #endregion
 
         private void TaskView_Click(object sender, EventArgs e)
         {
-            // update current task view at main form.
-            UpdateCurrentTaskView.Invoke(new UpdateCurrentTaskViewEventHandlerArgs(this));
-            //foreach (SubTaskView st in SubTasks)//load subtasks to tlpTaskView
-            //{
-            //    SubTaskView stv = new SubTaskView();
-            //    stv.SetSubTaskText(st.SubTaskName);
-            //    UpdateSubTaskView.Invoke(new UpdateSubTaskViewEventHandlerEventArgs(stv));
-            //}
+            UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventHandlerArgs(this));
         }
 
         private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)
@@ -99,6 +106,7 @@ namespace DoYourTasks.UserControls
             customRadioButtonTaskName.ForeColor = Color.White;
             lblCompletedSubTasks.ForeColor = Color.White;
         }
+
         #endregion
 
     }

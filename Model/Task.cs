@@ -22,6 +22,7 @@ namespace DoYourTasks
         public string Note { get; set; }
 
         public Dictionary<string, SubTask> SubTasks = new Dictionary<string, SubTask>();
+       
         #endregion
 
         #region Constructors

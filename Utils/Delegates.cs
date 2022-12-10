@@ -14,6 +14,15 @@ namespace DoYourTasks
         }
     }
 
+    public delegate void SetProjectViewEventHandler(SetProjectViewEventArgs arg);
+    public class SetProjectViewEventArgs : EventArgs
+    {
+        public ProjectView PV { get; set; }
+        public SetProjectViewEventArgs(ProjectView pv)
+        {
+            PV = pv;
+        }
+    }
 
     public delegate void SetProjectTasksViewEventHandler(SetProjectTasksViewEventArgs arg);
     public class SetProjectTasksViewEventArgs : EventArgs
@@ -62,10 +71,10 @@ namespace DoYourTasks
     public delegate void UpdateCurrentTaskViewEventHandler(UpdateCurrentTaskViewEventHandlerArgs arg);
     public class UpdateCurrentTaskViewEventHandlerArgs : EventArgs
     {
-        public ProjectTaskView ProjectTaskView { get; set; }
-        public UpdateCurrentTaskViewEventHandlerArgs(ProjectTaskView projectTaskView)
+        public TaskView TaskView { get; set; }
+        public UpdateCurrentTaskViewEventHandlerArgs(TaskView tv)
         {
-            ProjectTaskView = projectTaskView;
+            TaskView = tv;
         }
     }
 

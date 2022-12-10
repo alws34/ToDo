@@ -14,18 +14,20 @@ namespace DoYourTasks.UserControls
     public partial class ProjectView : UserControl
     {
         public event SetProjectTasksViewEventHandler SetProjectTasksView;
+        public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
 
-        public string ID { get; set; }
+        public string ProjectID { get; set; }
         public string ProjectName { get; set; }
+        public bool IsIndicating { get; set; }
 
         public ProjectView(string projectID)
         {
             InitializeComponent();
             SetIndicator(false);
             EventSubscriber();
-
-            ID = projectID;
+            Name = "ProjectView";
+            ProjectID = projectID;
         }
 
         private void EventSubscriber()
@@ -36,15 +38,19 @@ namespace DoYourTasks.UserControls
         }
 
         public void SetIndicator(bool mode)
-        {
+        {//this can be replaced with "visible"
             pnlIndicator.Hide();
-            pc.IsIndicating = mode;
+            IsIndicating = mode;
 
             if (mode)
             {
                 pnlIndicator.Show();
-                pc.IsIndicating = mode;
+                IsIndicating = mode;
             }
+        }
+        public bool GetIndicator()
+        {
+            return IsIndicating;
         }
 
         public string GetProjName()
@@ -52,6 +58,13 @@ namespace DoYourTasks.UserControls
             return lblName.Text;
         }
 
+        public void SetProjectName(string text)
+        {
+            lblName.Text = text;
+        }
+   
+        
+        #region Events
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
             lblName.Text = customTextBox.GetText();
@@ -78,6 +91,6 @@ namespace DoYourTasks.UserControls
             customTextBox.Show();
             //delegate to main to change the list's name in object
         }
-
+        #endregion
     }
 }

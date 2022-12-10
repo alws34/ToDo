@@ -39,6 +39,9 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBoxAddSubTask = new System.Windows.Forms.TextBox();
             this.tlpTaskProperties = new System.Windows.Forms.TableLayoutPanel();
+            this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.tlpSubTasks = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -46,9 +49,6 @@
             this.lblProjName = new System.Windows.Forms.Label();
             this.tlpTasks = new System.Windows.Forms.TableLayoutPanel();
             this.tlpProjects = new System.Windows.Forms.TableLayoutPanel();
-            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -203,6 +203,54 @@
             this.tlpTaskProperties.Size = new System.Drawing.Size(299, 126);
             this.tlpTaskProperties.TabIndex = 13;
             // 
+            // materialRaisedButton3
+            // 
+            this.materialRaisedButton3.AutoSize = true;
+            this.materialRaisedButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialRaisedButton3.Depth = 0;
+            this.materialRaisedButton3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialRaisedButton3.Icon = null;
+            this.materialRaisedButton3.Location = new System.Drawing.Point(6, 86);
+            this.materialRaisedButton3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton3.Name = "materialRaisedButton3";
+            this.materialRaisedButton3.Primary = true;
+            this.materialRaisedButton3.Size = new System.Drawing.Size(287, 34);
+            this.materialRaisedButton3.TabIndex = 14;
+            this.materialRaisedButton3.Text = "Add New Project";
+            this.materialRaisedButton3.UseVisualStyleBackColor = true;
+            // 
+            // materialRaisedButton2
+            // 
+            this.materialRaisedButton2.AutoSize = true;
+            this.materialRaisedButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialRaisedButton2.Depth = 0;
+            this.materialRaisedButton2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialRaisedButton2.Icon = null;
+            this.materialRaisedButton2.Location = new System.Drawing.Point(6, 46);
+            this.materialRaisedButton2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton2.Name = "materialRaisedButton2";
+            this.materialRaisedButton2.Primary = true;
+            this.materialRaisedButton2.Size = new System.Drawing.Size(287, 34);
+            this.materialRaisedButton2.TabIndex = 13;
+            this.materialRaisedButton2.Text = "Add New Project";
+            this.materialRaisedButton2.UseVisualStyleBackColor = true;
+            // 
+            // materialRaisedButton1
+            // 
+            this.materialRaisedButton1.AutoSize = true;
+            this.materialRaisedButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialRaisedButton1.Depth = 0;
+            this.materialRaisedButton1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.materialRaisedButton1.Icon = null;
+            this.materialRaisedButton1.Location = new System.Drawing.Point(6, 6);
+            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton1.Name = "materialRaisedButton1";
+            this.materialRaisedButton1.Primary = true;
+            this.materialRaisedButton1.Size = new System.Drawing.Size(287, 34);
+            this.materialRaisedButton1.TabIndex = 12;
+            this.materialRaisedButton1.Text = "Add New Project";
+            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            // 
             // tlpSubTasks
             // 
             this.tlpSubTasks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -298,54 +346,6 @@
             this.tlpProjects.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.18903F));
             this.tlpProjects.Size = new System.Drawing.Size(304, 656);
             this.tlpProjects.TabIndex = 7;
-            // 
-            // materialRaisedButton1
-            // 
-            this.materialRaisedButton1.AutoSize = true;
-            this.materialRaisedButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialRaisedButton1.Depth = 0;
-            this.materialRaisedButton1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialRaisedButton1.Icon = null;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(6, 6);
-            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton1.Name = "materialRaisedButton1";
-            this.materialRaisedButton1.Primary = true;
-            this.materialRaisedButton1.Size = new System.Drawing.Size(287, 34);
-            this.materialRaisedButton1.TabIndex = 12;
-            this.materialRaisedButton1.Text = "Add New Project";
-            this.materialRaisedButton1.UseVisualStyleBackColor = true;
-            // 
-            // materialRaisedButton2
-            // 
-            this.materialRaisedButton2.AutoSize = true;
-            this.materialRaisedButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialRaisedButton2.Depth = 0;
-            this.materialRaisedButton2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialRaisedButton2.Icon = null;
-            this.materialRaisedButton2.Location = new System.Drawing.Point(6, 46);
-            this.materialRaisedButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton2.Name = "materialRaisedButton2";
-            this.materialRaisedButton2.Primary = true;
-            this.materialRaisedButton2.Size = new System.Drawing.Size(287, 34);
-            this.materialRaisedButton2.TabIndex = 13;
-            this.materialRaisedButton2.Text = "Add New Project";
-            this.materialRaisedButton2.UseVisualStyleBackColor = true;
-            // 
-            // materialRaisedButton3
-            // 
-            this.materialRaisedButton3.AutoSize = true;
-            this.materialRaisedButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialRaisedButton3.Depth = 0;
-            this.materialRaisedButton3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialRaisedButton3.Icon = null;
-            this.materialRaisedButton3.Location = new System.Drawing.Point(6, 86);
-            this.materialRaisedButton3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton3.Name = "materialRaisedButton3";
-            this.materialRaisedButton3.Primary = true;
-            this.materialRaisedButton3.Size = new System.Drawing.Size(287, 34);
-            this.materialRaisedButton3.TabIndex = 14;
-            this.materialRaisedButton3.Text = "Add New Project";
-            this.materialRaisedButton3.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 

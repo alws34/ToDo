@@ -10,17 +10,19 @@ using System.Windows.Forms;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class SubTaskView : UserControl
+    public partial class SubTaskView : UserControl, IViewAble
     {
+        public string SubTaskID { get; set; }   
+        public string TaskID { get; set; }
 
-        public SubTaskController stc = new SubTaskController();
-
-        public SubTaskView(string parent_id, string id)
+        public SubTaskView(string parent_id, string id, string subTaskName)
         {
             InitializeComponent();
             EventSubscriber();
-            stc.ParentID = parent_id;
-            stc.ID = id;
+            TaskID = parent_id;
+            SubTaskID = id;
+            Name = "SubTaskView";
+            customRadioButtonTaskName.Text = subTaskName;
         }
 
         public void SetSubTaskText(string text)
@@ -28,17 +30,36 @@ namespace DoYourTasks.UserControls
             customTextBox.SetText(text);
         }
 
-        public void AddSubTask(SubTask subTask) {
-            stc.SubTask = subTask;
-        }
-        public SubTask GetSubTask() {
-            return stc.SubTask;
-        }
-
-        private void EventSubscriber() {
+        private void EventSubscriber()
+        {
             customTextBox.SetTextBoxColor(Color.Transparent, Color.White);
             customTextBox.SetTextBoxState();
             customTextBox.gotHidden += CustomTextBox_gotHidden;
+        }
+
+        public void Rename(string newName)
+        {
+            customRadioButtonTaskName.Text = newName;
+        }
+
+        public string GetName()
+        {
+            return customRadioButtonTaskName.Text;
+        }
+
+        public bool GetCheckedState()
+        {
+            return customRadioButtonTaskName.Checked;
+        }
+
+        public void SetCheckedState(bool value)
+        {
+           customRadioButtonTaskName.Checked = value;
+        }
+
+        public void Delete()
+        {
+          //
         }
 
         #region Events
@@ -49,12 +70,22 @@ namespace DoYourTasks.UserControls
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public string GetID()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetParentID()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

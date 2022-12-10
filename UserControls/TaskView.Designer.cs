@@ -78,14 +78,14 @@
             this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
             this.customRadioButtonTaskName.UseVisualStyleBackColor = false;
             // 
-            // ProjectTaskView
+            // TaskView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(56)))), ((int)(((byte)(57)))));
             this.Controls.Add(this.pnlColorIndicator);
             this.ForeColor = System.Drawing.Color.Transparent;
-            this.Name = "ProjectTaskView";
+            this.Name = "TaskView";
             this.Size = new System.Drawing.Size(447, 57);
             this.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.ResumeLayout(false);

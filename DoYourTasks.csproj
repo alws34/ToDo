@@ -53,6 +53,7 @@
     <Compile Include="Animations\AnimationManager.cs" />
     <Compile Include="Animations\Animations.cs" />
     <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\viewsController.cs" />
     <Compile Include="DataLayer\DBWorker.cs" />
     <Compile Include="DataLayer\Serializer.cs" />
     <Compile Include="Model\Project.cs" />
@@ -96,13 +97,14 @@
     <Compile Include="UserControls\SubTaskView.Designer.cs">
       <DependentUpon>SubTaskView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ProjectTaskView.cs">
+    <Compile Include="UserControls\TaskView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\ProjectTaskView.Designer.cs">
-      <DependentUpon>ProjectTaskView.cs</DependentUpon>
+    <Compile Include="UserControls\TaskView.Designer.cs">
+      <DependentUpon>TaskView.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Delegates.cs" />
+    <Compile Include="Utils\IViewAble.cs" />
     <Compile Include="Utils\Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -125,8 +127,8 @@
     <EmbeddedResource Include="UserControls\SubTaskView.resx">
       <DependentUpon>SubTaskView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ProjectTaskView.resx">
-      <DependentUpon>ProjectTaskView.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\TaskView.resx">
+      <DependentUpon>TaskView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
