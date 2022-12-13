@@ -12,6 +12,9 @@ namespace DoYourTasks
 {
     public class viewsController
     {
+
+
+
         #region Fields
         public Dictionary<string, ProjectView> Projectviews;
         public Dictionary<string, TaskView> Taskviews;
@@ -24,7 +27,7 @@ namespace DoYourTasks
         Serializer serializer;
         #endregion
 
-        #region Events
+        #region CustomEvents
 
         #region Project
         public event SetProjectViewEventHandler SetProjectView;
@@ -35,7 +38,7 @@ namespace DoYourTasks
 
         #endregion
 
-
+        #region Constructors
         public viewsController()
         {
             Projectviews = new Dictionary<string, ProjectView>();
@@ -48,6 +51,8 @@ namespace DoYourTasks
             utils = new Utils();
             serializer = new Serializer();
         }
+
+        #endregion
 
         public List<List<Control>> LoadFromDB(string path)
         {//TODO: DEBUG//
@@ -224,7 +229,5 @@ namespace DoYourTasks
         #endregion
 
         #endregion
-
-
     }
 }

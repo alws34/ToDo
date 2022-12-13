@@ -8,14 +8,19 @@ namespace DoYourTasks
 {
     public class DataController
     {
+        #region Properties
         private Dictionary<string, Project> Data;
         private Utils utils;
+        #endregion
 
-        public DataController() {
+        #region Constructors
+        public DataController()
+        {
             Data = new Dictionary<string, Project>();
             utils = new Utils();
         }
 
+        #endregion
 
         #region Getters
         #region ProejctGetters
@@ -72,30 +77,18 @@ namespace DoYourTasks
         public List<SubTask> GetAllSubTaks(string projectID, string taskID)
         {
             return Data[projectID].Tasks[projectID].SubTasks.Values.ToList();
-            //List<SubTask> subTasks = new List<SubTask>();
-            //foreach (KeyValuePair<string, Project> projects in Data)
-            //{
-            //    Project proj = projects.Value;
-            //    foreach (KeyValuePair<string, Task> tasks in proj.Tasks)
-            //    {
-            //        Task task = tasks.Value;
-            //        foreach (KeyValuePair<string, SubTask> subtasks in task.SubTasks)
-            //        {
-            //            SubTask subtask = subtasks.Value;
-            //            subTasks.Add(subtask);
-            //        }
-            //    }
-            //}
-            //return subTasks;
         }
+
         public SubTask GetSingleSubTaks(string projectID, string taskID, string subTaskID)
         {
             return Data[projectID].Tasks[taskID].SubTasks[subTaskID];
         }
+
         public bool GetSubTaskCompleteState(string projectID, string taskID, string subTaskID)
         {
             return Data[projectID].Tasks[taskID].SubTasks[subTaskID].IsCompleted;
         }
+
         #endregion
 
         #endregion
@@ -106,11 +99,13 @@ namespace DoYourTasks
             Project project = new Project(utils.GetUniqueID(), projectName);
             Data.Add(project.ID, project);
         }
+
         public void AddNewTask(string projectID, string taskName)
         {
             Task task = new Task(utils.GetUniqueID(), taskName, projectID);
             Data[projectID].Tasks.Add(task.ID, task);
         }
+
         public void AddNewSubTask(string projectID, string taskID, string subTaskName)
         {
             SubTask subTask = new SubTask(subTaskName, taskID, utils.GetUniqueID());

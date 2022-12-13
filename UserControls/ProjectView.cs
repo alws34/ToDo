@@ -13,14 +13,19 @@ namespace DoYourTasks.UserControls
 {
     public partial class ProjectView : UserControl
     {
+        #region CustomEvents
         public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
         public event ProjectViewRenamedEventHandler ProjectViewRenamed;
+        #endregion
 
+        #region Properties
         public string ProjectID { get; set; }
         public string ProjectName { get; set; }
         public bool IsIndicating { get; set; }
+        #endregion
 
+        #region Constructors
         public ProjectView(string projectID)
         {
             InitializeComponent();
@@ -29,25 +34,14 @@ namespace DoYourTasks.UserControls
             Name = "ProjectView";
             ProjectID = projectID;
         }
+        #endregion
 
-        private void EventSubscriber()
+        #region Getters
+        public CustomTextBox GetCurrentCustomTextBox()
         {
-            GotFocus += ProjectView_GotFocus;
-            LostFocus += ProjectView_LostFocus;
-            customTextBox.gotHidden += CustomTextBox_gotHidden;
+            return customTextBox.GetCurrentCustomTextBox();
         }
 
-        public void SetIndicator(bool mode)
-        {//this can be replaced with "visible"
-            pnlIndicator.Hide();
-            IsIndicating = mode;
-
-            if (mode)
-            {
-                pnlIndicator.Show();
-                IsIndicating = mode;
-            }
-        }
         public bool GetIndicator()
         {
             return IsIndicating;
@@ -57,15 +51,34 @@ namespace DoYourTasks.UserControls
         {
             return lblName.Text;
         }
+        #endregion
+
+        #region Setters
+        public void SetIndicator(bool mode)
+        {
+            IsIndicating = mode;
+            if (mode)
+                pnlIndicator.Show();
+            else
+                pnlIndicator.Hide();
+        }
 
         public void SetProjectName(string text)
         {
             lblName.Text = text;
             ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, customTextBox.GetText()));
         }
-   
-        
+
+        #endregion
+
         #region Events
+        private void EventSubscriber()
+        {
+            GotFocus += ProjectView_GotFocus;
+            LostFocus += ProjectView_LostFocus;
+            customTextBox.gotHidden += CustomTextBox_gotHidden;
+        }
+
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
             SetProjectName(customTextBox.GetText());

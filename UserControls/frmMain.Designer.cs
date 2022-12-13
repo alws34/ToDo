@@ -49,11 +49,14 @@
             this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
             this.tbAddTask = new System.Windows.Forms.TextBox();
             this.lblProjName = new System.Windows.Forms.Label();
+            this.pnlCreationDate = new System.Windows.Forms.Panel();
+            this.lblCreationDate = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tlpTaskProperties.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.pnlCreationDate.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -132,6 +135,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMain.BackColor = System.Drawing.Color.DimGray;
+            this.pnlMain.Controls.Add(this.pnlCreationDate);
             this.pnlMain.Controls.Add(this.flpProjects);
             this.pnlMain.Controls.Add(this.btnAddNewList);
             this.pnlMain.Controls.Add(this.panel3);
@@ -141,7 +145,6 @@
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(1065, 711);
             this.pnlMain.TabIndex = 13;
-            this.pnlMain.Click += new System.EventHandler(this.panel1_Click);
             // 
             // flpProjects
             // 
@@ -159,7 +162,7 @@
             this.btnAddNewList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAddNewList.Depth = 0;
             this.btnAddNewList.Icon = null;
-            this.btnAddNewList.Location = new System.Drawing.Point(3, 664);
+            this.btnAddNewList.Location = new System.Drawing.Point(4, 666);
             this.btnAddNewList.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnAddNewList.Name = "btnAddNewList";
             this.btnAddNewList.Primary = true;
@@ -198,6 +201,7 @@
             this.textBoxAddSubTask.TabIndex = 14;
             this.textBoxAddSubTask.Text = "Add new sub task";
             this.textBoxAddSubTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
+            this.textBoxAddSubTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
             // 
             // tlpTaskProperties
             // 
@@ -297,7 +301,7 @@
             this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnSave.Depth = 0;
             this.btnSave.Icon = null;
-            this.btnSave.Location = new System.Drawing.Point(392, 1);
+            this.btnSave.Location = new System.Drawing.Point(389, 6);
             this.btnSave.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnSave.Name = "btnSave";
             this.btnSave.Primary = true;
@@ -325,11 +329,29 @@
             this.lblProjName.BackColor = System.Drawing.Color.Transparent;
             this.lblProjName.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProjName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(140)))), ((int)(((byte)(222)))));
-            this.lblProjName.Location = new System.Drawing.Point(4, 11);
+            this.lblProjName.Location = new System.Drawing.Point(5, 6);
             this.lblProjName.Name = "lblProjName";
             this.lblProjName.Size = new System.Drawing.Size(191, 42);
             this.lblProjName.TabIndex = 3;
             this.lblProjName.Text = "ProjName";
+            // 
+            // pnlCreationDate
+            // 
+            this.pnlCreationDate.Controls.Add(this.lblCreationDate);
+            this.pnlCreationDate.Location = new System.Drawing.Point(762, 662);
+            this.pnlCreationDate.Name = "pnlCreationDate";
+            this.pnlCreationDate.Size = new System.Drawing.Size(300, 42);
+            this.pnlCreationDate.TabIndex = 13;
+            // 
+            // lblCreationDate
+            // 
+            this.lblCreationDate.AutoSize = true;
+            this.lblCreationDate.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.lblCreationDate.Location = new System.Drawing.Point(3, 9);
+            this.lblCreationDate.Name = "lblCreationDate";
+            this.lblCreationDate.Size = new System.Drawing.Size(143, 22);
+            this.lblCreationDate.TabIndex = 0;
+            this.lblCreationDate.Text = "Creation Date:";
             // 
             // frmMain
             // 
@@ -353,6 +375,8 @@
             this.tlpTaskProperties.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.pnlCreationDate.ResumeLayout(false);
+            this.pnlCreationDate.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -381,6 +405,8 @@
         private System.Windows.Forms.FlowLayoutPanel flpProjects;
         private System.Windows.Forms.FlowLayoutPanel flpSubTasks;
         private System.Windows.Forms.FlowLayoutPanel flpTasks;
+        private System.Windows.Forms.Panel pnlCreationDate;
+        private System.Windows.Forms.Label lblCreationDate;
     }
 }
 

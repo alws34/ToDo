@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.customRadioButtonTaskName = new DoYourTasks.UserControls.CustomRadioButton();
-            this.customTextBox = new DoYourTasks.UserControls.CustomControls.CustomTextBox();
             this.btnDelete = new DoYourTasks.UserControls.CustomButtonV2();
             this.lblSubTaskName = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -50,21 +49,6 @@
             this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
             this.customRadioButtonTaskName.UseVisualStyleBackColor = true;
             this.customRadioButtonTaskName.CheckedChanged += new System.EventHandler(this.customRadioButtonTaskName_CheckedChanged);
-            // 
-            // customTextBox
-            // 
-            this.customTextBox.BackColor = System.Drawing.Color.Transparent;
-            this.customTextBox.BorderColor = System.Drawing.Color.MediumSlateBlue;
-            this.customTextBox.BorderSize = 2;
-            this.customTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customTextBox.ForeColor = System.Drawing.Color.DimGray;
-            this.customTextBox.Location = new System.Drawing.Point(27, -3);
-            this.customTextBox.Margin = new System.Windows.Forms.Padding(5);
-            this.customTextBox.Name = "customTextBox";
-            this.customTextBox.Padding = new System.Windows.Forms.Padding(7);
-            this.customTextBox.Size = new System.Drawing.Size(246, 35);
-            this.customTextBox.TabIndex = 2;
-            this.customTextBox.UnderlinedStyle = false;
             // 
             // btnDelete
             // 
@@ -102,7 +86,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
-            this.Controls.Add(this.customTextBox);
             this.Controls.Add(this.lblSubTaskName);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.customRadioButtonTaskName);
@@ -116,7 +99,6 @@
         #endregion
 
         private CustomRadioButton customRadioButtonTaskName;
-        private CustomControls.CustomTextBox customTextBox;
         private CustomButtonV2 btnDelete;
         private System.Windows.Forms.Label lblSubTaskName;
     }

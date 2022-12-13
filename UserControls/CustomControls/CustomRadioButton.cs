@@ -11,9 +11,17 @@ namespace DoYourTasks.UserControls
 {
     public class CustomRadioButton : RadioButton
     {
+        #region CustomEvents
+
+        #endregion
+
+        #region Fields
         private Color checkedColor = Color.MediumSlateBlue;
         private Color unCheckedColor = Color.Gray;
+        #endregion
 
+
+        #region Properties
         public Color CheckedColor
         {
             get
@@ -40,6 +48,9 @@ namespace DoYourTasks.UserControls
             }
         }
 
+        #endregion
+
+        #region Constructors
         public CustomRadioButton()
         {
             SetMinimumSize();
@@ -48,23 +59,25 @@ namespace DoYourTasks.UserControls
             BackColor = Color.Transparent;
             ForeColor = Color.White;
         }
+        #endregion
 
-
-        public CustomRadioButton(string text, object tag = null)
-        {
-            SetMinimumSize();
-            Text = text;
-            Tag = tag;//this is a reference to the actual task.
-        }
-
-        public void Rename(string text)
-        {
-            Text = text.Replace("\r", "").Replace("\n", "");
-        }
+        #region Getters
         public string GetName()
         {
             return Text;
         }
+        #endregion
+
+        #region Setters
+
+        #endregion
+
+        #region Modifiers
+        public void Rename(string text)
+        {
+            Text = text.Replace("\r", "").Replace("\n", "");
+        }
+        #endregion
 
         #region Events
         private void CustomRadioButton_MouseLeave(object sender, EventArgs e)

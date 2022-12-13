@@ -12,34 +12,19 @@ namespace DoYourTasks.UserControls.CustomControls
 {
     public partial class CustomTextBox : UserControl
     {
+        #region CustomEvents
+        public delegate void gotHiddenEventHandler(bool isHidden, EventArgs arg);
+        public event gotHiddenEventHandler gotHidden;
+        #endregion
+
+        #region Fields
         private Color borderColor = Color.MediumSlateBlue;
         private int borderSize = 2;
         private bool underlinedStyle = false;
         private bool isInCreationMode = false;
+        #endregion
 
-        public delegate void gotHiddenEventHandler(bool isHidden, EventArgs arg);
-        public event gotHiddenEventHandler gotHidden;
-
-        protected virtual void OnHide()
-        {
-            if (gotHidden != null)
-                gotHidden(true, EventArgs.Empty);
-        }
-
-        public CustomTextBox()
-        {
-            InitializeComponent();
-        }
-
-        public string GetText()
-        {
-            return textBox.Text;
-        }
-        public void SetText(string text)
-        {
-            textBox.Text = text;
-        }
-
+        #region Properties
         public Color BorderColor
         {
             get
@@ -76,6 +61,35 @@ namespace DoYourTasks.UserControls.CustomControls
                 this.Invalidate();
             }
         }
+        #endregion
+
+        #region Constructors
+        public CustomTextBox()
+        {
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region Getters
+        public CustomTextBox GetCurrentCustomTextBox()
+        {
+            return this;
+        }
+
+        public string GetText()
+        {
+            return textBox.Text;
+        }
+
+        #endregion
+
+        #region Setters
+        public void SetText(string text)
+        {
+            textBox.Text = text;
+        }
+
         public void SetTextBoxColor(Color backColor, Color textColor)
         {
             //textBox.BackColor = backColor;
@@ -88,6 +102,14 @@ namespace DoYourTasks.UserControls.CustomControls
                 textBox.Enabled = false;
             else
                 textBox.Enabled = true;
+        }
+        #endregion
+
+        #region Events
+        protected virtual void OnHide()
+        {
+            if (gotHidden != null)
+                gotHidden(true, EventArgs.Empty);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -129,16 +151,17 @@ namespace DoYourTasks.UserControls.CustomControls
                 textBox.Multiline = false;
 
                 this.Height = textBox.Height + this.Padding.Top + this.Padding.Bottom;
-
             }
         }
 
         private void textBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && !string.IsNullOrWhiteSpace(textBox.Text)) {
+            if (e.KeyCode == Keys.Enter && !string.IsNullOrWhiteSpace(textBox.Text))
+            {
                 Hide();
                 OnHide();
             }
         }
+        #endregion
     }
 }

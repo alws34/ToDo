@@ -15,10 +15,19 @@ namespace DoYourTasks.UserControls
 {
     public partial class TaskView : UserControl,IViewAble
     {
-        Color startBackgroundColor;
+        #region CustomEvents
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
+        #endregion
+
+        #region Fields
+        Color startBackgroundColor;
+        #endregion
+
+        #region Properties
         public string TaskID { get; set; }
-   
+        #endregion
+
+        #region Constructors
         public TaskView(string id)
         {
             InitializeComponent();
@@ -34,29 +43,9 @@ namespace DoYourTasks.UserControls
             Rename(taskName);
             Name = "TaskView";
         }
+        #endregion
 
-        #region Methods
-        private void SetBackColor()
-        {
-            startBackgroundColor = customRadioButtonTaskName.BackColor;
-        }
-
-        private void SetForeColor(Color color) {
-            customRadioButtonTaskName.ForeColor = color;
-        }
-
-        private void RemoveSelected()
-        {
-            if(customRadioButtonTaskName.Checked)
-                customRadioButtonTaskName.Checked = false;
-        }
-
-
-        public void Rename(string newName)
-        {
-            customRadioButtonTaskName.Rename(newName);
-        }
-
+        #region Getters
         public string GetName()
         {
             return customRadioButtonTaskName.GetName();
@@ -66,7 +55,7 @@ namespace DoYourTasks.UserControls
         {
             return TaskID;
         }
-       
+
         public string GetParentID()
         {
             return null;
@@ -77,17 +66,43 @@ namespace DoYourTasks.UserControls
             return customRadioButtonTaskName.Checked;
         }
 
-        public void SetCheckedState(bool mode)
+        #endregion
+
+        #region Setters
+        private void SetBackColor()
         {
-            customRadioButtonTaskName.Checked= mode;
+            startBackgroundColor = customRadioButtonTaskName.BackColor;
         }
 
+        private void SetForeColor(Color color)
+        {
+            customRadioButtonTaskName.ForeColor = color;
+        }
+
+        public void SetCheckedState(bool mode)
+        {
+            customRadioButtonTaskName.Checked = mode;
+        }
+
+        #endregion
+
+        #region Modifiers
+        private void RemoveSelected()
+        {
+            if (customRadioButtonTaskName.Checked)
+                customRadioButtonTaskName.Checked = false;
+        }
+        public void Rename(string newName)
+        {
+            customRadioButtonTaskName.Rename(newName);
+        }
         public void Delete()
         {
             //throw new NotImplementedException();
         }
         #endregion
 
+        #region Events
         private void TaskView_Click(object sender, EventArgs e)
         {
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(this));
@@ -98,7 +113,7 @@ namespace DoYourTasks.UserControls
 
         }
 
-        #region Events
+
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
         {
             pnlColorIndicator.BackColor = Color.Gainsboro;
@@ -120,6 +135,5 @@ namespace DoYourTasks.UserControls
         }
 
         #endregion
-
     }
 }

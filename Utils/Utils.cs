@@ -9,20 +9,25 @@ using System.Threading.Tasks;
 namespace DoYourTasks
 {
     public class Utils
-    {
+    {       
+        #region Constructors
         public Utils() { }
-        
+
+        #endregion
+
+        #region Getters
         public string GetUniqueID()
         {//calculates a hash (sha512) -- (*ID*) based on current datetime milliseconds
             byte[] result = default;
             Random rnd = new Random();
             using (var stream = new MemoryStream())
             {
-                using (var writer = new BinaryWriter(stream, Encoding.UTF8, true)) {
+                using (var writer = new BinaryWriter(stream, Encoding.UTF8, true))
+                {
                     writer.Write(DateTime.Now.Millisecond);
                     writer.Write(rnd.Next());
                 }
-                   
+
 
 
                 stream.Position = 0;
@@ -41,5 +46,6 @@ namespace DoYourTasks
             }
             return string.Concat(text);
         }
+        #endregion
     }
 }

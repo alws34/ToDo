@@ -47,6 +47,7 @@
             this.pnlColorIndicator.Name = "pnlColorIndicator";
             this.pnlColorIndicator.Size = new System.Drawing.Size(410, 48);
             this.pnlColorIndicator.TabIndex = 0;
+            this.pnlColorIndicator.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.MouseEnter += new System.EventHandler(this.pnlColorIndicator_MouseEnter);
             this.pnlColorIndicator.MouseLeave += new System.EventHandler(this.pnlColorIndicator_MouseLeave);
             // 

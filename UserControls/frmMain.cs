@@ -16,20 +16,30 @@ using System.IO;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using DoYourTasks.UserControls.CustomControls;
 
 namespace DoYourTasks
 {
     public partial class frmMain : Form
     {
         #region Fields
+       
+        #region Views
         ProjectView currentProjectView;
         TaskView currentTaskView;
         SubTaskView currentSubTaskView;
+        #endregion
 
+        #region Controllers
         private DataController DataController;
         private viewsController viewsController;
+        #endregion
+
+        #region Classes
         Utils utils;
         Serializer serializer;
+        #endregion
+
         int lx, ly, sw, sh;
         #endregion
 
@@ -45,7 +55,7 @@ namespace DoYourTasks
             viewsController = new viewsController();
 
             viewsController.SetProjectView += SetProjectViewOnScreen;
-            viewsController.ProjectViewDeleted += DeletedProject;
+            viewsController.ProjectViewDeleted += DeleteProject;
 
             utils = new Utils();
             CenterToScreen();
@@ -63,6 +73,7 @@ namespace DoYourTasks
         }
         #endregion
 
+        #region DataManagement
         private void LoadFromDB(string path)
         {
 
@@ -74,124 +85,52 @@ namespace DoYourTasks
         {
             serializer.JsonSerialize_(data);
         }
+        #endregion
 
+        #region Project
+        #region ProjectIndication
+        private void ResetIndicators()
+        {
+            foreach (Control c in flpProjects.Controls)
+            {
+                if (c.Name == "ProjectView")
+                {
+                    ProjectView p = c as ProjectView;
+                    if (p != null)
+                        if (p.IsIndicating)
+                            p.SetIndicator(false);
+                }
+            }
+        }
+
+        private void SetIndicator(ProjectView projectView)
+        {
+            ResetIndicators();
+            if (!projectView.IsIndicating)
+            {
+                currentProjectView = projectView;
+                currentProjectView.SetIndicator(true);
+
+                ChangeProjNameLbl(currentProjectView.GetProjName());
+                tbAddTask.Show();
+            }
+        }
+        #endregion
         private void ChangeProjNameLbl(string projName)
         {
             this.lblProjName.Text = projName;
         }
-
-        #region TablesControl
-
-
-        private void AddSubTaskViewToTable(SubTaskView subTask)
-        {
-            flpSubTasks.Controls.Add(subTask);
-        }
-
-        private void AddProjectTaskViewToTable(TaskView taskView)
-        {
-            flpTasks.Controls.Add(taskView);
-        }
-
-        private void AddProjectViewToTable(ProjectView projectView)
-        {
-            flpProjects.Controls.Add(projectView);
-            ChangeProjNameLbl(projectView.GetProjName());
-            SetCurrentProjectView(new SetProjectViewEventArgs(projectView));
-            currentProjectView.SetIndicator(true);
-        }
-
-        #endregion
-
-        #region ConstructViews
-        private ProjectView GetProjectView(string projectName = "")
-        {
-            string id = utils.GetUniqueID();
-            ProjectView pv = new ProjectView(id);
-
-            Project p = new Project(id, projectName);
-            pv.IsIndicating = true;
-
-            viewsController.Projects.Add(id, p);
-            viewsController.Projectviews.Add(id, pv);
-            return pv;
-        }
-
-        private void Pv_ProjectViewDeleted(ProjectViewDeletedEventArgs arg)
-        {
-            arg.ProjectView.Dispose();
-        }
-
-        private void SetCurrentProjectTaskView(UpdateCurrentTaskViewEventArgs arg)
-        {
-            currentTaskView = arg.TaskView;
-        }
-
-        private SubTaskView GetSubTaskView(string subtaskName = "")
-        {
-            string id = utils.GetUniqueID();
-            SubTaskView stv = viewsController.CreateSubTaskView(currentTaskView.TaskID, id, subtaskName);
-            SubTask subTask = new SubTask(subtaskName, currentProjectView.ProjectID, id);
-            return stv;
-        }
-        //private TaskView GetTaskView(string taskname = "")
-        //{
-        //    TaskView tv = viewsController.CreateNewTaskView(utils.GetUniqueID());
-        //    tv.UpdateTaskView += UpdateCurrentTaskView;
-        //    //ptv.UpdateSubTaskView += SetNewTasksView;
-        //    tv.Rename(taskname);
-        //    return tv;
-        //}
-        #endregion
-
-        #region DelegatedMethods
 
         private void SetCurrentProjectView(SetProjectViewEventArgs arg)
         {
             currentProjectView = arg.PV;
         }
 
-        private void SetNewTasksView(UpdateSubTaskViewEventArgs arg)
-        {
-            SubTaskView stv = arg.SubTaskView;
-            flpSubTasks.Controls.Add(stv);
-        }
-
-        private void UpdateCurrentTaskView(UpdateCurrentTaskViewEventArgs arg)
-        {
-            //currentProjectTaskView = arg.ProjectTaskView;
-            //SetTaskViewsOnScreen();
-        }
-
-        public void SetTBPlaceHolder(SetPlaceHolderEventArgs arg)
-        {
-            TextBox tb = arg.TB;
-            if (!tb.Focused && string.IsNullOrWhiteSpace(tb.Text))
-            {
-                tb.Text = "Add new task";
-                return;
-            }
-        }
-
-        private void DeletedProject(ProjectViewDeletedEventArgs arg)
+        private void DeleteProject(ProjectViewDeletedEventArgs arg)
         {
             arg.ProjectView.Dispose();
             ChangeProjNameLbl("No project selected.");
             //TODO: Delete from dict and view
-        }
-
-        private void SetTaskViewsOnScreen(string taskViewID)
-        {
-            flpSubTasks.Controls.Clear();
-            string id;
-            foreach (KeyValuePair<string, SubTask> subTask in viewsController.SubTasks)
-            {
-                if (subTask.Value.ParentID == taskViewID)
-                {
-                    id = subTask.Key;
-                    flpSubTasks.Controls.Add(viewsController.SubTaskviews[id]);
-                }
-            }
         }
 
         private void SetProjectViewOnScreen(SetProjectViewEventArgs arg)
@@ -207,15 +146,80 @@ namespace DoYourTasks
 
             ResetIndicators();
 
-            foreach (KeyValuePair<string, ProjectView> pv in viewsController.Projectviews)/*Will display all projects*/
+            foreach (KeyValuePair<string, TaskView> tv in viewsController.Taskviews)/*Will display all projects*/
             {
-                pv.Value.SetIndicator(false);
-                flpProjects.Controls.Add(pv.Value);
+                if (tv.Value.GetParentID() == currentProjectView.ProjectID)
+                {
+                    flpTasks.Controls.Add(tv.Value);
+                }
             }
 
             SetIndicator(currentProjectView);
+            string date = viewsController.Projects[currentProjectView.ProjectID].DateCreated.ToString("dd/MM/yy");
+            lblCreationDate.Text = $"Created on: {date}";
+
+        }
+        private void AddProjectViewToFlp(ProjectView projectView)
+        {
+            flpProjects.Controls.Add(projectView);
+            ChangeProjNameLbl(projectView.GetProjName());
+            SetCurrentProjectView(new SetProjectViewEventArgs(projectView));
+            currentProjectView.SetIndicator(true);
         }
 
+        #endregion
+
+        #region Task
+        private void SetNewTasksView(UpdateSubTaskViewEventArgs arg)
+        {
+            SubTaskView stv = arg.SubTaskView;
+            flpSubTasks.Controls.Add(stv);
+        }
+        private void UpdateCurrentTaskView(UpdateCurrentTaskViewEventArgs arg)
+        {
+            //currentProjectTaskView = arg.ProjectTaskView;
+            //SetTaskViewsOnScreen();
+        }
+        private void AddTaskViewToFlp(TaskView taskView)
+        {
+            flpTasks.Controls.Add(taskView);
+        }
+
+        #endregion
+       
+        #region SubTask
+        private void SetSubTaskViewsOnScreen(string taskViewID)
+        {
+            flpSubTasks.Controls.Clear();
+            string id;
+            foreach (KeyValuePair<string, SubTask> subTask in viewsController.SubTasks)
+            {
+                if (subTask.Value.ParentID == taskViewID)
+                {
+                    id = subTask.Key;
+                    flpSubTasks.Controls.Add(viewsController.SubTaskviews[id]);
+                }
+            }
+        }
+
+        private void AddSubTaskViewToFlp(SubTaskView subTask)
+        {
+            flpSubTasks.Controls.Add(subTask);
+        }
+
+        #endregion
+
+        #region Utils
+        public void SetTBPlaceHolder(SetPlaceHolderEventArgs arg)
+        {
+            TextBox tb = arg.TB;
+            if (!tb.Focused && string.IsNullOrWhiteSpace(tb.Text))
+            {
+                tb.Text = "Add new task";
+            }
+            return;
+        }
+       
         private void CheckControlsCount(FlowLayoutPanel flp, TextBox tb)
         {
             if (flp.Controls.Count > 0)
@@ -223,41 +227,42 @@ namespace DoYourTasks
             else
                 tb.Enabled = false;
         }
-
         #endregion
 
         #region Events
+
         private void btnNewList_Click(object sender, EventArgs e)
         {
-            ProjectView projectView = viewsController.CreateNewProjectView(utils.GetUniqueID());
-            currentProjectView = projectView;
-            AddProjectViewToTable(projectView);
+            currentProjectView = viewsController.CreateNewProjectView(utils.GetUniqueID());
+            AddProjectViewToFlp(currentProjectView);
+
+            currentProjectView.GetCurrentCustomTextBox().Focus();
         }
 
-        //adding new tasks and subtasks
         private void tbAddTask_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox tb = sender as TextBox;
             if (tb == null)
                 return;
-            if (e.KeyCode == Keys.Enter && !string.IsNullOrWhiteSpace(tb.Text))
+            string taskName = tb.Text;
+            if (e.KeyCode == Keys.Enter && !string.IsNullOrWhiteSpace(taskName))
             {
-                string taskName = tb.Text;
                 switch (tb.Name)
                 {
                     case "textBoxAddSubTask":
                         SubTaskView stv = viewsController.CreateSubTaskView(currentTaskView.TaskID, utils.GetUniqueID(), taskName);
                         currentSubTaskView = stv;
-                        AddSubTaskViewToTable(stv);
+                        AddSubTaskViewToFlp(stv);
                         break;
                     case "tbAddTask":
                         TaskView tv = viewsController.CreateNewTaskView(taskName, utils.GetUniqueID(), currentProjectView.ProjectID);
                         tv.Rename(taskName);
                         tv.UpdateTaskView += UpdateCurrentTaskView;
                         currentTaskView = tv;
-                        AddProjectTaskViewToTable(tv);
+                        AddTaskViewToFlp(tv);
                         break;
                 }
+                tb.Text = "";
             }
         }
 
@@ -303,61 +308,14 @@ namespace DoYourTasks
             SetTBPlaceHolder(new SetPlaceHolderEventArgs(sender as TextBox));
         }
 
-        private void panel1_Click(object sender, EventArgs e)
-        {
-            //foreach (Control c in pnlMain.Controls)
-            //    if (c.Focused)
-            //        c.Invalidate();
-        }
-
         private void flpProjects_ControlAdded(object sender, ControlEventArgs e)
         {
             CheckControlsCount(flpProjects, tbAddTask);
         }
+      
         private void flpTasks_ControlAdded(object sender, ControlEventArgs e)
         {
             CheckControlsCount(flpTasks, textBoxAddSubTask);
-        }
-        #endregion
-
-        #region ProjectIndication
-        private void ResetIndicators()
-        {
-            foreach (Control pv in flpProjects.Controls)//disable all other indicators
-            {
-                if (pv.Name != "ProjectView")
-                    return;
-
-                ProjectView p = pv as ProjectView;
-                if (p == null)
-                    return;
-
-                if (p.IsIndicating)
-                    p.SetIndicator(false);
-            }
-        }
-
-        private void SetIndicator(ProjectView projectView)
-        {
-            foreach (Control c in flpProjects.Controls)
-            {
-                if (c.Name == "ProjectView")
-                {
-                    ProjectView p = c as ProjectView;
-                    if (p != null)
-                        if (p.IsIndicating)
-                            p.SetIndicator(false);
-                }
-            }
-
-            if (!projectView.IsIndicating)
-            {
-                currentProjectView = projectView;
-                currentProjectView.SetIndicator(true);
-
-                ChangeProjNameLbl(currentProjectView.GetProjName());
-                tbAddTask.Show();
-            }
         }
         #endregion
 
