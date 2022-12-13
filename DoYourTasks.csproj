@@ -54,7 +54,6 @@
     <Compile Include="Animations\Animations.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\viewsController.cs" />
-    <Compile Include="DataLayer\DBWorker.cs" />
     <Compile Include="DataLayer\Serializer.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\SubTask.cs" />

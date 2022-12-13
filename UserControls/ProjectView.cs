@@ -69,6 +69,7 @@ namespace DoYourTasks.UserControls
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
             SetProjectName(customTextBox.GetText());
+            SetProjectView.Invoke(new SetProjectViewEventArgs(this));
         }
 
         private void ProjectView_LostFocus(object sender, EventArgs e)

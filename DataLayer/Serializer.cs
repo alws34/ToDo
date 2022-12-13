@@ -10,7 +10,7 @@ namespace DoYourTasks
     {
         public Serializer() { }
         string  filepath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\ToDoMock.json";
-       
+        
         public void JsonSerialize_(object data)
         {
             JsonSerializer jsonSerializer = new JsonSerializer();
@@ -42,6 +42,10 @@ namespace DoYourTasks
                 }
             }
             return obj.ToObject(type);
+        }
+
+        public string GetDBPath() {
+            return filepath;
         }
     }
 }

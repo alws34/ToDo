@@ -59,7 +59,7 @@ namespace DoYourTasks.UserControls
 
         public string GetName()
         {
-            return customRadioButtonTaskName.Text;
+            return customRadioButtonTaskName.GetName();
         }
 
         public string GetID()

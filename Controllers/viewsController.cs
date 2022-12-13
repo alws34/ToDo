@@ -1,10 +1,12 @@
 ﻿using DoYourTasks.UserControls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DoYourTasks
 {
@@ -45,6 +47,37 @@ namespace DoYourTasks
 
             utils = new Utils();
             serializer = new Serializer();
+        }
+
+        public List<List<Control>> LoadFromDB(string path)
+        {//TODO: DEBUG//
+            List<string> list = new List<string>() { "ProjectView", "TaskView", "SubTaskView" };
+            List<Control> projectviews = new List<Control>();
+            List<Control> taskviews = new List<Control>();
+            List<Control> subTaskViews= new List<Control>();
+
+
+            List<List<Control>> results = new List<List<Control>>();
+
+            foreach (string type in list) {
+                switch (type)
+                {
+                    case "ProjectView":
+                        projectviews.Add((ProjectView)serializer.JsonDeserialize_(typeof(ProjectView), path));
+                        break;
+                    case "TaskView":
+                        taskviews.Add((TaskView)serializer.JsonDeserialize_(typeof(TaskView), path));
+                        break;
+                    case "SubTaskView":
+                        subTaskViews.Add((SubTaskView)serializer.JsonDeserialize_(typeof(SubTaskView), path));
+                        break;
+                }
+            }
+            results.Add(projectviews);
+            results.Add(taskviews);
+            results.Add(subTaskViews);
+
+            return results;
         }
 
         #region ProjectViews
@@ -116,7 +149,7 @@ namespace DoYourTasks
         #region Taskviews
 
         #region TaskviewsSetters
-        public TaskView CreateNewTaskView(string taskName, string taskID,string projectID)
+        public TaskView CreateNewTaskView(string taskName, string taskID, string projectID)
         {
             TaskView tv = new TaskView(taskName, taskID);
             Task task = new Task(taskName, taskID, projectID);

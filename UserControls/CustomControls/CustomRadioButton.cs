@@ -61,6 +61,10 @@ namespace DoYourTasks.UserControls
         {
             Text = text.Replace("\r", "").Replace("\n", "");
         }
+        public string GetName()
+        {
+            return Text;
+        }
 
         #region Events
         private void CustomRadioButton_MouseLeave(object sender, EventArgs e)

@@ -49,9 +49,31 @@ namespace DoYourTasks
 
             utils = new Utils();
             CenterToScreen();
-            tbAddTask.Enabled = false;
+            CheckControlsCount(flpProjects, tbAddTask);
+            CheckControlsCount(flpTasks, textBoxAddSubTask);
+
+
+            string path = serializer.GetDBPath();
+            if (File.Exists(path))
+            {
+                LoadFromDB(path);
+
+            }
+
         }
         #endregion
+
+        private void LoadFromDB(string path)
+        {
+
+            viewsController.LoadFromDB(path);//DEBUG
+            //IMPLEMENT LOADING
+        }
+
+        private void SaveToFile(object data)
+        {
+            serializer.JsonSerialize_(data);
+        }
 
         private void ChangeProjNameLbl(string projName)
         {
@@ -74,6 +96,9 @@ namespace DoYourTasks
         private void AddProjectViewToTable(ProjectView projectView)
         {
             flpProjects.Controls.Add(projectView);
+            ChangeProjNameLbl(projectView.GetProjName());
+            SetCurrentProjectView(new SetProjectViewEventArgs(projectView));
+            currentProjectView.SetIndicator(true);
         }
 
         #endregion
@@ -191,6 +216,14 @@ namespace DoYourTasks
             SetIndicator(currentProjectView);
         }
 
+        private void CheckControlsCount(FlowLayoutPanel flp, TextBox tb)
+        {
+            if (flp.Controls.Count > 0)
+                tb.Enabled = true;
+            else
+                tb.Enabled = false;
+        }
+
         #endregion
 
         #region Events
@@ -199,7 +232,6 @@ namespace DoYourTasks
             ProjectView projectView = viewsController.CreateNewProjectView(utils.GetUniqueID());
             currentProjectView = projectView;
             AddProjectViewToTable(projectView);
-            tbAddTask.Enabled = true;
         }
 
         //adding new tasks and subtasks
@@ -278,6 +310,14 @@ namespace DoYourTasks
             //        c.Invalidate();
         }
 
+        private void flpProjects_ControlAdded(object sender, ControlEventArgs e)
+        {
+            CheckControlsCount(flpProjects, tbAddTask);
+        }
+        private void flpTasks_ControlAdded(object sender, ControlEventArgs e)
+        {
+            CheckControlsCount(flpTasks, textBoxAddSubTask);
+        }
         #endregion
 
         #region ProjectIndication
@@ -299,6 +339,17 @@ namespace DoYourTasks
 
         private void SetIndicator(ProjectView projectView)
         {
+            foreach (Control c in flpProjects.Controls)
+            {
+                if (c.Name == "ProjectView")
+                {
+                    ProjectView p = c as ProjectView;
+                    if (p != null)
+                        if (p.IsIndicating)
+                            p.SetIndicator(false);
+                }
+            }
+
             if (!projectView.IsIndicating)
             {
                 currentProjectView = projectView;

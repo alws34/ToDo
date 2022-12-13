@@ -35,20 +35,20 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMaximizar = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.flpProjects = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNewList = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxAddSubTask = new System.Windows.Forms.TextBox();
             this.tlpTaskProperties = new System.Windows.Forms.TableLayoutPanel();
             this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
             this.tbAddTask = new System.Windows.Forms.TextBox();
             this.lblProjName = new System.Windows.Forms.Label();
-            this.flpProjects = new System.Windows.Forms.FlowLayoutPanel();
-            this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
-            this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -143,6 +143,16 @@
             this.pnlMain.TabIndex = 13;
             this.pnlMain.Click += new System.EventHandler(this.panel1_Click);
             // 
+            // flpProjects
+            // 
+            this.flpProjects.AutoScroll = true;
+            this.flpProjects.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.flpProjects.Location = new System.Drawing.Point(4, 4);
+            this.flpProjects.Name = "flpProjects";
+            this.flpProjects.Size = new System.Drawing.Size(303, 654);
+            this.flpProjects.TabIndex = 12;
+            this.flpProjects.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.flpProjects_ControlAdded);
+            // 
             // btnAddNewList
             // 
             this.btnAddNewList.AutoSize = true;
@@ -170,9 +180,18 @@
             this.panel3.Size = new System.Drawing.Size(303, 655);
             this.panel3.TabIndex = 10;
             // 
+            // flpSubTasks
+            // 
+            this.flpSubTasks.AutoScroll = true;
+            this.flpSubTasks.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.flpSubTasks.Location = new System.Drawing.Point(4, 3);
+            this.flpSubTasks.Name = "flpSubTasks";
+            this.flpSubTasks.Size = new System.Drawing.Size(297, 229);
+            this.flpSubTasks.TabIndex = 15;
+            // 
             // textBoxAddSubTask
             // 
-            this.textBoxAddSubTask.Location = new System.Drawing.Point(4, 364);
+            this.textBoxAddSubTask.Location = new System.Drawing.Point(4, 366);
             this.textBoxAddSubTask.Multiline = true;
             this.textBoxAddSubTask.Name = "textBoxAddSubTask";
             this.textBoxAddSubTask.Size = new System.Drawing.Size(297, 41);
@@ -200,7 +219,7 @@
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpTaskProperties.Size = new System.Drawing.Size(299, 143);
+            this.tlpTaskProperties.Size = new System.Drawing.Size(299, 126);
             this.tlpTaskProperties.TabIndex = 13;
             // 
             // materialRaisedButton3
@@ -214,7 +233,7 @@
             this.materialRaisedButton3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialRaisedButton3.Name = "materialRaisedButton3";
             this.materialRaisedButton3.Primary = true;
-            this.materialRaisedButton3.Size = new System.Drawing.Size(287, 51);
+            this.materialRaisedButton3.Size = new System.Drawing.Size(287, 34);
             this.materialRaisedButton3.TabIndex = 14;
             this.materialRaisedButton3.Text = "Add New Project";
             this.materialRaisedButton3.UseVisualStyleBackColor = true;
@@ -262,6 +281,16 @@
             this.panel2.Size = new System.Drawing.Size(450, 702);
             this.panel2.TabIndex = 8;
             // 
+            // flpTasks
+            // 
+            this.flpTasks.AutoScroll = true;
+            this.flpTasks.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.flpTasks.Location = new System.Drawing.Point(4, 56);
+            this.flpTasks.Name = "flpTasks";
+            this.flpTasks.Size = new System.Drawing.Size(443, 600);
+            this.flpTasks.TabIndex = 13;
+            this.flpTasks.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.flpTasks_ControlAdded);
+            // 
             // btnSave
             // 
             this.btnSave.AutoSize = true;
@@ -301,30 +330,6 @@
             this.lblProjName.Size = new System.Drawing.Size(191, 42);
             this.lblProjName.TabIndex = 3;
             this.lblProjName.Text = "ProjName";
-            // 
-            // tlpProjects
-            // 
-            this.flpProjects.AutoScroll = true;
-            this.flpProjects.Location = new System.Drawing.Point(4, 4);
-            this.flpProjects.Name = "tlpProjects";
-            this.flpProjects.Size = new System.Drawing.Size(303, 654);
-            this.flpProjects.TabIndex = 12;
-            // 
-            // tlpSubTasks
-            // 
-            this.flpSubTasks.AutoScroll = true;
-            this.flpSubTasks.Location = new System.Drawing.Point(4, 3);
-            this.flpSubTasks.Name = "tlpSubTasks";
-            this.flpSubTasks.Size = new System.Drawing.Size(297, 229);
-            this.flpSubTasks.TabIndex = 15;
-            // 
-            // tlpTasks
-            // 
-            this.flpTasks.AutoScroll = true;
-            this.flpTasks.Location = new System.Drawing.Point(4, 56);
-            this.flpTasks.Name = "tlpTasks";
-            this.flpTasks.Size = new System.Drawing.Size(443, 600);
-            this.flpTasks.TabIndex = 13;
             // 
             // frmMain
             // 
