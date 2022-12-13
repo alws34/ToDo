@@ -45,7 +45,7 @@
             this.pnlColorIndicator.ForeColor = System.Drawing.Color.Transparent;
             this.pnlColorIndicator.Location = new System.Drawing.Point(4, 4);
             this.pnlColorIndicator.Name = "pnlColorIndicator";
-            this.pnlColorIndicator.Size = new System.Drawing.Size(439, 48);
+            this.pnlColorIndicator.Size = new System.Drawing.Size(410, 48);
             this.pnlColorIndicator.TabIndex = 0;
             this.pnlColorIndicator.MouseEnter += new System.EventHandler(this.pnlColorIndicator_MouseEnter);
             this.pnlColorIndicator.MouseLeave += new System.EventHandler(this.pnlColorIndicator_MouseLeave);
@@ -86,7 +86,7 @@
             this.Controls.Add(this.pnlColorIndicator);
             this.ForeColor = System.Drawing.Color.Transparent;
             this.Name = "TaskView";
-            this.Size = new System.Drawing.Size(447, 57);
+            this.Size = new System.Drawing.Size(420, 57);
             this.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.ResumeLayout(false);
             this.pnlColorIndicator.PerformLayout();

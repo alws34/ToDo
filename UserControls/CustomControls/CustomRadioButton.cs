@@ -49,19 +49,26 @@ namespace DoYourTasks.UserControls
             ForeColor = Color.White;
         }
 
+
+        public CustomRadioButton(string text, object tag = null)
+        {
+            SetMinimumSize();
+            Text = text;
+            Tag = tag;//this is a reference to the actual task.
+        }
+
+        public void Rename(string text)
+        {
+            Text = text.Replace("\r", "").Replace("\n", "");
+        }
+
+        #region Events
         private void CustomRadioButton_MouseLeave(object sender, EventArgs e)
         {
         }
 
         private void CustomRadioButton_MouseEnter(object sender, EventArgs e)
         {
-        }
-
-        public CustomRadioButton(string text, object tag = null)
-        {
-            SetMinimumSize();
-            this.Text = text;
-            this.Tag = tag;//this is a reference to the actual task.
         }
 
         protected override void OnPaint(PaintEventArgs pevent)
@@ -73,6 +80,7 @@ namespace DoYourTasks.UserControls
             float rbCheckSize = 12F;
             byte labelPosOffset = 4;
             Font = new Font("Arial", 14);
+            //ForeColor= Color.White;
 
             RectangleF rectRbBorder = new RectangleF()
             {
@@ -127,5 +135,7 @@ namespace DoYourTasks.UserControls
 
 
         }
+
+        #endregion
     }
 }

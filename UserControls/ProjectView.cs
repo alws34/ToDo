@@ -13,9 +13,9 @@ namespace DoYourTasks.UserControls
 {
     public partial class ProjectView : UserControl
     {
-        public event SetProjectTasksViewEventHandler SetProjectTasksView;
         public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
+        public event ProjectViewRenamedEventHandler ProjectViewRenamed;
 
         public string ProjectID { get; set; }
         public string ProjectName { get; set; }
@@ -61,13 +61,14 @@ namespace DoYourTasks.UserControls
         public void SetProjectName(string text)
         {
             lblName.Text = text;
+            ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, customTextBox.GetText()));
         }
    
         
         #region Events
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
-            lblName.Text = customTextBox.GetText();
+            SetProjectName(customTextBox.GetText());
         }
 
         private void ProjectView_LostFocus(object sender, EventArgs e)
@@ -77,19 +78,18 @@ namespace DoYourTasks.UserControls
 
         private void ProjectView_GotFocus(object sender, EventArgs e)
         {
-            SetProjectTasksView.Invoke(new SetProjectTasksViewEventArgs(this));
+            SetProjectView.Invoke(new SetProjectViewEventArgs(this));
         }
 
         private void custombuttonDelete_Click(object sender, EventArgs e)
         {
-            ProjectViewDeleted.Invoke(new ProjectViewDeletedEventHandlerArgs(this));
+            ProjectViewDeleted.Invoke(new ProjectViewDeletedEventArgs(this));
         }
 
         private void btnEditListName_Click(object sender, EventArgs e)
         {
             customTextBox.ResetText();
             customTextBox.Show();
-            //delegate to main to change the list's name in object
         }
         #endregion
     }

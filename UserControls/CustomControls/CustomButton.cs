@@ -28,18 +28,23 @@ namespace DoYourTasks.UserControls
             Text = "CustomButton";
         }
 
+        public void Rename(string text) {
+            Text = text;
+        }
+
+        #region Events
         private GraphicsPath GetButtonPath(RectangleF rect, float radius)
         {
-            GraphicsPath path= new GraphicsPath();
+            GraphicsPath path = new GraphicsPath();
             path.StartFigure();
             path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);//top left
             path.AddArc(rect.Width - radius, rect.Y, radius, radius, 270, 90);//top right
             path.AddArc(rect.Width - radius, rect.Height - radius, radius, radius, 0, 90);//bottom right
-            path.AddArc(rect.X, rect.Height- radius, radius, radius, 90, 90);//bottom left
+            path.AddArc(rect.X, rect.Height - radius, radius, radius, 90, 90);//bottom left
             path.CloseFigure();
             return path;
         }
-       
+
         protected override void OnPaint(PaintEventArgs pevent)
         {
             base.OnPaint(pevent);
@@ -92,5 +97,8 @@ namespace DoYourTasks.UserControls
             if (this.DesignMode)//if you need to change the background color of the container and update the button, remove this.
                 this.Invalidate();
         }
+
+
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace DoYourTasks
 {
+    #region Utils
     public delegate void SetPlaceHolderEventHandler(SetPlaceHolderEventArgs arg);
     public class SetPlaceHolderEventArgs : EventArgs
     {
@@ -14,6 +15,11 @@ namespace DoYourTasks
         }
     }
 
+
+
+    #endregion
+
+    #region Project
     public delegate void SetProjectViewEventHandler(SetProjectViewEventArgs arg);
     public class SetProjectViewEventArgs : EventArgs
     {
@@ -24,64 +30,63 @@ namespace DoYourTasks
         }
     }
 
-    public delegate void SetProjectTasksViewEventHandler(SetProjectTasksViewEventArgs arg);
-    public class SetProjectTasksViewEventArgs : EventArgs
+    public delegate void ProjectViewRenamedEventHandler(RenameProjectEventArgs args);
+    public class RenameProjectEventArgs : EventArgs
     {
-        public ProjectView PV { get; set; }
-        public SetProjectTasksViewEventArgs(ProjectView pv)
+        public string ProjectID { get; }
+        public string ProjectName { get; set; }
+        public RenameProjectEventArgs(string projectID, string projectName)
         {
-            PV = pv;
+            ProjectID = projectID;
+            ProjectName = projectName;
         }
     }
 
-
-
-    public delegate void SetIndicatorEventHandlerEventHandler(SetIndicatorEventHandlerEventArgs arg);
-    public class SetIndicatorEventHandlerEventArgs : EventArgs
+    public delegate void SetIndicatorEventHandler(SetIndicatorEventArgs arg);
+    public class SetIndicatorEventArgs : EventArgs
     {
         public Panel Indicator { get; set; }
-        public SetIndicatorEventHandlerEventArgs(Panel indicator)
+        public SetIndicatorEventArgs(Panel indicator)
         {
             Indicator = indicator;
         }
     }
 
-    public delegate void UpdateSubTaskViewEventHandler(UpdateSubTaskViewEventHandlerEventArgs arg);
-    public class UpdateSubTaskViewEventHandlerEventArgs : EventArgs
-    {
-        public SubTaskView SubTaskView { get; set; }
-        public UpdateSubTaskViewEventHandlerEventArgs(SubTaskView subtaskview)
-        {
-            SubTaskView = subtaskview;
-        }
-    }
 
-
-    public delegate void ProjectViewDeletedEventHandler(ProjectViewDeletedEventHandlerArgs arg);
-    public class ProjectViewDeletedEventHandlerArgs : EventArgs
+    public delegate void ProjectViewDeletedEventHandler(ProjectViewDeletedEventArgs arg);
+    public class ProjectViewDeletedEventArgs : EventArgs
     {
         public ProjectView ProjectView { get; set; }
-        public ProjectViewDeletedEventHandlerArgs(ProjectView projectView)
+        public ProjectViewDeletedEventArgs(ProjectView projectView)
         {
             ProjectView = projectView;
         }
     }
 
 
-    public delegate void UpdateCurrentTaskViewEventHandler(UpdateCurrentTaskViewEventHandlerArgs arg);
-    public class UpdateCurrentTaskViewEventHandlerArgs : EventArgs
+    #endregion
+
+    #region Task
+    public delegate void UpdateCurrentTaskViewEventHandler(UpdateCurrentTaskViewEventArgs arg);
+    public class UpdateCurrentTaskViewEventArgs : EventArgs
     {
         public TaskView TaskView { get; set; }
-        public UpdateCurrentTaskViewEventHandlerArgs(TaskView tv)
+        public UpdateCurrentTaskViewEventArgs(TaskView tv)
         {
             TaskView = tv;
         }
     }
+    #endregion
 
-
-    public delegate string GetUniqueIDEventHandler(GetUniqueIDEventArgs args);
-    public class GetUniqueIDEventArgs : EventArgs
+    #region SubTask
+    public delegate void UpdateSubTaskViewEventHandler(UpdateSubTaskViewEventArgs arg);
+    public class UpdateSubTaskViewEventArgs : EventArgs
     {
-        public GetUniqueIDEventArgs() { }
+        public SubTaskView SubTaskView { get; set; }
+        public UpdateSubTaskViewEventArgs(SubTaskView subtaskview)
+        {
+            SubTaskView = subtaskview;
+        }
     }
+    #endregion
 }

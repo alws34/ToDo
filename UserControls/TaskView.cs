@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace DoYourTasks.UserControls
 {
@@ -16,13 +17,21 @@ namespace DoYourTasks.UserControls
     {
         Color startBackgroundColor;
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
-        public string ID { get; set; }
+        public string TaskID { get; set; }
    
         public TaskView(string id)
         {
             InitializeComponent();
             SetBackColor();
-            ID = id;
+            TaskID = id;
+            Name = "TaskView";
+        }
+        public TaskView(string taskName, string id)
+        {
+            InitializeComponent();
+            SetBackColor();
+            TaskID = id;
+            Rename(taskName);
             Name = "TaskView";
         }
 
@@ -30,6 +39,10 @@ namespace DoYourTasks.UserControls
         private void SetBackColor()
         {
             startBackgroundColor = customRadioButtonTaskName.BackColor;
+        }
+
+        private void SetForeColor(Color color) {
+            customRadioButtonTaskName.ForeColor = color;
         }
 
         private void RemoveSelected()
@@ -41,7 +54,7 @@ namespace DoYourTasks.UserControls
 
         public void Rename(string newName)
         {
-            customRadioButtonTaskName.Text = newName;
+            customRadioButtonTaskName.Rename(newName);
         }
 
         public string GetName()
@@ -51,7 +64,7 @@ namespace DoYourTasks.UserControls
 
         public string GetID()
         {
-            return ID;
+            return TaskID;
         }
        
         public string GetParentID()
@@ -77,7 +90,7 @@ namespace DoYourTasks.UserControls
 
         private void TaskView_Click(object sender, EventArgs e)
         {
-            UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventHandlerArgs(this));
+            UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(this));
         }
 
         private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)
@@ -94,7 +107,6 @@ namespace DoYourTasks.UserControls
 
             customRadioButtonTaskName.ForeColor = Color.Black;
             lblCompletedSubTasks.ForeColor = Color.Black;
-
         }
 
         private void pnlColorIndicator_MouseLeave(object sender, EventArgs e)

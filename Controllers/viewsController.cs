@@ -23,8 +23,14 @@ namespace DoYourTasks
         #endregion
 
         #region Events
+
+        #region Project
         public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
+        public event ProjectViewRenamedEventHandler ProjectViewRenamed;
+        #endregion
+
+
         #endregion
 
 
@@ -51,16 +57,25 @@ namespace DoYourTasks
 
             pv.SetProjectView += SetProjectViewOnScreen;
             pv.ProjectViewDeleted += DeletedProject;
+            pv.ProjectViewRenamed += ProjectRenamed;
 
             AddProjectsToDicts(project, pv, projectID);
 
             return pv;
         }
-        private void SetProjectViewOnScreen(SetProjectViewEventArgs args) {
+
+        private void ProjectRenamed(RenameProjectEventArgs args)
+        {
+            Projects[args.ProjectID].ProjectName = args.ProjectName;
+        }
+
+        private void SetProjectViewOnScreen(SetProjectViewEventArgs args)
+        {
             SetProjectView.Invoke(args);
         }
 
-        private void DeletedProject(ProjectViewDeletedEventHandlerArgs args) {
+        private void DeletedProject(ProjectViewDeletedEventArgs args)
+        {
             ProjectViewDeleted.Invoke(args);
         }
 
@@ -87,7 +102,7 @@ namespace DoYourTasks
         public void RenameProjectView(string id, string newName)
         {
             Projectviews[id].SetProjectName(newName);
-            Projects[id].ProjectName = newName; 
+            Projects[id].ProjectName = newName;
         }
         public void DeleteProjectView(string id)
         {
@@ -101,10 +116,10 @@ namespace DoYourTasks
         #region Taskviews
 
         #region TaskviewsSetters
-        public TaskView CreateNewTaskView(string taskID)
+        public TaskView CreateNewTaskView(string taskName, string taskID,string projectID)
         {
-            TaskView tv = new TaskView(taskID);
-            Task task = new Task(taskID);
+            TaskView tv = new TaskView(taskName, taskID);
+            Task task = new Task(taskName, taskID, projectID);
             AddTaskToDicts(task, tv, taskID);
             return tv;
         }
@@ -148,7 +163,8 @@ namespace DoYourTasks
             return stv;
         }
 
-        private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView) {
+        private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView)
+        {
             SubTaskviews.Add(subTaskView.SubTaskID, subTaskView);
             SubTasks.Add(subTask.ID, subTask);
         }

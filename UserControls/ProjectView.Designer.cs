@@ -60,9 +60,9 @@
             this.btnEditListName.FlatAppearance.BorderSize = 0;
             this.btnEditListName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditListName.ForeColor = System.Drawing.Color.White;
-            this.btnEditListName.Location = new System.Drawing.Point(176, 10);
+            this.btnEditListName.Location = new System.Drawing.Point(159, 11);
             this.btnEditListName.Name = "btnEditListName";
-            this.btnEditListName.Size = new System.Drawing.Size(55, 29);
+            this.btnEditListName.Size = new System.Drawing.Size(57, 29);
             this.btnEditListName.TabIndex = 1;
             this.btnEditListName.Text = "Rename";
             this.btnEditListName.TextColor = System.Drawing.Color.White;
@@ -98,7 +98,7 @@
             this.custombuttonDelete.FlatAppearance.BorderSize = 0;
             this.custombuttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.custombuttonDelete.ForeColor = System.Drawing.Color.White;
-            this.custombuttonDelete.Location = new System.Drawing.Point(237, 10);
+            this.custombuttonDelete.Location = new System.Drawing.Point(222, 11);
             this.custombuttonDelete.Name = "custombuttonDelete";
             this.custombuttonDelete.Size = new System.Drawing.Size(55, 29);
             this.custombuttonDelete.TabIndex = 4;
@@ -113,11 +113,11 @@
             this.customTextBox.BorderSize = 2;
             this.customTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBox.ForeColor = System.Drawing.Color.DimGray;
-            this.customTextBox.Location = new System.Drawing.Point(53, 7);
+            this.customTextBox.Location = new System.Drawing.Point(13, 7);
             this.customTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.customTextBox.Name = "customTextBox";
             this.customTextBox.Padding = new System.Windows.Forms.Padding(7);
-            this.customTextBox.Size = new System.Drawing.Size(237, 35);
+            this.customTextBox.Size = new System.Drawing.Size(254, 35);
             this.customTextBox.TabIndex = 5;
             this.customTextBox.UnderlinedStyle = false;
             // 
@@ -133,7 +133,7 @@
             this.Controls.Add(this.btnEditListName);
             this.Controls.Add(this.lblName);
             this.Name = "ProjectView";
-            this.Size = new System.Drawing.Size(300, 50);
+            this.Size = new System.Drawing.Size(272, 50);
             this.Click += new System.EventHandler(this.ProjectView_GotFocus);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
