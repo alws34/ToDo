@@ -30,15 +30,26 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.pbLogo = new System.Windows.Forms.PictureBox();
             this.btnNormal = new System.Windows.Forms.Button();
             this.btnMinimizar = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMaximizar = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.tbAddTask = new System.Windows.Forms.TextBox();
+            this.lblCredits = new System.Windows.Forms.Label();
             this.pnlCreationDate = new System.Windows.Forms.Panel();
             this.lblCreationDate = new System.Windows.Forms.Label();
             this.flpProjects = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNewList = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlTasksHeader = new System.Windows.Forms.Panel();
+            this.pnlOptions = new System.Windows.Forms.Panel();
+            this.btnSetBackGroundImage = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.btnOptionsMenu = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.lblProjName = new System.Windows.Forms.Label();
+            this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.tbAddSubTask = new System.Windows.Forms.TextBox();
@@ -46,22 +57,21 @@
             this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.tbAddTask = new System.Windows.Forms.TextBox();
-            this.lblProjName = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlMain.SuspendLayout();
             this.pnlCreationDate.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.pnlTasksHeader.SuspendLayout();
+            this.pnlOptions.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tlpTaskProperties.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
             // 
-            this.pnlTop.BackColor = System.Drawing.Color.Red;
+            this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(181)))), ((int)(((byte)(181)))));
+            this.pnlTop.Controls.Add(this.pbLogo);
             this.pnlTop.Controls.Add(this.btnNormal);
             this.pnlTop.Controls.Add(this.btnMinimizar);
             this.pnlTop.Controls.Add(this.btnCerrar);
@@ -71,6 +81,19 @@
             this.pnlTop.Size = new System.Drawing.Size(1065, 49);
             this.pnlTop.TabIndex = 11;
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
+            // 
+            // pbLogo
+            // 
+            this.pbLogo.BackColor = System.Drawing.Color.Transparent;
+            this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
+            this.pbLogo.InitialImage = ((System.Drawing.Image)(resources.GetObject("pbLogo.InitialImage")));
+            this.pbLogo.Location = new System.Drawing.Point(4, 2);
+            this.pbLogo.Name = "pbLogo";
+            this.pbLogo.Size = new System.Drawing.Size(35, 35);
+            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbLogo.TabIndex = 8;
+            this.pbLogo.TabStop = false;
+            this.pbLogo.Click += new System.EventHandler(this.pbLogo_Click);
             // 
             // btnNormal
             // 
@@ -113,7 +136,7 @@
             this.btnCerrar.Size = new System.Drawing.Size(39, 30);
             this.btnCerrar.TabIndex = 4;
             this.btnCerrar.UseVisualStyleBackColor = true;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            this.btnCerrar.Click += new System.EventHandler(this.pbLogo_Click);
             // 
             // btnMaximizar
             // 
@@ -134,43 +157,74 @@
             this.pnlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlMain.BackColor = System.Drawing.Color.DimGray;
+            this.pnlMain.BackColor = System.Drawing.Color.Transparent;
+            this.pnlMain.Controls.Add(this.tbAddTask);
+            this.pnlMain.Controls.Add(this.lblCredits);
             this.pnlMain.Controls.Add(this.pnlCreationDate);
             this.pnlMain.Controls.Add(this.flpProjects);
             this.pnlMain.Controls.Add(this.btnAddNewList);
-            this.pnlMain.Controls.Add(this.panel3);
             this.pnlMain.Controls.Add(this.panel2);
+            this.pnlMain.Controls.Add(this.panel3);
             this.pnlMain.ForeColor = System.Drawing.SystemColors.ActiveBorder;
             this.pnlMain.Location = new System.Drawing.Point(2, 38);
+            this.pnlMain.MaximumSize = new System.Drawing.Size(1065, 718);
+            this.pnlMain.MinimumSize = new System.Drawing.Size(1065, 718);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1065, 711);
+            this.pnlMain.Size = new System.Drawing.Size(1065, 718);
             this.pnlMain.TabIndex = 13;
+            this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
+            // 
+            // tbAddTask
+            // 
+            this.tbAddTask.BackColor = System.Drawing.SystemColors.Window;
+            this.tbAddTask.Location = new System.Drawing.Point(309, 660);
+            this.tbAddTask.Multiline = true;
+            this.tbAddTask.Name = "tbAddTask";
+            this.tbAddTask.Size = new System.Drawing.Size(450, 41);
+            this.tbAddTask.TabIndex = 14;
+            this.tbAddTask.Tag = "";
+            this.tbAddTask.Text = "Add new task";
+            this.tbAddTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
+            this.tbAddTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
+            // 
+            // lblCredits
+            // 
+            this.lblCredits.AutoSize = true;
+            this.lblCredits.Font = new System.Drawing.Font("Arial", 6F, System.Drawing.FontStyle.Bold);
+            this.lblCredits.ForeColor = System.Drawing.Color.Gray;
+            this.lblCredits.Location = new System.Drawing.Point(3, 704);
+            this.lblCredits.Name = "lblCredits";
+            this.lblCredits.Size = new System.Drawing.Size(72, 10);
+            this.lblCredits.TabIndex = 1;
+            this.lblCredits.Text = "Created by: alws34";
             // 
             // pnlCreationDate
             // 
             this.pnlCreationDate.Controls.Add(this.lblCreationDate);
-            this.pnlCreationDate.Location = new System.Drawing.Point(762, 662);
+            this.pnlCreationDate.Location = new System.Drawing.Point(761, 660);
             this.pnlCreationDate.Name = "pnlCreationDate";
-            this.pnlCreationDate.Size = new System.Drawing.Size(300, 42);
+            this.pnlCreationDate.Size = new System.Drawing.Size(302, 41);
             this.pnlCreationDate.TabIndex = 13;
             // 
             // lblCreationDate
             // 
             this.lblCreationDate.AutoSize = true;
             this.lblCreationDate.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.lblCreationDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(181)))), ((int)(((byte)(181)))));
             this.lblCreationDate.Location = new System.Drawing.Point(3, 9);
             this.lblCreationDate.Name = "lblCreationDate";
             this.lblCreationDate.Size = new System.Drawing.Size(143, 22);
             this.lblCreationDate.TabIndex = 0;
             this.lblCreationDate.Text = "Creation Date:";
+            this.lblCreationDate.Visible = false;
             // 
             // flpProjects
             // 
             this.flpProjects.AutoScroll = true;
-            this.flpProjects.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.flpProjects.Location = new System.Drawing.Point(4, 4);
+            this.flpProjects.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
+            this.flpProjects.Location = new System.Drawing.Point(4, 5);
             this.flpProjects.Name = "flpProjects";
-            this.flpProjects.Size = new System.Drawing.Size(303, 654);
+            this.flpProjects.Size = new System.Drawing.Size(303, 653);
             this.flpProjects.TabIndex = 12;
             this.flpProjects.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.flpProjects_ControlAdded);
             // 
@@ -180,15 +234,123 @@
             this.btnAddNewList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAddNewList.Depth = 0;
             this.btnAddNewList.Icon = null;
-            this.btnAddNewList.Location = new System.Drawing.Point(4, 666);
+            this.btnAddNewList.Location = new System.Drawing.Point(4, 660);
+            this.btnAddNewList.MinimumSize = new System.Drawing.Size(303, 41);
             this.btnAddNewList.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnAddNewList.Name = "btnAddNewList";
             this.btnAddNewList.Primary = true;
-            this.btnAddNewList.Size = new System.Drawing.Size(144, 36);
+            this.btnAddNewList.Size = new System.Drawing.Size(303, 41);
             this.btnAddNewList.TabIndex = 11;
             this.btnAddNewList.Text = "Add New Project";
             this.btnAddNewList.UseVisualStyleBackColor = true;
             this.btnAddNewList.Click += new System.EventHandler(this.btnNewList_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.pnlTasksHeader);
+            this.panel2.Controls.Add(this.flpTasks);
+            this.panel2.Location = new System.Drawing.Point(309, 5);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(450, 653);
+            this.panel2.TabIndex = 8;
+            // 
+            // pnlTasksHeader
+            // 
+            this.pnlTasksHeader.BackColor = System.Drawing.Color.Transparent;
+            this.pnlTasksHeader.Controls.Add(this.pnlOptions);
+            this.pnlTasksHeader.Controls.Add(this.btnOptionsMenu);
+            this.pnlTasksHeader.Controls.Add(this.lblProjName);
+            this.pnlTasksHeader.Controls.Add(this.btnSave);
+            this.pnlTasksHeader.Location = new System.Drawing.Point(3, 4);
+            this.pnlTasksHeader.MaximumSize = new System.Drawing.Size(445, 400);
+            this.pnlTasksHeader.MinimumSize = new System.Drawing.Size(445, 45);
+            this.pnlTasksHeader.Name = "pnlTasksHeader";
+            this.pnlTasksHeader.Size = new System.Drawing.Size(445, 45);
+            this.pnlTasksHeader.TabIndex = 0;
+            // 
+            // pnlOptions
+            // 
+            this.pnlOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(181)))), ((int)(((byte)(181)))), ((int)(((byte)(181)))));
+            this.pnlOptions.Controls.Add(this.btnSetBackGroundImage);
+            this.pnlOptions.ForeColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pnlOptions.Location = new System.Drawing.Point(131, 48);
+            this.pnlOptions.Name = "pnlOptions";
+            this.pnlOptions.Size = new System.Drawing.Size(242, 333);
+            this.pnlOptions.TabIndex = 8;
+            // 
+            // btnSetBackGroundImage
+            // 
+            this.btnSetBackGroundImage.AutoSize = true;
+            this.btnSetBackGroundImage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSetBackGroundImage.Depth = 0;
+            this.btnSetBackGroundImage.Icon = null;
+            this.btnSetBackGroundImage.Location = new System.Drawing.Point(38, 3);
+            this.btnSetBackGroundImage.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSetBackGroundImage.Name = "btnSetBackGroundImage";
+            this.btnSetBackGroundImage.Primary = true;
+            this.btnSetBackGroundImage.Size = new System.Drawing.Size(169, 36);
+            this.btnSetBackGroundImage.TabIndex = 7;
+            this.btnSetBackGroundImage.Text = "Choose Background";
+            this.btnSetBackGroundImage.UseVisualStyleBackColor = true;
+            this.btnSetBackGroundImage.Click += new System.EventHandler(this.btnSetBackGroundImage_Click);
+            // 
+            // btnOptionsMenu
+            // 
+            this.btnOptionsMenu.AutoSize = true;
+            this.btnOptionsMenu.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnOptionsMenu.BackColor = System.Drawing.Color.Transparent;
+            this.btnOptionsMenu.Depth = 0;
+            this.btnOptionsMenu.Icon = global::DoYourTasks.Properties.Resources.icons8_menu_40;
+            this.btnOptionsMenu.ImageKey = "(none)";
+            this.btnOptionsMenu.Location = new System.Drawing.Point(329, 6);
+            this.btnOptionsMenu.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnOptionsMenu.Name = "btnOptionsMenu";
+            this.btnOptionsMenu.Primary = true;
+            this.btnOptionsMenu.Size = new System.Drawing.Size(44, 36);
+            this.btnOptionsMenu.TabIndex = 7;
+            this.btnOptionsMenu.UseVisualStyleBackColor = false;
+            this.btnOptionsMenu.Click += new System.EventHandler(this.btnOptionsMenu_Click);
+            // 
+            // lblProjName
+            // 
+            this.lblProjName.AutoSize = true;
+            this.lblProjName.BackColor = System.Drawing.Color.Transparent;
+            this.lblProjName.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProjName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(140)))), ((int)(((byte)(222)))));
+            this.lblProjName.Location = new System.Drawing.Point(3, 2);
+            this.lblProjName.Name = "lblProjName";
+            this.lblProjName.Size = new System.Drawing.Size(191, 42);
+            this.lblProjName.TabIndex = 3;
+            this.lblProjName.Text = "ProjName";
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSave.Depth = 0;
+            this.btnSave.Icon = null;
+            this.btnSave.Location = new System.Drawing.Point(379, 6);
+            this.btnSave.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Primary = true;
+            this.btnSave.Size = new System.Drawing.Size(55, 36);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // flpTasks
+            // 
+            this.flpTasks.AutoScroll = true;
+            this.flpTasks.BackColor = System.Drawing.Color.Transparent;
+            this.flpTasks.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.flpTasks.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flpTasks.Location = new System.Drawing.Point(0, 48);
+            this.flpTasks.MaximumSize = new System.Drawing.Size(450, 605);
+            this.flpTasks.MinimumSize = new System.Drawing.Size(450, 255);
+            this.flpTasks.Name = "flpTasks";
+            this.flpTasks.Size = new System.Drawing.Size(450, 605);
+            this.flpTasks.TabIndex = 15;
             // 
             // panel3
             // 
@@ -196,26 +358,27 @@
             this.panel3.Controls.Add(this.flpSubTasks);
             this.panel3.Controls.Add(this.tbAddSubTask);
             this.panel3.Controls.Add(this.tlpTaskProperties);
-            this.panel3.Location = new System.Drawing.Point(762, 3);
+            this.panel3.Location = new System.Drawing.Point(760, 5);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(303, 655);
+            this.panel3.Size = new System.Drawing.Size(303, 653);
             this.panel3.TabIndex = 10;
             // 
             // flpSubTasks
             // 
             this.flpSubTasks.AutoScroll = true;
-            this.flpSubTasks.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.flpSubTasks.Location = new System.Drawing.Point(4, 3);
+            this.flpSubTasks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
+            this.flpSubTasks.Location = new System.Drawing.Point(3, 3);
             this.flpSubTasks.Name = "flpSubTasks";
-            this.flpSubTasks.Size = new System.Drawing.Size(297, 229);
+            this.flpSubTasks.Size = new System.Drawing.Size(298, 276);
             this.flpSubTasks.TabIndex = 15;
             // 
             // tbAddSubTask
             // 
-            this.tbAddSubTask.Location = new System.Drawing.Point(4, 366);
+            this.tbAddSubTask.BackColor = System.Drawing.SystemColors.Window;
+            this.tbAddSubTask.Location = new System.Drawing.Point(5, 411);
             this.tbAddSubTask.Multiline = true;
             this.tbAddSubTask.Name = "tbAddSubTask";
-            this.tbAddSubTask.Size = new System.Drawing.Size(297, 41);
+            this.tbAddSubTask.Size = new System.Drawing.Size(296, 41);
             this.tbAddSubTask.TabIndex = 14;
             this.tbAddSubTask.Text = "Add new sub task";
             this.tbAddSubTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
@@ -227,21 +390,21 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.tlpTaskProperties.AutoScroll = true;
             this.tlpTaskProperties.AutoSize = true;
-            this.tlpTaskProperties.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tlpTaskProperties.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
             this.tlpTaskProperties.ColumnCount = 1;
             this.tlpTaskProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpTaskProperties.Controls.Add(this.materialRaisedButton3, 0, 2);
             this.tlpTaskProperties.Controls.Add(this.materialRaisedButton2, 0, 1);
             this.tlpTaskProperties.Controls.Add(this.materialRaisedButton1, 0, 0);
-            this.tlpTaskProperties.Location = new System.Drawing.Point(3, 238);
+            this.tlpTaskProperties.Location = new System.Drawing.Point(3, 285);
             this.tlpTaskProperties.Name = "tlpTaskProperties";
             this.tlpTaskProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tlpTaskProperties.RowCount = 3;
+            this.tlpTaskProperties.RowCount = 4;
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpTaskProperties.Size = new System.Drawing.Size(299, 126);
+            this.tlpTaskProperties.Size = new System.Drawing.Size(299, 146);
             this.tlpTaskProperties.TabIndex = 13;
             // 
             // materialRaisedButton3
@@ -257,7 +420,7 @@
             this.materialRaisedButton3.Primary = true;
             this.materialRaisedButton3.Size = new System.Drawing.Size(287, 34);
             this.materialRaisedButton3.TabIndex = 14;
-            this.materialRaisedButton3.Text = "Add New Project";
+            this.materialRaisedButton3.Text = "Add Task Note";
             this.materialRaisedButton3.UseVisualStyleBackColor = true;
             // 
             // materialRaisedButton2
@@ -273,7 +436,7 @@
             this.materialRaisedButton2.Primary = true;
             this.materialRaisedButton2.Size = new System.Drawing.Size(287, 34);
             this.materialRaisedButton2.TabIndex = 13;
-            this.materialRaisedButton2.Text = "Add New Project";
+            this.materialRaisedButton2.Text = "Add Due Date";
             this.materialRaisedButton2.UseVisualStyleBackColor = true;
             // 
             // materialRaisedButton1
@@ -289,94 +452,38 @@
             this.materialRaisedButton1.Primary = true;
             this.materialRaisedButton1.Size = new System.Drawing.Size(287, 34);
             this.materialRaisedButton1.TabIndex = 12;
-            this.materialRaisedButton1.Text = "Add New Project";
+            this.materialRaisedButton1.Text = "Remind Me";
             this.materialRaisedButton1.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.flpTasks);
-            this.panel2.Controls.Add(this.btnSave);
-            this.panel2.Controls.Add(this.tbAddTask);
-            this.panel2.Controls.Add(this.lblProjName);
-            this.panel2.Location = new System.Drawing.Point(309, 2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(450, 702);
-            this.panel2.TabIndex = 8;
-            // 
-            // flpTasks
-            // 
-            this.flpTasks.AutoScroll = true;
-            this.flpTasks.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.flpTasks.Location = new System.Drawing.Point(4, 56);
-            this.flpTasks.Name = "flpTasks";
-            this.flpTasks.Size = new System.Drawing.Size(443, 600);
-            this.flpTasks.TabIndex = 13;
-            this.flpTasks.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.flpTasks_ControlAdded);
-            // 
-            // btnSave
-            // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSave.Depth = 0;
-            this.btnSave.Icon = null;
-            this.btnSave.Location = new System.Drawing.Point(389, 6);
-            this.btnSave.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Primary = true;
-            this.btnSave.Size = new System.Drawing.Size(55, 36);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // tbAddTask
-            // 
-            this.tbAddTask.Location = new System.Drawing.Point(1, 660);
-            this.tbAddTask.Multiline = true;
-            this.tbAddTask.Name = "tbAddTask";
-            this.tbAddTask.Size = new System.Drawing.Size(447, 37);
-            this.tbAddTask.TabIndex = 5;
-            this.tbAddTask.Tag = "";
-            this.tbAddTask.Text = "Add new task";
-            this.tbAddTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
-            this.tbAddTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
-            // 
-            // lblProjName
-            // 
-            this.lblProjName.AutoSize = true;
-            this.lblProjName.BackColor = System.Drawing.Color.Transparent;
-            this.lblProjName.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProjName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(140)))), ((int)(((byte)(222)))));
-            this.lblProjName.Location = new System.Drawing.Point(5, 6);
-            this.lblProjName.Name = "lblProjName";
-            this.lblProjName.Size = new System.Drawing.Size(191, 42);
-            this.lblProjName.TabIndex = 3;
-            this.lblProjName.Text = "ProjName";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.ClientSize = new System.Drawing.Size(1069, 761);
+            this.ClientSize = new System.Drawing.Size(1069, 768);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlTop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1085, 800);
             this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "frmMain";
             this.Text = "ToDo";
             this.pnlTop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
             this.pnlCreationDate.ResumeLayout(false);
             this.pnlCreationDate.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.pnlTasksHeader.ResumeLayout(false);
+            this.pnlTasksHeader.PerformLayout();
+            this.pnlOptions.ResumeLayout(false);
+            this.pnlOptions.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tlpTaskProperties.ResumeLayout(false);
             this.tlpTaskProperties.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -389,24 +496,30 @@
         private System.Windows.Forms.Button btnMaximizar;
         private System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lblProjName;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TableLayoutPanel tlpTaskProperties;
         private DoYourTasks.UserControls.CustomButtonV2 btnReminder;
         private DoYourTasks.UserControls.CustomButtonV2 btnRepeat;
         private UserControls.CustomButtonV2 btnAddDueDate;
-        private System.Windows.Forms.TextBox tbAddTask;
         private System.Windows.Forms.TextBox tbAddSubTask;
-        private MaterialSkin.Controls.MaterialRaisedButton btnSave;
         private MaterialSkin.Controls.MaterialRaisedButton btnAddNewList;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton3;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton2;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
         private System.Windows.Forms.FlowLayoutPanel flpProjects;
         private System.Windows.Forms.FlowLayoutPanel flpSubTasks;
-        private System.Windows.Forms.FlowLayoutPanel flpTasks;
         private System.Windows.Forms.Panel pnlCreationDate;
         private System.Windows.Forms.Label lblCreationDate;
+        private System.Windows.Forms.PictureBox pbLogo;
+        private System.Windows.Forms.Label lblCredits;
+        private System.Windows.Forms.FlowLayoutPanel flpTasks;
+        private System.Windows.Forms.Panel pnlTasksHeader;
+        private System.Windows.Forms.Label lblProjName;
+        private MaterialSkin.Controls.MaterialRaisedButton btnSave;
+        private MaterialSkin.Controls.MaterialRaisedButton btnOptionsMenu;
+        private System.Windows.Forms.Panel pnlOptions;
+        private System.Windows.Forms.TextBox tbAddTask;
+        private MaterialSkin.Controls.MaterialRaisedButton btnSetBackGroundImage;
     }
 }
 

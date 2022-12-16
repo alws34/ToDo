@@ -40,6 +40,7 @@ namespace DoYourTasks.UserControls
             Rename(taskName);
             Name = "TaskView";
             SubscribeToEvents();
+            DoubleBuffered = true;
         }
 
         #endregion
@@ -83,7 +84,8 @@ namespace DoYourTasks.UserControls
         }
 
 
-        private void SubscribeToEvents() {
+        private void SubscribeToEvents()
+        {
             customRadioButtonTaskName.customCheckedChanged += CustomRadioButtonTaskName_checkedChanged;
         }
         #endregion
@@ -108,7 +110,7 @@ namespace DoYourTasks.UserControls
 
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
         {
-            isCompleted = arg.CRB.Checked; // set the current state of the Radiobutton.
+            SetCompleted(arg.CRB.Checked); // set the current state of the Radiobutton.
             TaskCompleted.Invoke(new TaskCompletedEventArgs(this));//let the main form know the task is completed.
         }
 
@@ -117,11 +119,20 @@ namespace DoYourTasks.UserControls
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(this));
         }
 
-        private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)
+        public void UpdateCompletedSubTasks(int completedSubtasks, int totalSubtasks)
         {
+            lblCompletedSubTasks.Text = $"{completedSubtasks}/{totalSubtasks}";
+        }
+        public void SetCompleted(bool mode)
+        {
+            isCompleted = mode;
+            customRadioButtonTaskName.Checked = mode;
+            if (mode)
+                customRadioButtonTaskName.Font = new Font(new FontFamily("Arial"), 14, FontStyle.Strikeout);
+            else
+                customRadioButtonTaskName.Font = new Font(new FontFamily("Arial"), 14);
 
         }
-
 
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
         {

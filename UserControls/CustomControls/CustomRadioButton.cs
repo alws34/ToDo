@@ -112,7 +112,7 @@ namespace DoYourTasks.UserControls
             float rbBorderSize = 18F;
             float rbCheckSize = 12F;
             byte labelPosOffset = 4;
-            Font = new Font("Arial", 14);
+            //Font = new Font("Arial", 14);
             //ForeColor= Color.White;
 
             RectangleF rectRbBorder = new RectangleF()

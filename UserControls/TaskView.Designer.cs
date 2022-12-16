@@ -94,12 +94,12 @@
             this.customRadioButtonTaskName.Location = new System.Drawing.Point(3, 3);
             this.customRadioButtonTaskName.MinimumSize = new System.Drawing.Size(0, 21);
             this.customRadioButtonTaskName.Name = "customRadioButtonTaskName";
-            this.customRadioButtonTaskName.Size = new System.Drawing.Size(217, 26);
+            this.customRadioButtonTaskName.Size = new System.Drawing.Size(81, 26);
             this.customRadioButtonTaskName.TabIndex = 4;
             this.customRadioButtonTaskName.TabStop = true;
-            this.customRadioButtonTaskName.Text = "customRadioButton1";
-            this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
-            this.customRadioButtonTaskName.UseVisualStyleBackColor = false;
+            this.customRadioButtonTaskName.Text = "CRB";
+            this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.customRadioButtonTaskName.UseVisualStyleBackColor = true;
             // 
             // TaskView
             // 

@@ -113,6 +113,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UserControls\CustomControls\CustomTextBox.resx">
       <DependentUpon>CustomTextBox.cs</DependentUpon>
@@ -147,6 +148,9 @@
       <Project>{8EB7611B-68CD-4B8B-987A-11717E2B250C}</Project>
       <Name>MaterialSkin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-menu-40.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

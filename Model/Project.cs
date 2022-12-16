@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +13,25 @@ namespace DoYourTasks
         public string ProjectID;
         public string ProjectName;
         public DateTime DateCreated;
-        public Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
+        public string BackGroundImagePath;
+        public Dictionary<string, Task> Tasks;
         #endregion
 
         #region Constructors
         public Project(string projectID, string projectName)
         {
-            this.ProjectID = projectID;
-            this.ProjectName = projectName;
+            ProjectID = projectID;
+            ProjectName = projectName;
             DateCreated = DateTime.Now;
+            BackGroundImagePath = "";
+            Tasks = new Dictionary<string, Task>();
         }
+
         public Project(string projectID)
         {
             this.ProjectID = projectID;
             DateCreated = DateTime.Now;
+            Tasks = new Dictionary<string, Task>();
         }
         #endregion
 
@@ -43,9 +49,14 @@ namespace DoYourTasks
             Tasks[taskID].AddSubTask(subTask.GetSubTaskID(), subTask);
         }
         public void Rename(string newName) { ProjectName = newName; }
+        public void SetImagePath(string path) { BackGroundImagePath = path; }
         #endregion
 
         #region Getters
+        public string GetImagePath()
+        {
+            return BackGroundImagePath;
+        }
         public string GetProjectID() { return ProjectID; }
         public string GetProjectName() { return ProjectName; }
         public DateTime GetDateCreated() { return DateCreated; }

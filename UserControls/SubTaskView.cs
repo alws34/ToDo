@@ -34,7 +34,7 @@ namespace DoYourTasks.UserControls
             Name = "SubTaskView";
             Rename(subTaskName);
             EventSubscriber();
-            ForeColor = Color.Transparent;
+            ForeColor = Color.White;
         }
 
         #endregion
@@ -60,10 +60,6 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Setters
-        public void SetSubTaskText(string text)
-        {
-            //customTextBox.SetText(text);
-        }
         public void SetCheckedState(bool value)
         {
             customRadioButtonTaskName.Checked = value;
@@ -88,7 +84,6 @@ namespace DoYourTasks.UserControls
         #region Events
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
         {
-
             IsCompleted = arg.CRB.Checked; // set the current state of the Radiobutton.
             SubTaskCompleted.Invoke(new SubTaskCompletedEventArgs(this));
         }

@@ -33,9 +33,11 @@
             // 
             // textBox
             // 
+            this.textBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
             this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.textBox.ForeColor = System.Drawing.Color.White;
             this.textBox.Location = new System.Drawing.Point(7, 7);
             this.textBox.Name = "textBox";
             this.textBox.Size = new System.Drawing.Size(236, 19);

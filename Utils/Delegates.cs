@@ -139,5 +139,17 @@ namespace DoYourTasks
             STV = stv;
         }
     }
+
+    public delegate void UpdateSubTaskViewCompleteCounterEventHandler(UpdateSubTaskViewCompleteCounterEventArgs arg);
+    public class UpdateSubTaskViewCompleteCounterEventArgs : EventArgs
+    {
+        public string ParentProjectID { get; set; }
+        public string ParentTaskID { get; set; }
+        public UpdateSubTaskViewCompleteCounterEventArgs(string parentProjectID, string parentTaskID)
+        {
+            ParentProjectID = parentProjectID;
+            ParentTaskID = parentTaskID;
+        }
+    }
     #endregion
 }

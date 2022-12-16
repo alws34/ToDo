@@ -17,13 +17,14 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DoYourTasks.UserControls.CustomControls;
+using System.Drawing.Drawing2D;
 
 namespace DoYourTasks
 {
     public partial class frmMain : Form
     {
         #region Fields
-       
+
         #region Views
         ProjectView currentProjectView;
         TaskView currentTaskView;
@@ -41,36 +42,76 @@ namespace DoYourTasks
         #endregion
 
         int lx, ly, sw, sh;
+        bool isOptionsCollapsed = true;
+
+        Timer optionsMenuTimer;
         #endregion
 
         #region Constructors
         public frmMain()
         {
             InitializeComponent();
-            Opacity = 1;
             CenterToScreen();
 
             utils = new Utils();
             serializer = new Serializer();
             DataController = new DataController();
             viewsController = new viewsController();
+            optionsMenuTimer = new Timer()
+            {
+                Interval = 1
+            };
 
+            DoubleBuffered = true;
+
+            optionsMenuTimer.Tick += OptionsMenuTimer_Tick;
             tbAddTask.GotFocus += TbAddTask_GotFocus;
             tbAddTask.LostFocus += TbAddTask_LostFocus;
             tbAddSubTask.GotFocus += TbAddTask_GotFocus;
             tbAddSubTask.LostFocus += TbAddTask_LostFocus;
 
-            viewsController.SetProjectView += SetProjectViewOnScreen;
+            viewsController.SetProjectView += SetProjectTasksViewOnScreen;
             viewsController.ProjectViewDeleted += DeleteProject;
+            viewsController.UpdateSubTaskViewCompleteCounter += ViewsController_UpdateSubTaskViewCompleteCounter;
+            viewsController.UpdateTaskView += UpdateCurrentTaskView;
 
             CheckControlsCount(flpProjects, tbAddTask);
             CheckControlsCount(flpTasks, tbAddSubTask);
 
             string path = serializer.GetDBPath();
+            lblProjName.Text = String.Empty;
+            btnSave.Enabled = false;
+          
             if (File.Exists(path))
-            {
                 LoadFromDB(path);
+        }
+
+        private void ViewsController_UpdateSubTaskViewCompleteCounter(UpdateSubTaskViewCompleteCounterEventArgs arg)
+        {
+            string projectID = arg.ParentProjectID;
+            string taskID = arg.ParentTaskID;
+
+            var subtasks = viewsController.Projects[projectID].GetTasks()[taskID].GetSubTasks();//get all Task subtasks
+            int totalSubtasks = subtasks.Values.Count;
+            int completed = 0;
+
+            foreach (var subtask in subtasks.Values)
+                if (subtask.GetIsCompleted())
+                    completed++;
+
+            currentTaskView.UpdateCompletedSubTasks(completed, totalSubtasks);
+
+            if (totalSubtasks == completed)
+            {
+                viewsController.Projects[projectID].GetTasks()[taskID].SetCompleted(true); // mark task as not completed
+                currentTaskView.SetCompleted(true);// display also in the task view
             }
+            else
+            {
+                viewsController.Projects[projectID].GetTasks()[taskID].SetCompleted(false); // mark task as not complete
+                currentTaskView.SetCompleted(false); // display also in the task view
+            }
+
         }
         #endregion
 
@@ -78,7 +119,7 @@ namespace DoYourTasks
         private void LoadFromDB(string path)
         {
 
-           // viewsController.LoadFromDB(path);//DEBUG
+            // viewsController.LoadFromDB(path);//DEBUG
             //IMPLEMENT LOADING
         }
         #endregion
@@ -128,31 +169,28 @@ namespace DoYourTasks
             //TODO: Delete from dict and view
         }
 
-        private void SetProjectViewOnScreen(SetProjectViewEventArgs arg)
+        private void SetProjectTasksViewOnScreen(SetProjectViewEventArgs arg)
         {
             /*
              This method will load the tasks abd sub tasks for the selected project
              */
             currentProjectView = arg.PV;
-
-
-            flpTasks.Controls.Clear();//clear the task view
+            viewsController.Projects[arg.PV.ProjectID].Rename(arg.PV.GetProjName());
+            flpTasks.Controls.Clear();//clear the tasks view
             flpSubTasks.Controls.Clear();
 
             ResetIndicators();
 
-            foreach (KeyValuePair<string, TaskView> tv in viewsController.Taskviews)/*Will display all projects*/
-            {
+            foreach (var tv in viewsController.Taskviews)/*Will display all projects*/
                 if (tv.Value.GetParentProjectID() == currentProjectView.ProjectID)
-                {
                     flpTasks.Controls.Add(tv.Value);
-                }
-            }
 
             SetIndicator(currentProjectView);
-            string date = viewsController.Projects[currentProjectView.ProjectID].GetDateCreated().ToString("dd/MM/yy");
+            string date = viewsController.Projects[currentProjectView.ProjectID].GetDateCreated().ToString("dd/MM/yy HH:mm tt");
             lblCreationDate.Text = $"Created on: {date}";
 
+            if (!lblCreationDate.Visible)
+                lblCreationDate.Visible = true;
         }
         private void AddProjectViewToFlp(ProjectView projectView)
         {
@@ -165,23 +203,19 @@ namespace DoYourTasks
         #endregion
 
         #region Task
-        private void SetNewTasksView(UpdateSubTaskViewEventArgs arg)
-        {
-            SubTaskView stv = arg.SubTaskView;
-            flpSubTasks.Controls.Add(stv);
-        }
         private void UpdateCurrentTaskView(UpdateCurrentTaskViewEventArgs arg)
         {
-            //currentProjectTaskView = arg.ProjectTaskView;
-            //SetTaskViewsOnScreen();
+            currentTaskView = arg.TaskView;
+            SetSubTaskViewsOnScreen(currentTaskView.GetID());
         }
+      
         private void AddTaskViewToFlp(TaskView taskView)
         {
             flpTasks.Controls.Add(taskView);
         }
 
         #endregion
-       
+
         #region SubTask
         private void SetSubTaskViewsOnScreen(string taskViewID)
         {
@@ -214,17 +248,57 @@ namespace DoYourTasks
             }
             return;
         }
-       
-        private void CheckControlsCount(FlowLayoutPanel flp, TextBox tb)
+
+        private bool CheckControlsCount(FlowLayoutPanel flp, TextBox tb)
         {
             if (flp.Controls.Count > 0)
+            {
                 tb.Enabled = true;
+                return true;
+            }
             else
                 tb.Enabled = false;
+            return false;
+        }
+
+        private void btnOptionsMenu_Click(object sender, EventArgs e)
+        {
+            optionsMenuTimer.Start();
+        }
+
+        private void Exit()
+        {
+            btnSave_Click(null, null);
+            Dispose();
+            Application.Exit();
         }
         #endregion
 
         #region Events
+        private void OptionsMenuTimer_Tick(object sender, EventArgs e)
+        {/*Will not resize flpTasks due to rendering performance issues*/
+            if (isOptionsCollapsed)
+            {
+                pnlTasksHeader.Height += 55;
+                //flpTasks.Height -= 5;
+                if (pnlTasksHeader.Size == pnlTasksHeader.MaximumSize) //&& flpTasks.Size == flpTasks.MinimumSize)
+                {
+                    optionsMenuTimer.Stop();
+                    isOptionsCollapsed = false;
+                }
+            }
+            else
+            {
+                pnlTasksHeader.Height -= 55;
+                //flpTasks.Height += 5;
+                if (pnlTasksHeader.Size == pnlTasksHeader.MinimumSize) //&& flpTasks.Size == flpTasks.MaximumSize)
+                {
+                    optionsMenuTimer.Stop();
+                    isOptionsCollapsed = true; ;
+                }
+            }
+
+        }
 
         private void btnNewList_Click(object sender, EventArgs e)
         {
@@ -244,7 +318,7 @@ namespace DoYourTasks
             {
                 switch (tb.Name)
                 {
-                    case "textBoxAddSubTask":
+                    case "tbAddSubTask":
                         SubTaskView stv = viewsController.CreateSubTaskView(currentProjectView.ProjectID, currentTaskView.GetID(), utils.GetUniqueID(), taskName);
                         currentSubTaskView = stv;
                         AddSubTaskViewToFlp(stv);
@@ -252,9 +326,9 @@ namespace DoYourTasks
                     case "tbAddTask":
                         TaskView tv = viewsController.CreateNewTaskView(taskName, utils.GetUniqueID(), currentProjectView.ProjectID);
                         tv.Rename(taskName);
-                        tv.UpdateTaskView += UpdateCurrentTaskView;
                         currentTaskView = tv;
                         AddTaskViewToFlp(tv);
+                        tbAddSubTask.Enabled = true;
                         break;
                 }
                 tb.Text = "";
@@ -274,10 +348,6 @@ namespace DoYourTasks
             btnMaximizar.Visible = true;
         }
 
-        private void btnCerrar_Click(object sender, EventArgs e)
-        {
-            Dispose();//close
-        }
 
         #region TBPalecHolder
         private void TbAddTask_LostFocus(object sender, EventArgs e)
@@ -293,8 +363,8 @@ namespace DoYourTasks
         private void TbAddTask_GotFocus(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Text == "Add new task")
-                tb.Text = "";
+            if (!string.IsNullOrEmpty(tb.Text))
+                tb.Text = string.Empty;
             return;
         }
         #endregion
@@ -306,9 +376,35 @@ namespace DoYourTasks
 
         private void flpProjects_ControlAdded(object sender, ControlEventArgs e)
         {
-            CheckControlsCount(flpProjects, tbAddTask);
+            if (!CheckControlsCount(flpProjects, tbAddTask))
+                return;
+            btnSave.Enabled = true;
         }
-      
+
+        private void pbLogo_Click(object sender, EventArgs e)
+        {
+            Exit();
+        }
+
+        private void btnSetBackGroundImage_Click(object sender, EventArgs e)
+        {
+            //TODO//Choose a background for the project
+        }
+
+        private void pnlMain_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+
+            //the rectangle, the same size as our Form
+            Rectangle gradient_rectangle = new Rectangle(0, 0, Width, Height);
+
+            //define gradient's properties
+            Brush b = new LinearGradientBrush(gradient_rectangle, Color.FromArgb(0, 0, 0), Color.FromArgb(57, 128, 227), 65f);
+
+            //apply gradient         
+            graphics.FillRectangle(b, gradient_rectangle);
+        }
+
         private void flpTasks_ControlAdded(object sender, ControlEventArgs e)
         {
             CheckControlsCount(flpTasks, tbAddSubTask);

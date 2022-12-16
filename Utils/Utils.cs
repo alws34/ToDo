@@ -17,7 +17,7 @@ namespace DoYourTasks
 
         #region Getters
         public string GetUniqueID()
-        {//calculates a hash (sha512) -- (*ID*) based on current datetime milliseconds
+        {//calculates a hash (sha512) -- (*ID*) based on current datetime milliseconds and a random number
             byte[] result = default;
             Random rnd = new Random();
             using (var stream = new MemoryStream())

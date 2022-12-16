@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectView));
             this.lblName = new System.Windows.Forms.Label();
-            this.btnEditListName = new DoYourTasks.UserControls.CustomButtonV2();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlIndicator = new System.Windows.Forms.Panel();
-            this.custombuttonDelete = new DoYourTasks.UserControls.CustomButtonV2();
+            this.btnEditListName = new DoYourTasks.UserControls.CustomButtonV2();
             this.customTextBox = new DoYourTasks.UserControls.CustomControls.CustomTextBox();
+            this.btnDelete = new DoYourTasks.UserControls.CustomButtonV2();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,25 +49,6 @@
             this.lblName.TabIndex = 0;
             this.lblName.Text = "TaskName";
             this.lblName.Click += new System.EventHandler(this.ProjectView_GotFocus);
-            // 
-            // btnEditListName
-            // 
-            this.btnEditListName.BackColor = System.Drawing.Color.Transparent;
-            this.btnEditListName.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnEditListName.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnEditListName.BorderRadius = 0;
-            this.btnEditListName.BorderSize = 0;
-            this.btnEditListName.FlatAppearance.BorderSize = 0;
-            this.btnEditListName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditListName.ForeColor = System.Drawing.Color.White;
-            this.btnEditListName.Location = new System.Drawing.Point(159, 11);
-            this.btnEditListName.Name = "btnEditListName";
-            this.btnEditListName.Size = new System.Drawing.Size(57, 29);
-            this.btnEditListName.TabIndex = 1;
-            this.btnEditListName.Text = "Rename";
-            this.btnEditListName.TextColor = System.Drawing.Color.White;
-            this.btnEditListName.UseVisualStyleBackColor = false;
-            this.btnEditListName.Click += new System.EventHandler(this.btnEditListName_Click);
             // 
             // pictureBox1
             // 
@@ -88,24 +69,24 @@
             this.pnlIndicator.Size = new System.Drawing.Size(5, 20);
             this.pnlIndicator.TabIndex = 3;
             // 
-            // custombuttonDelete
+            // btnEditListName
             // 
-            this.custombuttonDelete.BackColor = System.Drawing.Color.Transparent;
-            this.custombuttonDelete.BackgroundColor = System.Drawing.Color.Transparent;
-            this.custombuttonDelete.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.custombuttonDelete.BorderRadius = 0;
-            this.custombuttonDelete.BorderSize = 0;
-            this.custombuttonDelete.FlatAppearance.BorderSize = 0;
-            this.custombuttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.custombuttonDelete.ForeColor = System.Drawing.Color.White;
-            this.custombuttonDelete.Location = new System.Drawing.Point(222, 11);
-            this.custombuttonDelete.Name = "custombuttonDelete";
-            this.custombuttonDelete.Size = new System.Drawing.Size(55, 29);
-            this.custombuttonDelete.TabIndex = 4;
-            this.custombuttonDelete.Text = "Delete";
-            this.custombuttonDelete.TextColor = System.Drawing.Color.White;
-            this.custombuttonDelete.UseVisualStyleBackColor = false;
-            this.custombuttonDelete.Click += new System.EventHandler(this.custombuttonDelete_Click);
+            this.btnEditListName.BackColor = System.Drawing.Color.Transparent;
+            this.btnEditListName.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnEditListName.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.btnEditListName.BorderRadius = 0;
+            this.btnEditListName.BorderSize = 0;
+            this.btnEditListName.FlatAppearance.BorderSize = 0;
+            this.btnEditListName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditListName.ForeColor = System.Drawing.Color.White;
+            this.btnEditListName.Location = new System.Drawing.Point(3, 39);
+            this.btnEditListName.Name = "btnEditListName";
+            this.btnEditListName.Size = new System.Drawing.Size(57, 20);
+            this.btnEditListName.TabIndex = 1;
+            this.btnEditListName.Text = "Rename";
+            this.btnEditListName.TextColor = System.Drawing.Color.White;
+            this.btnEditListName.UseVisualStyleBackColor = false;
+            this.btnEditListName.Click += new System.EventHandler(this.btnEditListName_Click);
             // 
             // customTextBox
             // 
@@ -113,13 +94,33 @@
             this.customTextBox.BorderSize = 2;
             this.customTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customTextBox.ForeColor = System.Drawing.Color.DimGray;
-            this.customTextBox.Location = new System.Drawing.Point(13, 7);
+            this.customTextBox.Location = new System.Drawing.Point(53, 7);
             this.customTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.customTextBox.Name = "customTextBox";
             this.customTextBox.Padding = new System.Windows.Forms.Padding(7);
-            this.customTextBox.Size = new System.Drawing.Size(254, 35);
-            this.customTextBox.TabIndex = 5;
+            this.customTextBox.Size = new System.Drawing.Size(213, 35);
+            this.customTextBox.TabIndex = 6;
             this.customTextBox.UnderlinedStyle = false;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.Transparent;
+            this.btnDelete.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnDelete.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.btnDelete.BorderRadius = 0;
+            this.btnDelete.BorderSize = 0;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(247, 13);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(22, 27);
+            this.btnDelete.TabIndex = 7;
+            this.btnDelete.Text = "X";
+            this.btnDelete.TextColor = System.Drawing.Color.White;
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // ProjectView
             // 
@@ -127,13 +128,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
             this.Controls.Add(this.customTextBox);
-            this.Controls.Add(this.custombuttonDelete);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.pnlIndicator);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnEditListName);
             this.Controls.Add(this.lblName);
             this.Name = "ProjectView";
-            this.Size = new System.Drawing.Size(272, 50);
+            this.Size = new System.Drawing.Size(272, 58);
             this.Click += new System.EventHandler(this.ProjectView_GotFocus);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -147,7 +148,7 @@
         private CustomButtonV2 btnEditListName;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel pnlIndicator;
-        private CustomButtonV2 custombuttonDelete;
         private CustomControls.CustomTextBox customTextBox;
+        private CustomButtonV2 btnDelete;
     }
 }

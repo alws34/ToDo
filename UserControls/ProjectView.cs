@@ -23,6 +23,7 @@ namespace DoYourTasks.UserControls
         public string ProjectID { get; set; }
         public string ProjectName { get; set; }
         public bool IsIndicating { get; set; }
+        public string ProjectBackGroundImagePath { get; set; }
         #endregion
 
         #region Constructors
@@ -33,6 +34,7 @@ namespace DoYourTasks.UserControls
             EventSubscriber();
             Name = "ProjectView";
             ProjectID = projectID;
+            Height = 45;
         }
         #endregion
 
@@ -40,6 +42,11 @@ namespace DoYourTasks.UserControls
         public CustomTextBox GetCurrentCustomTextBox()
         {
             return customTextBox.GetCurrentCustomTextBox();
+        }
+
+        public string GetBackGroundImage()
+        {
+            return ProjectBackGroundImagePath;
         }
 
         public bool GetIndicator()
@@ -61,6 +68,10 @@ namespace DoYourTasks.UserControls
                 pnlIndicator.Show();
             else
                 pnlIndicator.Hide();
+        }
+
+        public void SetBackGroundImage(string imagePath) { 
+            ProjectBackGroundImagePath = imagePath;
         }
 
         public void Rename(string text)
@@ -87,6 +98,7 @@ namespace DoYourTasks.UserControls
         {
             Rename(customTextBox.GetText());
             SetProjectView.Invoke(new SetProjectViewEventArgs(this));
+            Height = 58;
         }
 
         private void ProjectView_LostFocus(object sender, EventArgs e)
@@ -99,16 +111,17 @@ namespace DoYourTasks.UserControls
             SetProjectView.Invoke(new SetProjectViewEventArgs(this));
         }
 
-        private void custombuttonDelete_Click(object sender, EventArgs e)
-        {
-            ProjectViewDeleted.Invoke(new ProjectViewDeletedEventArgs(this));
-        }
-
         private void btnEditListName_Click(object sender, EventArgs e)
         {
             customTextBox.ResetText();
+            Height = 45;
             customTextBox.Show();
         }
         #endregion
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            ProjectViewDeleted.Invoke(new ProjectViewDeletedEventArgs(this));
+        }
     }
 }
