@@ -10,101 +10,101 @@ namespace DoYourTasks
 {
     public class Task
     {
-        #region Fields
-        private string taskName;
-        private string taskID;
-        private string parentProjectID;
-        private string notes;
-        private DateTime dateCreated;
-        private DateTime dueDate;
-        private bool isStarred;
-        private bool isCompleted;
-        private Dictionary<string, SubTask> subTasks;
+        #region Properties
+        public string TaskName;
+        public string TaskID;
+        public string ParentProjectID;
+        public string Notes;
+        public DateTime DateCreated;
+        public DateTime DueDate;
+        public bool IsStarred;
+        public bool IsCompleted;
+        public Dictionary<string, SubTask> SubTasks;
         #endregion
 
         #region Constructors
         public Task(string id, string taskName, string projectID)
         {
-            this.taskName = taskName;
-            parentProjectID = projectID;
-            taskID = id;
-            dateCreated = DateTime.Now;
-            isStarred = false;
-            isCompleted = false;
-            subTasks = new Dictionary<string, SubTask>();
+            TaskName = taskName;
+            ParentProjectID = projectID;
+            TaskID = id;
+            DateCreated = DateTime.Now;
+            IsStarred = false;
+            IsCompleted = false;
+            SubTasks = new Dictionary<string, SubTask>();
         }
 
         #endregion
         #region Modifiers
         public void RemoveSubTask(string subtaskID)
         {
-            subTasks.Remove(subtaskID);
+            SubTasks.Remove(subtaskID);
         }
         public void Rename(string newName)
         {
-            taskName = newName;
+            TaskName = newName;
         }
         #endregion
 
         #region Setters
         public void SetStarred(bool mode)
         {
-            isStarred = mode;
+            IsStarred = mode;
         }
         public void SetCompleted(bool mode)
         {
-            isCompleted = mode;
+            IsCompleted = mode;
         }
         public void AddSubTask(string subtaskID, SubTask subtask)
         {
-            subTasks.Add(subtaskID, subtask);
+            SubTasks.Add(subtaskID, subtask);
         }
         public void SetDueDate(DateTime dueTime)
         {
-            dueDate = dueTime;
+            DueDate = dueTime;
         }
         public void AddNotes(string note)
         {
-            notes = note;
+            Notes = note;
         }
         #endregion
 
         #region Getters
         public string GetParentProjectID()
         {
-            return parentProjectID;
+            return ParentProjectID;
         }
         public string GetTaskName()
         {
-            return taskName;
+            return TaskName;
         }
         public string GetTaskID()
         {
-            return taskID;
+            return TaskID;
         }
         public string GetNotes()
         {
-            return notes;
+            return Notes;
         }
         public DateTime GetDueDate()
         {
-            return dueDate;
+            return DueDate;
         }
         public DateTime GetDateCreated()
         {
-            return dateCreated;
+            return DateCreated;
         }
         public Dictionary<string, SubTask> GetSubTasks()
         {
-            return subTasks;
+            return SubTasks;
         }
         public bool GetIsStarred()
         {
-            return isStarred;
+            return IsStarred;
         }
         public bool GetIsCompleted()
         {
-            return isCompleted;
+            return IsCompleted;
         }
         #endregion
     }

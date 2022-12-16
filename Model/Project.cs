@@ -8,24 +8,24 @@ namespace DoYourTasks
 {
     public class Project
     {
-        #region Fields
-        private string projectID;
-        private string projectName;
-        private DateTime dateCreated;
-        private Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
+        #region Properties
+        public string ProjectID;
+        public string ProjectName;
+        public DateTime DateCreated;
+        public Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
         #endregion
 
         #region Constructors
         public Project(string projectID, string projectName)
         {
-            this.projectID = projectID;
-            this.projectName = projectName;
-            dateCreated = DateTime.Now;
+            this.ProjectID = projectID;
+            this.ProjectName = projectName;
+            DateCreated = DateTime.Now;
         }
         public Project(string projectID)
         {
-            this.projectID = projectID;
-            dateCreated = DateTime.Now;
+            this.ProjectID = projectID;
+            DateCreated = DateTime.Now;
         }
         #endregion
 
@@ -42,13 +42,13 @@ namespace DoYourTasks
         {
             Tasks[taskID].AddSubTask(subTask.GetSubTaskID(), subTask);
         }
-        public void Rename(string newName) { projectName = newName; }
+        public void Rename(string newName) { ProjectName = newName; }
         #endregion
 
         #region Getters
-        public string GetProjectID() { return projectID; }
-        public string GetProjectName() { return projectName; }
-        public DateTime GetDateCreated() { return dateCreated; }
+        public string GetProjectID() { return ProjectID; }
+        public string GetProjectName() { return ProjectName; }
+        public DateTime GetDateCreated() { return DateCreated; }
         public Dictionary<string, Task> GetTasks() { return Tasks; }
         #endregion
     }
