@@ -35,7 +35,7 @@ namespace DoYourTasks
         private viewsController viewsController;
         #endregion
 
-        #region Classes
+        #region Utilities
         Utils utils;
         Serializer serializer;
         #endregion
@@ -47,29 +47,30 @@ namespace DoYourTasks
         public frmMain()
         {
             InitializeComponent();
-            tbAddTask.GotFocus += TbAddTask_GotFocus;
-            tbAddTask.LostFocus += TbAddTask_LostFocus;
             Opacity = 1;
+            CenterToScreen();
+
+            utils = new Utils();
             serializer = new Serializer();
             DataController = new DataController();
             viewsController = new viewsController();
 
+            tbAddTask.GotFocus += TbAddTask_GotFocus;
+            tbAddTask.LostFocus += TbAddTask_LostFocus;
+            tbAddSubTask.GotFocus += TbAddTask_GotFocus;
+            tbAddSubTask.LostFocus += TbAddTask_LostFocus;
+
             viewsController.SetProjectView += SetProjectViewOnScreen;
             viewsController.ProjectViewDeleted += DeleteProject;
 
-            utils = new Utils();
-            CenterToScreen();
             CheckControlsCount(flpProjects, tbAddTask);
-            CheckControlsCount(flpTasks, textBoxAddSubTask);
-
+            CheckControlsCount(flpTasks, tbAddSubTask);
 
             string path = serializer.GetDBPath();
             if (File.Exists(path))
             {
                 LoadFromDB(path);
-
             }
-
         }
         #endregion
 
@@ -77,13 +78,8 @@ namespace DoYourTasks
         private void LoadFromDB(string path)
         {
 
-            viewsController.LoadFromDB(path);//DEBUG
+           // viewsController.LoadFromDB(path);//DEBUG
             //IMPLEMENT LOADING
-        }
-
-        private void SaveToFile(object data)
-        {
-            serializer.JsonSerialize_(data);
         }
         #endregion
 
@@ -109,10 +105,9 @@ namespace DoYourTasks
             if (!projectView.IsIndicating)
             {
                 currentProjectView = projectView;
-                currentProjectView.SetIndicator(true);
-
-                ChangeProjNameLbl(currentProjectView.GetProjName());
-                tbAddTask.Show();
+                projectView.SetIndicator(true);
+                ChangeProjNameLbl(projectView.GetProjName());
+                //SetProjectViewOnScreen(new SetProjectViewEventArgs(projectView));
             }
         }
         #endregion
@@ -148,14 +143,14 @@ namespace DoYourTasks
 
             foreach (KeyValuePair<string, TaskView> tv in viewsController.Taskviews)/*Will display all projects*/
             {
-                if (tv.Value.GetParentID() == currentProjectView.ProjectID)
+                if (tv.Value.GetParentProjectID() == currentProjectView.ProjectID)
                 {
                     flpTasks.Controls.Add(tv.Value);
                 }
             }
 
             SetIndicator(currentProjectView);
-            string date = viewsController.Projects[currentProjectView.ProjectID].DateCreated.ToString("dd/MM/yy");
+            string date = viewsController.Projects[currentProjectView.ProjectID].GetDateCreated().ToString("dd/MM/yy");
             lblCreationDate.Text = $"Created on: {date}";
 
         }
@@ -192,9 +187,9 @@ namespace DoYourTasks
         {
             flpSubTasks.Controls.Clear();
             string id;
-            foreach (KeyValuePair<string, SubTask> subTask in viewsController.SubTasks)
+            foreach (var subTask in viewsController.SubTaskviews)
             {
-                if (subTask.Value.ParentID == taskViewID)
+                if (subTask.Value.GetParentTaskID() == taskViewID)
                 {
                     id = subTask.Key;
                     flpSubTasks.Controls.Add(viewsController.SubTaskviews[id]);
@@ -250,7 +245,7 @@ namespace DoYourTasks
                 switch (tb.Name)
                 {
                     case "textBoxAddSubTask":
-                        SubTaskView stv = viewsController.CreateSubTaskView(currentTaskView.TaskID, utils.GetUniqueID(), taskName);
+                        SubTaskView stv = viewsController.CreateSubTaskView(currentProjectView.ProjectID, currentTaskView.GetID(), utils.GetUniqueID(), taskName);
                         currentSubTaskView = stv;
                         AddSubTaskViewToFlp(stv);
                         break;
@@ -268,6 +263,7 @@ namespace DoYourTasks
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            viewsController.SaveToFile();
         }
 
         private void btnNormal_Click(object sender, EventArgs e)
@@ -315,7 +311,7 @@ namespace DoYourTasks
       
         private void flpTasks_ControlAdded(object sender, ControlEventArgs e)
         {
-            CheckControlsCount(flpTasks, textBoxAddSubTask);
+            CheckControlsCount(flpTasks, tbAddSubTask);
         }
         #endregion
 

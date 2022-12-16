@@ -63,12 +63,16 @@ namespace DoYourTasks.UserControls
                 pnlIndicator.Hide();
         }
 
-        public void SetProjectName(string text)
+        public void Rename(string text)
         {
             lblName.Text = text;
             ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, customTextBox.GetText()));
         }
 
+        public void HideTB()
+        {
+            customTextBox.Hide();
+        }
         #endregion
 
         #region Events
@@ -81,7 +85,7 @@ namespace DoYourTasks.UserControls
 
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
-            SetProjectName(customTextBox.GetText());
+            Rename(customTextBox.GetText());
             SetProjectView.Invoke(new SetProjectViewEventArgs(this));
         }
 

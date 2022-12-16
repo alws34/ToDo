@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlColorIndicator = new System.Windows.Forms.Panel();
+            this.btnDelete = new DoYourTasks.UserControls.CustomButtonV2();
             this.lblCompletedSubTasks = new System.Windows.Forms.Label();
             this.customRadioButtonTaskName = new DoYourTasks.UserControls.CustomRadioButton();
             this.pnlColorIndicator.SuspendLayout();
@@ -40,6 +41,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlColorIndicator.BackColor = System.Drawing.Color.Transparent;
+            this.pnlColorIndicator.Controls.Add(this.btnDelete);
             this.pnlColorIndicator.Controls.Add(this.lblCompletedSubTasks);
             this.pnlColorIndicator.Controls.Add(this.customRadioButtonTaskName);
             this.pnlColorIndicator.ForeColor = System.Drawing.Color.Transparent;
@@ -50,6 +52,26 @@
             this.pnlColorIndicator.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.MouseEnter += new System.EventHandler(this.pnlColorIndicator_MouseEnter);
             this.pnlColorIndicator.MouseLeave += new System.EventHandler(this.pnlColorIndicator_MouseLeave);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.Transparent;
+            this.btnDelete.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnDelete.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.btnDelete.BorderRadius = 0;
+            this.btnDelete.BorderSize = 0;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(385, 9);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(22, 27);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "X";
+            this.btnDelete.TextColor = System.Drawing.Color.White;
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // lblCompletedSubTasks
             // 
@@ -100,5 +122,6 @@
         private System.Windows.Forms.Panel pnlColorIndicator;
         private System.Windows.Forms.Label lblCompletedSubTasks;
         private CustomRadioButton customRadioButtonTaskName;
+        private CustomButtonV2 btnDelete;
     }
 }

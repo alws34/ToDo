@@ -28,27 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.customRadioButtonTaskName = new DoYourTasks.UserControls.CustomRadioButton();
             this.btnDelete = new DoYourTasks.UserControls.CustomButtonV2();
-            this.lblSubTaskName = new System.Windows.Forms.Label();
+            this.customRadioButtonTaskName = new DoYourTasks.UserControls.CustomRadioButton();
             this.SuspendLayout();
-            // 
-            // customRadioButtonTaskName
-            // 
-            this.customRadioButtonTaskName.AutoSize = true;
-            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.White;
-            this.customRadioButtonTaskName.CheckedColor = System.Drawing.Color.MediumSlateBlue;
-            this.customRadioButtonTaskName.Font = new System.Drawing.Font("Arial", 14F);
-            this.customRadioButtonTaskName.ForeColor = System.Drawing.Color.White;
-            this.customRadioButtonTaskName.Location = new System.Drawing.Point(3, 3);
-            this.customRadioButtonTaskName.MinimumSize = new System.Drawing.Size(0, 21);
-            this.customRadioButtonTaskName.Name = "customRadioButtonTaskName";
-            this.customRadioButtonTaskName.Size = new System.Drawing.Size(30, 21);
-            this.customRadioButtonTaskName.TabIndex = 1;
-            this.customRadioButtonTaskName.TabStop = true;
-            this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
-            this.customRadioButtonTaskName.UseVisualStyleBackColor = true;
-            this.customRadioButtonTaskName.CheckedChanged += new System.EventHandler(this.customRadioButtonTaskName_CheckedChanged);
             // 
             // btnDelete
             // 
@@ -61,7 +43,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(275, 3);
+            this.btnDelete.Location = new System.Drawing.Point(275, 1);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(22, 27);
             this.btnDelete.TabIndex = 3;
@@ -70,25 +52,31 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // lblSubTaskName
+            // customRadioButtonTaskName
             // 
-            this.lblSubTaskName.AutoSize = true;
-            this.lblSubTaskName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubTaskName.ForeColor = System.Drawing.Color.White;
-            this.lblSubTaskName.Location = new System.Drawing.Point(38, 5);
-            this.lblSubTaskName.Name = "lblSubTaskName";
-            this.lblSubTaskName.Size = new System.Drawing.Size(97, 20);
-            this.lblSubTaskName.TabIndex = 4;
-            this.lblSubTaskName.Text = "lblSubTask";
+            this.customRadioButtonTaskName.AutoSize = true;
+            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.customRadioButtonTaskName.CheckedColor = System.Drawing.Color.MediumSlateBlue;
+            this.customRadioButtonTaskName.Font = new System.Drawing.Font("Arial", 14F);
+            this.customRadioButtonTaskName.ForeColor = System.Drawing.Color.White;
+            this.customRadioButtonTaskName.Location = new System.Drawing.Point(4, 2);
+            this.customRadioButtonTaskName.MinimumSize = new System.Drawing.Size(0, 21);
+            this.customRadioButtonTaskName.Name = "customRadioButtonTaskName";
+            this.customRadioButtonTaskName.Size = new System.Drawing.Size(217, 26);
+            this.customRadioButtonTaskName.TabIndex = 4;
+            this.customRadioButtonTaskName.TabStop = true;
+            this.customRadioButtonTaskName.Text = "customRadioButton1";
+            this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
+            this.customRadioButtonTaskName.UseVisualStyleBackColor = false;
             // 
             // SubTaskView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.Controls.Add(this.lblSubTaskName);
-            this.Controls.Add(this.btnDelete);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.Controls.Add(this.customRadioButtonTaskName);
+            this.Controls.Add(this.btnDelete);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.Name = "SubTaskView";
             this.Size = new System.Drawing.Size(300, 30);
             this.ResumeLayout(false);
@@ -97,9 +85,7 @@
         }
 
         #endregion
-
-        private CustomRadioButton customRadioButtonTaskName;
         private CustomButtonV2 btnDelete;
-        private System.Windows.Forms.Label lblSubTaskName;
+        private CustomRadioButton customRadioButtonTaskName;
     }
 }

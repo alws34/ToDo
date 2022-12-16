@@ -8,45 +8,48 @@ namespace DoYourTasks
 {
     public class Project
     {
-        #region Properties
-        public string ID { get; set; }
-        public string ProjectName { get; set; }
-        public DateTime DateCreated { get; }
-
-        public Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
-
+        #region Fields
+        private string projectID;
+        private string projectName;
+        private DateTime dateCreated;
+        private Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
         #endregion
-       
+
         #region Constructors
         public Project(string projectID, string projectName)
         {
-            ID = projectID;
-            ProjectName = projectName;
-            DateCreated = DateTime.Now;
+            this.projectID = projectID;
+            this.projectName = projectName;
+            dateCreated = DateTime.Now;
         }
-        public Project(string projectName)
+        public Project(string projectID)
         {
-            ProjectName = projectName;
-            DateCreated = DateTime.Now;
+            this.projectID = projectID;
+            dateCreated = DateTime.Now;
         }
-
         #endregion
-       
-        #region Setters
 
+        #region Setters
         public void AddTask(Task task)
         {
-            Tasks.Add(task.ID, task);
+            Tasks.Add(task.GetTaskID(), task);
         }
         public void RemoveTask(string taskID)
         {
             Tasks.Remove(taskID);
         }
-
         public void AddSubTask(string taskID, SubTask subTask)
         {
-            Tasks[taskID].SubTasks.Add(subTask.ID, subTask);
+            Tasks[taskID].AddSubTask(subTask.GetSubTaskID(), subTask);
         }
+        public void Rename(string newName) { projectName = newName; }
+        #endregion
+
+        #region Getters
+        public string GetProjectID() { return projectID; }
+        public string GetProjectName() { return projectName; }
+        public DateTime GetDateCreated() { return dateCreated; }
+        public Dictionary<string, Task> GetTasks() { return Tasks; }
         #endregion
     }
 }

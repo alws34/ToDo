@@ -67,7 +67,7 @@ namespace DoYourTasks
     #endregion
 
     #region Task
-    public delegate void UpdateCurrentTaskViewEventHandler(UpdateCurrentTaskViewEventArgs arg);
+    public delegate void UpdateCurrentTaskViewEventHandler(UpdateCurrentTaskViewEventArgs args);
     public class UpdateCurrentTaskViewEventArgs : EventArgs
     {
         public TaskView TaskView { get; set; }
@@ -76,9 +76,50 @@ namespace DoYourTasks
             TaskView = tv;
         }
     }
+
+    public delegate void CustomCBcheckedChangedEventHandler(CustomCBcheckedChangedEventArgs args);
+    public class CustomCBcheckedChangedEventArgs : EventArgs
+    {
+        public CustomRadioButton CRB { get; set; }
+        public CustomCBcheckedChangedEventArgs(CustomRadioButton crb)
+        {
+            CRB = crb;
+        }
+    }
+
+    public delegate void TaskCompletedEventHandler(TaskCompletedEventArgs args);
+    public class TaskCompletedEventArgs : EventArgs
+    {
+        public TaskView TV { get; set; }
+        public TaskCompletedEventArgs(TaskView tv)
+        {
+            TV = tv;
+        }
+    }
+
+    public delegate void TaskDeletedEventHandler(TaskDeletedEventArgs args);
+    public class TaskDeletedEventArgs : EventArgs
+    {
+        public TaskView TV { get; set; }
+        public TaskDeletedEventArgs(TaskView tv)
+        {
+            TV = tv;
+        }
+    }
+
     #endregion
 
     #region SubTask
+    public delegate void SubTaskCompletedEventHandler(SubTaskCompletedEventArgs args);
+    public class SubTaskCompletedEventArgs : EventArgs
+    {
+        public SubTaskView STV { get; set; }
+        public SubTaskCompletedEventArgs(SubTaskView stv)
+        {
+            STV = stv;
+        }
+    }
+
     public delegate void UpdateSubTaskViewEventHandler(UpdateSubTaskViewEventArgs arg);
     public class UpdateSubTaskViewEventArgs : EventArgs
     {
@@ -86,6 +127,16 @@ namespace DoYourTasks
         public UpdateSubTaskViewEventArgs(SubTaskView subtaskview)
         {
             SubTaskView = subtaskview;
+        }
+    }
+
+    public delegate void SubTaskDeletedEventHandler(SubTaskDeletedEventArgs arg);
+    public class SubTaskDeletedEventArgs : EventArgs
+    {
+        public SubTaskView STV { get; set; }
+        public SubTaskDeletedEventArgs(SubTaskView stv)
+        {
+            STV = stv;
         }
     }
     #endregion

@@ -12,12 +12,14 @@ namespace DoYourTasks.UserControls
     public class CustomRadioButton : RadioButton
     {
         #region CustomEvents
-
+        public delegate void checkedChangedEventHandler(CustomCBcheckedChangedEventArgs arg);
+        public event checkedChangedEventHandler customCheckedChanged;
         #endregion
 
         #region Fields
         private Color checkedColor = Color.MediumSlateBlue;
         private Color unCheckedColor = Color.Gray;
+        private bool isChecked = false;
         #endregion
 
 
@@ -56,8 +58,22 @@ namespace DoYourTasks.UserControls
             SetMinimumSize();
             this.MouseEnter += CustomRadioButton_MouseEnter;
             this.MouseLeave += CustomRadioButton_MouseLeave;
+            this.Click += CustomRadioButton_Click;
             BackColor = Color.Transparent;
             ForeColor = Color.White;
+        }
+
+        private void CustomRadioButton_Click(object sender, EventArgs e)
+        {
+            if (isChecked) {
+                Checked = false;
+                isChecked = false;
+            }
+            else {
+                isChecked = true;
+                Checked = true;
+            }
+            customCheckedChanged.Invoke(new CustomCBcheckedChangedEventArgs(this));
         }
         #endregion
 

@@ -38,11 +38,11 @@ namespace DoYourTasks
         }
 
         #endregion
-      
+
         #region TaskGetters
         public List<Task> GetAllProjTasks(string projectID, string taskID)
         {
-            return Data[projectID].Tasks.Values.ToList();
+            return Data[projectID].GetTasks().Values.ToList();
 
             //List<Task> Tasks = new List<Task>();
             //foreach (KeyValuePair<string, Project> projects in Data)
@@ -57,36 +57,36 @@ namespace DoYourTasks
         }
         public Task GetSingleTask(string projectID, string taskID)
         {
-            return Data[projectID].Tasks[taskID];
+            return Data[projectID].GetTasks()[taskID];
         }
         public bool GetTaskStarredState(string projectID, string taskID)
         {
-            return Data[projectID].Tasks[taskID].IsStarred;
+            return Data[projectID].GetTasks()[taskID].GetIsStarred();
         }
         public bool GetTaskCompleteState(string projectID, string taskID)
         {
-            return Data[projectID].Tasks[taskID].IsCompleted;
+            return Data[projectID].GetTasks()[taskID].GetIsCompleted();
         }
         public string GetTaskNotes(string projectID, string taskID)
         {
-            return Data[projectID].Tasks[taskID].Note;
+            return Data[projectID].GetTasks()[taskID].GetNotes();
         }
         #endregion
 
         #region SubTaskGetters
         public List<SubTask> GetAllSubTaks(string projectID, string taskID)
         {
-            return Data[projectID].Tasks[projectID].SubTasks.Values.ToList();
+            return Data[projectID].GetTasks()[projectID].GetSubTasks().Values.ToList();
         }
 
         public SubTask GetSingleSubTaks(string projectID, string taskID, string subTaskID)
         {
-            return Data[projectID].Tasks[taskID].SubTasks[subTaskID];
+            return Data[projectID].GetTasks()[taskID].GetSubTasks()[subTaskID];
         }
 
         public bool GetSubTaskCompleteState(string projectID, string taskID, string subTaskID)
         {
-            return Data[projectID].Tasks[taskID].SubTasks[subTaskID].IsCompleted;
+            return Data[projectID].GetTasks()[taskID].GetSubTasks()[subTaskID].GetIsCompleted();
         }
 
         #endregion
@@ -97,19 +97,19 @@ namespace DoYourTasks
         public void AddNewProject(string projectName)
         {
             Project project = new Project(utils.GetUniqueID(), projectName);
-            Data.Add(project.ID, project);
+            Data.Add(project.GetProjectID(), project);
         }
 
         public void AddNewTask(string projectID, string taskName)
         {
             Task task = new Task(utils.GetUniqueID(), taskName, projectID);
-            Data[projectID].Tasks.Add(task.ID, task);
+            Data[projectID].GetTasks().Add(task.GetTaskID(), task);
         }
 
         public void AddNewSubTask(string projectID, string taskID, string subTaskName)
         {
-            SubTask subTask = new SubTask(subTaskName, taskID, utils.GetUniqueID());
-            Data[projectID].Tasks[taskID].SubTasks.Add(subTask.ID, subTask);
+            SubTask subTask = new SubTask(subTaskName, taskID, projectID, utils.GetUniqueID());
+            Data[projectID].GetTasks()[taskID].AddSubTask(subTask.GetSubTaskID(), subTask);
         }
         #endregion
 
@@ -117,39 +117,42 @@ namespace DoYourTasks
         #region projectsModifiers
         public void RenameProject(string projectID, string newName)
         {
-            Data[projectID].ProjectName = newName;
+            Data[projectID].Rename(newName) ;
         }
         #endregion
 
         #region TaskModifiers
         public void RenameTask(string projectID, string taskID, string newName)
         {
-            Data[projectID].Tasks[taskID].Name = newName;
+            Data[projectID].GetTasks()[taskID].Rename(newName);
         }
         public void AddTaskDueDate(string projectID, string taskID, DateTime dueDate)
         {
-            Data[projectID].Tasks[taskID].DueDate = dueDate;
+            Data[projectID].GetTasks()[taskID].SetDueDate(dueDate);
         }
         public void SetTaskStarredState(string projectID, string taskID, bool state)
         {
-            Data[projectID].Tasks[taskID].IsStarred = state;
+            Data[projectID].GetTasks()[taskID].SetStarred(state);
         }
-        public void SetTaskCompletedState(string projectID, string taskID ,bool state) {
-            Data[projectID].Tasks[taskID].IsStarred = state;
+        public void SetTaskCompletedState(string projectID, string taskID, bool state)
+        {
+            Data[projectID].GetTasks()[taskID].SetCompleted(state);
         }
-        public void SetTaskNotes(string projectID, string taskID, string note) {
-            Data[projectID].Tasks[taskID].Note = note;
+        public void SetTaskNotes(string projectID, string taskID, string note)
+        {
+            Data[projectID].GetTasks()[taskID].AddNotes(note);
         }
         #endregion
 
         #region SubTaskModifiers
         public void RenameSubTask(string projectID, string taskID, string subTaskID, string newName)
         {
-            Data[projectID].Tasks[taskID].SubTasks[subTaskID].SubTaskName = newName;
+            Data[projectID].GetTasks()[taskID].GetSubTasks()[subTaskID].Rename(newName);
         }
+
         public void SetSubTaskCompletedState(string projectID, string taskID, string subTaskID, bool state)
         {
-            Data[projectID].Tasks[taskID].SubTasks[subTaskID].IsCompleted = state;
+            Data[projectID].GetTasks()[taskID].GetSubTasks()[subTaskID].SetCompleted(state);
         }
         #endregion
 

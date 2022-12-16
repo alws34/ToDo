@@ -35,11 +35,13 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMaximizar = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.pnlCreationDate = new System.Windows.Forms.Panel();
+            this.lblCreationDate = new System.Windows.Forms.Label();
             this.flpProjects = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNewList = new MaterialSkin.Controls.MaterialRaisedButton();
             this.panel3 = new System.Windows.Forms.Panel();
             this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
-            this.textBoxAddSubTask = new System.Windows.Forms.TextBox();
+            this.tbAddSubTask = new System.Windows.Forms.TextBox();
             this.tlpTaskProperties = new System.Windows.Forms.TableLayoutPanel();
             this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -49,14 +51,12 @@
             this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
             this.tbAddTask = new System.Windows.Forms.TextBox();
             this.lblProjName = new System.Windows.Forms.Label();
-            this.pnlCreationDate = new System.Windows.Forms.Panel();
-            this.lblCreationDate = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlMain.SuspendLayout();
+            this.pnlCreationDate.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tlpTaskProperties.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.pnlCreationDate.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -146,6 +146,24 @@
             this.pnlMain.Size = new System.Drawing.Size(1065, 711);
             this.pnlMain.TabIndex = 13;
             // 
+            // pnlCreationDate
+            // 
+            this.pnlCreationDate.Controls.Add(this.lblCreationDate);
+            this.pnlCreationDate.Location = new System.Drawing.Point(762, 662);
+            this.pnlCreationDate.Name = "pnlCreationDate";
+            this.pnlCreationDate.Size = new System.Drawing.Size(300, 42);
+            this.pnlCreationDate.TabIndex = 13;
+            // 
+            // lblCreationDate
+            // 
+            this.lblCreationDate.AutoSize = true;
+            this.lblCreationDate.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.lblCreationDate.Location = new System.Drawing.Point(3, 9);
+            this.lblCreationDate.Name = "lblCreationDate";
+            this.lblCreationDate.Size = new System.Drawing.Size(143, 22);
+            this.lblCreationDate.TabIndex = 0;
+            this.lblCreationDate.Text = "Creation Date:";
+            // 
             // flpProjects
             // 
             this.flpProjects.AutoScroll = true;
@@ -176,7 +194,7 @@
             // 
             this.panel3.AutoScroll = true;
             this.panel3.Controls.Add(this.flpSubTasks);
-            this.panel3.Controls.Add(this.textBoxAddSubTask);
+            this.panel3.Controls.Add(this.tbAddSubTask);
             this.panel3.Controls.Add(this.tlpTaskProperties);
             this.panel3.Location = new System.Drawing.Point(762, 3);
             this.panel3.Name = "panel3";
@@ -192,16 +210,16 @@
             this.flpSubTasks.Size = new System.Drawing.Size(297, 229);
             this.flpSubTasks.TabIndex = 15;
             // 
-            // textBoxAddSubTask
+            // tbAddSubTask
             // 
-            this.textBoxAddSubTask.Location = new System.Drawing.Point(4, 366);
-            this.textBoxAddSubTask.Multiline = true;
-            this.textBoxAddSubTask.Name = "textBoxAddSubTask";
-            this.textBoxAddSubTask.Size = new System.Drawing.Size(297, 41);
-            this.textBoxAddSubTask.TabIndex = 14;
-            this.textBoxAddSubTask.Text = "Add new sub task";
-            this.textBoxAddSubTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
-            this.textBoxAddSubTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
+            this.tbAddSubTask.Location = new System.Drawing.Point(4, 366);
+            this.tbAddSubTask.Multiline = true;
+            this.tbAddSubTask.Name = "tbAddSubTask";
+            this.tbAddSubTask.Size = new System.Drawing.Size(297, 41);
+            this.tbAddSubTask.TabIndex = 14;
+            this.tbAddSubTask.Text = "Add new sub task";
+            this.tbAddSubTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
+            this.tbAddSubTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
             // 
             // tlpTaskProperties
             // 
@@ -335,24 +353,6 @@
             this.lblProjName.TabIndex = 3;
             this.lblProjName.Text = "ProjName";
             // 
-            // pnlCreationDate
-            // 
-            this.pnlCreationDate.Controls.Add(this.lblCreationDate);
-            this.pnlCreationDate.Location = new System.Drawing.Point(762, 662);
-            this.pnlCreationDate.Name = "pnlCreationDate";
-            this.pnlCreationDate.Size = new System.Drawing.Size(300, 42);
-            this.pnlCreationDate.TabIndex = 13;
-            // 
-            // lblCreationDate
-            // 
-            this.lblCreationDate.AutoSize = true;
-            this.lblCreationDate.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
-            this.lblCreationDate.Location = new System.Drawing.Point(3, 9);
-            this.lblCreationDate.Name = "lblCreationDate";
-            this.lblCreationDate.Size = new System.Drawing.Size(143, 22);
-            this.lblCreationDate.TabIndex = 0;
-            this.lblCreationDate.Text = "Creation Date:";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,14 +369,14 @@
             this.pnlTop.ResumeLayout(false);
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
+            this.pnlCreationDate.ResumeLayout(false);
+            this.pnlCreationDate.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tlpTaskProperties.ResumeLayout(false);
             this.tlpTaskProperties.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.pnlCreationDate.ResumeLayout(false);
-            this.pnlCreationDate.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -396,7 +396,7 @@
         private DoYourTasks.UserControls.CustomButtonV2 btnRepeat;
         private UserControls.CustomButtonV2 btnAddDueDate;
         private System.Windows.Forms.TextBox tbAddTask;
-        private System.Windows.Forms.TextBox textBoxAddSubTask;
+        private System.Windows.Forms.TextBox tbAddSubTask;
         private MaterialSkin.Controls.MaterialRaisedButton btnSave;
         private MaterialSkin.Controls.MaterialRaisedButton btnAddNewList;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton3;

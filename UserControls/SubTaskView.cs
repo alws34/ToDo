@@ -12,21 +12,31 @@ namespace DoYourTasks.UserControls
 {
     public partial class SubTaskView : UserControl, IViewAble
     {
+        #region CustomEvents
+        public event SubTaskCompletedEventHandler SubTaskCompleted;
+        public event SubTaskDeletedEventHandler SubTaskDeleted;
+        #endregion
+
         #region Properties
         public string SubTaskID { get; set; }
-        public string TaskID { get; set; }
+        public string ParentTaskID { get; set; }
+        public string ParentProjectID { get; set; }
+        public bool IsCompleted { get; set; }
         #endregion
 
         #region Constructors
-        public SubTaskView(string parent_id, string id, string subTaskName)
+        public SubTaskView(string parent_id, string id,string parentProjectID, string subTaskName)
         {
             InitializeComponent();
-            EventSubscriber();
-            TaskID = parent_id;
+            ParentTaskID = parent_id;
+            ParentProjectID = parentProjectID;
             SubTaskID = id;
             Name = "SubTaskView";
             Rename(subTaskName);
+            EventSubscriber();
+            ForeColor = Color.Transparent;
         }
+
         #endregion
 
         #region Getters
@@ -37,6 +47,15 @@ namespace DoYourTasks.UserControls
         public bool GetCheckedState()
         {
             return customRadioButtonTaskName.Checked;
+        }
+
+        public string GetParentTaskID()
+        {
+            return ParentTaskID;
+        }
+        public string GetParentProjectID()
+        {
+            return ParentProjectID;
         }
         #endregion
 
@@ -54,22 +73,26 @@ namespace DoYourTasks.UserControls
         #region Modifiers
         private void EventSubscriber()
         {
-            //customTextBox.SetTextBoxColor(Color.Transparent, Color.White);
-            //customTextBox.SetTextBoxState();
-            //customTextBox.gotHidden += CustomTextBox_gotHidden;
+            customRadioButtonTaskName.customCheckedChanged += CustomRadioButtonTaskName_checkedChanged;
         }
         public void Rename(string newName)
         {
-
-            lblSubTaskName.Text = newName;
+            customRadioButtonTaskName.Rename(newName);
         }
         public void Delete()
         {
-            //
+            SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(this));
         }
         #endregion
 
         #region Events
+        private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
+        {
+
+            IsCompleted = arg.CRB.Checked; // set the current state of the Radiobutton.
+            SubTaskCompleted.Invoke(new SubTaskCompletedEventArgs(this));
+        }
+
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
             //throw new NotImplementedException();
@@ -77,7 +100,7 @@ namespace DoYourTasks.UserControls
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            Delete();
         }
 
         private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)
@@ -87,12 +110,12 @@ namespace DoYourTasks.UserControls
 
         public string GetID()
         {
-            throw new NotImplementedException();
+            return SubTaskID;
         }
 
         public string GetParentID()
         {
-            throw new NotImplementedException();
+            return ParentTaskID;
         }
         #endregion
     }

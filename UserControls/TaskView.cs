@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,36 +14,34 @@ using System.Xml.Linq;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class TaskView : UserControl,IViewAble
+    public partial class TaskView : UserControl, IViewAble
     {
         #region CustomEvents
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
+        public event TaskCompletedEventHandler TaskCompleted;
+        public event TaskDeletedEventHandler TaskDeleted;
         #endregion
 
         #region Fields
-        Color startBackgroundColor;
-        #endregion
+        private Color startBackgroundColor;
+        private bool isCompleted = false;
 
-        #region Properties
-        public string TaskID { get; set; }
+        private string taskID;
+        private string parentProjectID;
         #endregion
 
         #region Constructors
-        public TaskView(string id)
+        public TaskView(string taskName, string id, string parentProjectID)
         {
             InitializeComponent();
             SetBackColor();
-            TaskID = id;
-            Name = "TaskView";
-        }
-        public TaskView(string taskName, string id)
-        {
-            InitializeComponent();
-            SetBackColor();
-            TaskID = id;
+            taskID = id;
+            this.parentProjectID = parentProjectID;
             Rename(taskName);
             Name = "TaskView";
+            SubscribeToEvents();
         }
+
         #endregion
 
         #region Getters
@@ -53,14 +52,13 @@ namespace DoYourTasks.UserControls
 
         public string GetID()
         {
-            return TaskID;
+            return taskID;
         }
 
-        public string GetParentID()
+        public string GetParentProjectID()
         {
-            return null;
+            return parentProjectID;
         }
-
         public bool GetCheckedState()
         {
             return customRadioButtonTaskName.Checked;
@@ -84,6 +82,10 @@ namespace DoYourTasks.UserControls
             customRadioButtonTaskName.Checked = mode;
         }
 
+
+        private void SubscribeToEvents() {
+            customRadioButtonTaskName.customCheckedChanged += CustomRadioButtonTaskName_checkedChanged;
+        }
         #endregion
 
         #region Modifiers
@@ -103,6 +105,13 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Events
+
+        private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
+        {
+            isCompleted = arg.CRB.Checked; // set the current state of the Radiobutton.
+            TaskCompleted.Invoke(new TaskCompletedEventArgs(this));//let the main form know the task is completed.
+        }
+
         private void TaskView_Click(object sender, EventArgs e)
         {
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(this));
@@ -135,5 +144,15 @@ namespace DoYourTasks.UserControls
         }
 
         #endregion
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            TaskDeleted.Invoke(new TaskDeletedEventArgs(this));
+        }
+
+        public string GetParentID()
+        {
+            return parentProjectID;
+        }
     }
 }

@@ -9,29 +9,35 @@ namespace DoYourTasks
     public class SubTask
     {
         #region Constructors
-        public SubTask(string name, string parentID, string id)
+        public SubTask(string name, string parentTaskID, string parentProjectID, string id)
         {
-            SubTaskName = name;
-            ID = id;
-            ParentID = parentID;
+            subTaskName = name;
+            subtaskID = id;
+            this.parentTaskID = parentTaskID;
+            this.parentProjectID = parentProjectID;
         }
         #endregion
 
-        #region Properties
-        public string ParentID { get; set; }
-        public string ID { get; set; }
-        public bool IsCompleted { get; set; }
-        public string SubTaskName { get; set; }
+        #region Fields
+        private string parentTaskID;
+        private string parentProjectID;
+        private string subtaskID;
+        private bool isCompleted;
+        private string subTaskName;
         #endregion
 
 
-        public void SetCompleted(bool mode)
-        {
-            IsCompleted = mode;
-        }
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+        #region Getters
+        public string GetParentProjectID() { return parentProjectID; }
+        public string GetParentTaskID() { return parentTaskID; }
+        public string GetSubTaskID() { return subtaskID; }
+        public string GetSubTaskName() { return subTaskName; }
+        public bool GetIsCompleted() { return isCompleted; }
+        #endregion
+        
+        #region Setters
+        public void SetCompleted(bool mode) { isCompleted = mode; }
+        public void Rename(string newName) { subTaskName = newName; }
+        #endregion
     }
 }

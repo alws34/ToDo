@@ -12,19 +12,16 @@ namespace DoYourTasks
 {
     public class viewsController
     {
-
-
-
         #region Fields
         public Dictionary<string, ProjectView> Projectviews;
         public Dictionary<string, TaskView> Taskviews;
         public Dictionary<string, SubTaskView> SubTaskviews;
+
         public Dictionary<string, Project> Projects;
-        public Dictionary<string, Task> Tasks;
-        public Dictionary<string, SubTask> SubTasks;
 
         Utils utils;
         Serializer serializer;
+        Timer timer;
         #endregion
 
         #region CustomEvents
@@ -41,48 +38,59 @@ namespace DoYourTasks
         #region Constructors
         public viewsController()
         {
+            Projects = new Dictionary<string, Project>();
+            
             Projectviews = new Dictionary<string, ProjectView>();
             Taskviews = new Dictionary<string, TaskView>();
             SubTaskviews = new Dictionary<string, SubTaskView>();
-            Projects = new Dictionary<string, Project>();
-            Tasks = new Dictionary<string, Task>();
-            SubTasks = new Dictionary<string, SubTask>();
 
             utils = new Utils();
             serializer = new Serializer();
+
+            timer = new Timer();
+            timer.Interval = 1000 * 60 * 10; //10 minutes
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            SaveToFile();
         }
 
         #endregion
 
-        public List<List<Control>> LoadFromDB(string path)
+        public void LoadFromDB(string path)
         {//TODO: DEBUG//
-            List<string> list = new List<string>() { "ProjectView", "TaskView", "SubTaskView" };
-            List<Control> projectviews = new List<Control>();
-            List<Control> taskviews = new List<Control>();
-            List<Control> subTaskViews= new List<Control>();
+            List<string> tmpList = new List<string>() { "ProjectView", "TaskView", "SubTaskView" };
 
 
-            List<List<Control>> results = new List<List<Control>>();
+            Projects = (Dictionary<string, Project>)serializer.JsonDeserialize_(typeof(Dictionary<string, Project>), path);
 
-            foreach (string type in list) {
-                switch (type)
-                {
-                    case "ProjectView":
-                        projectviews.Add((ProjectView)serializer.JsonDeserialize_(typeof(ProjectView), path));
-                        break;
-                    case "TaskView":
-                        taskviews.Add((TaskView)serializer.JsonDeserialize_(typeof(TaskView), path));
-                        break;
-                    case "SubTaskView":
-                        subTaskViews.Add((SubTaskView)serializer.JsonDeserialize_(typeof(SubTaskView), path));
-                        break;
+            List <Project> projects = Projects.Values.ToList();
+
+            foreach (Project project in projects) {
+                //create the Projects Property
+                Projects.Add(project.GetProjectID(), project);
+                Projectviews.Add(project.GetProjectID(), CreateNewProjectView(project.GetProjectID()));
+              
+                //Start creating the views
+
+                foreach (var task in project.GetTasks()) {
+                    Taskviews.Add(task.Value.GetTaskID(),CreateNewTaskView(task.Value.GetTaskName(),task.Value.GetTaskID(),task.Value.GetParentProjectID()));
+                    foreach (var subtask in task.Value.GetSubTasks()) {
+                        SubTaskviews.Add(subtask.Value.GetSubTaskID(), CreateSubTaskView(subtask.Value.GetParentProjectID(),subtask.Value.GetParentTaskID(),subtask.Value.GetSubTaskID(),subtask.Value.GetSubTaskName()));
+                    }
                 }
-            }
-            results.Add(projectviews);
-            results.Add(taskviews);
-            results.Add(subTaskViews);
+                
 
-            return results;
+                  
+            }
+        }
+
+        public void SaveToFile()
+        {
+            serializer.JsonSerialize_((object)Projects, false);
         }
 
         #region ProjectViews
@@ -104,7 +112,7 @@ namespace DoYourTasks
 
         private void ProjectRenamed(RenameProjectEventArgs args)
         {
-            Projects[args.ProjectID].ProjectName = args.ProjectName;
+            Projects[args.ProjectID].Rename(args.ProjectName) ;
         }
 
         private void SetProjectViewOnScreen(SetProjectViewEventArgs args)
@@ -139,8 +147,8 @@ namespace DoYourTasks
         #region ProjectViewsModifiers
         public void RenameProjectView(string id, string newName)
         {
-            Projectviews[id].SetProjectName(newName);
-            Projects[id].ProjectName = newName;
+            Projectviews[id].Rename(newName);
+            Projects[id].Rename(newName);
         }
         public void DeleteProjectView(string id)
         {
@@ -156,15 +164,31 @@ namespace DoYourTasks
         #region TaskviewsSetters
         public TaskView CreateNewTaskView(string taskName, string taskID, string projectID)
         {
-            TaskView tv = new TaskView(taskName, taskID);
-            Task task = new Task(taskName, taskID, projectID);
+            TaskView tv = new TaskView(taskName, taskID, projectID);
+            tv.TaskCompleted += Tv_TaskCompleted;
+            tv.TaskDeleted += Tv_TaskDeleted;
+            Task task = new Task(taskID, taskName, projectID);
+            Projects[projectID].GetTasks().Add(taskID, task);
             AddTaskToDicts(task, tv, taskID);
             return tv;
         }
+
+        private void Tv_TaskDeleted(TaskDeletedEventArgs args)
+        {
+            Projects[args.TV.GetParentProjectID()].RemoveTask(args.TV.GetID());
+            Taskviews.Remove(args.TV.GetID());
+            args.TV.Dispose();
+        }
+
+        private void Tv_TaskCompleted(TaskCompletedEventArgs args)
+        {
+            Projects[args.TV.GetParentProjectID()].GetTasks()[args.TV.GetID()].SetCompleted(args.TV.GetCheckedState());
+        }
+
         private void AddTaskToDicts(Task task, TaskView taskView, string id)
         {
             Taskviews.Add(id, taskView);
-            Tasks.Add(id, task);
+            //Projects[task.GetParentProjectID()].Tasks.Add(id,task);
         }
         #endregion
 
@@ -179,12 +203,12 @@ namespace DoYourTasks
         public void RenameTask(string taskID, string newName)
         {
             Taskviews[taskID].Rename(newName);
-            Tasks[taskID].Name = newName;
+            Projects[Taskviews[taskID].GetParentProjectID()].GetTasks()[taskID].Rename(newName);
         }
         public void DeleteTask(string taskID)
         {
             Taskviews.Remove(taskID);
-            Tasks.Remove(taskID);
+            Projects[Taskviews[taskID].GetParentProjectID()].GetTasks().Remove(taskID);
         }
         #endregion
 
@@ -193,18 +217,20 @@ namespace DoYourTasks
         #region SubTaskView
 
         #region SubTaskViewSetters
-        public SubTaskView CreateSubTaskView(string taskID, string subTaskID, string subTaskName)
+        public SubTaskView CreateSubTaskView(string projectID, string taskID, string subTaskID, string subTaskName)
         {
-            SubTaskView stv = new SubTaskView(taskID, subTaskID, subTaskName);
-            SubTask st = new SubTask(taskID, subTaskID, subTaskName);
-            AddSubTaskToDicts(st, stv);
+            SubTaskView stv = new SubTaskView(taskID, subTaskID, projectID, subTaskName);
+            stv.SubTaskCompleted += Stv_SubTaskCompleted;
+            stv.SubTaskDeleted += Stv_SubTaskDeleted;
+            SubTask st = new SubTask(taskID, subTaskID, projectID, subTaskName);
+            AddSubTaskToDicts(st, stv, projectID, taskID, subTaskID);
             return stv;
         }
 
-        private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView)
+        private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView, string projectID, string taskID, string subTaskID)
         {
-            SubTaskviews.Add(subTaskView.SubTaskID, subTaskView);
-            SubTasks.Add(subTask.ID, subTask);
+            SubTaskviews.Add(subTaskID, subTaskView);
+            Projects[projectID].GetTasks()[taskID].AddSubTask(subTaskID, subTask);
         }
         #endregion
 
@@ -216,15 +242,33 @@ namespace DoYourTasks
         #endregion
 
         #region SubTaskViewModifiers
-        public void RenameSubTask(string id, string newName)
+        //public void RenameSubTask(string id, string newName)
+        //{
+        //    SubTaskviews[id].Rename(newName);
+        //    SubTasks[id].SubTaskName = newName;
+        //}
+        #endregion
+
+        #region SubTaskViewEvents
+        private void Stv_SubTaskCompleted(SubTaskCompletedEventArgs args)
         {
-            SubTaskviews[id].Rename(newName);
-            SubTasks[id].SubTaskName = newName;
+            try
+            {
+                Projects[args.STV.GetParentProjectID()].GetTasks()[args.STV.GetParentTaskID()].GetSubTasks()[args.STV.GetID()].SetCompleted(args.STV.IsCompleted);
+            }
+            catch (KeyNotFoundException) { return; }
+
         }
-        public void DeleteSubTask(string id)
+
+        private void Stv_SubTaskDeleted(SubTaskDeletedEventArgs arg)
         {
-            SubTaskviews.Remove(id);
-            SubTasks.Remove(id);
+            try
+            {
+                SubTaskviews.Remove(arg.STV.GetID());
+                Projects[arg.STV.GetParentProjectID()].GetTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetID());
+                arg.STV.Dispose();
+            }
+            catch (KeyNotFoundException) { return; }
         }
         #endregion
 
