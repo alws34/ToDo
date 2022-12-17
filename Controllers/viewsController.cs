@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.Json;
 
 namespace DoYourTasks
 {
@@ -23,6 +24,7 @@ namespace DoYourTasks
         #endregion
         #region Task
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
+        public event TaskDueDateChangedEventHandler TaskDueDateChanged;
         #endregion
 
         #region SubTask
@@ -63,54 +65,86 @@ namespace DoYourTasks
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            SaveToFile();
+            if (!SaveToFile())
+                return;
         }
 
         #endregion
 
         public void LoadFromDB(string path)
-        {//TODO: DEBUG//
+        {
+            Projectviews.Clear();
+            Taskviews.Clear();
+            SubTaskviews.Clear();
             List<string> tmpList = new List<string>() { "ProjectView", "TaskView", "SubTaskView" };
 
-
             Projects = (Dictionary<string, Project>)serializer.JsonDeserialize_(typeof(Dictionary<string, Project>), path);
+           
+            if (Projects == null)
+                return;
 
-            List<Project> projects = Projects.Values.ToList();
-
-            foreach (Project project in projects)
+            string taskViewID;
+            string pvID;
+            string stvID;
+            ProjectView pv;
+            TaskView tv;
+            SubTaskView stv;
+            foreach (Project project in Projects.Values.ToList())
             {
                 //create the Projects Property
-                Projects.Add(project.GetProjectID(), project);
-                Projectviews.Add(project.GetProjectID(), CreateNewProjectView(project.GetProjectID()));
+                pv = CreateNewProjectView(project.GetProjectID(), false);
+                pv.Rename(project.GetProjectName());
+                pvID = pv.ProjectID;
+                //Projectviews.Add(pvID, pv);
 
-                //Start creating the views
-
-                foreach (var task in project.GetTasks())
+                //create the TaskViews
+                List<Task> tasks = project.GetTasks().Values.ToList();
+                foreach (var task in tasks)
                 {
-                    Taskviews.Add(task.Value.GetTaskID(), CreateNewTaskView(task.Value.GetTaskName(), task.Value.GetTaskID(), task.Value.GetParentProjectID()));
-                    foreach (var subtask in task.Value.GetSubTasks())
+                    tv = CreateNewTaskView(task.GetTaskName(), task.GetTaskID(), task.GetParentProjectID(), false);
+                    tv.Rename(task.GetTaskName());
+
+                    if (task.GetDueDate()!= null)
+                        tv.SetDueDate((DateTime)task.GetDueDate());
+
+                    taskViewID = task.GetTaskID();
+                    //Taskviews.Add(taskViewID, tv);
+
+                    //create the SubTaskViews
+                    List<SubTask> subTasks = task.GetSubTasks().Values.ToList();
+                    foreach (var subtask in subTasks)
                     {
-                        SubTaskviews.Add(subtask.Value.GetSubTaskID(), CreateSubTaskView(subtask.Value.GetParentProjectID(), subtask.Value.GetParentTaskID(), subtask.Value.GetSubTaskID(), subtask.Value.GetSubTaskName()));
+                        stv = CreateSubTaskView(subtask.GetParentProjectID(), subtask.GetParentTaskID(), subtask.GetSubTaskID(), subtask.GetSubTaskName(), false);
+                        stv.Rename(subtask.GetSubTaskName());
+                        stvID = subtask.GetSubTaskID();
+                        stv.SetCheckedState(subtask.IsCompleted);
+                        stv.IsCompleted = subtask.IsCompleted;
                     }
                 }
-
-
-
             }
         }
 
-        public void SaveToFile()
+        public bool SaveToFile()
         {
-            serializer.JsonSerialize_((object)Projects, false);
+            foreach (ProjectView pv in Projectviews.Values.ToList()) {
+                if (pv.GetIsInEditMode()) {
+                    MessageBox.Show("One or more projects are in edit mode.\ncannot quit.", "Editing in progress", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            serializer.JsonSerialize_(Projects, false);
+            return true;
         }
 
         #region ProjectViews
 
         #region ProjectViewsSetters
-        public ProjectView CreateNewProjectView(string projectID)
+        public ProjectView CreateNewProjectView(string projectID, bool isNew = true)
         {
+            Project project = null;
             ProjectView pv = new ProjectView(projectID);
-            Project project = new Project(projectID);
+            if (isNew)
+                project = new Project(projectID);
 
             pv.SetProjectView += SetProjectViewOnScreen;
             pv.ProjectViewDeleted += DeletedProject;
@@ -139,7 +173,9 @@ namespace DoYourTasks
         private void AddProjectsToDicts(Project project, ProjectView projectView, string projectID)
         {
             Projectviews.Add(projectID, projectView);
-            Projects.Add(projectID, project);
+
+            if (project != null)
+                Projects.Add(projectID, project);
         }
         #endregion
 
@@ -173,17 +209,22 @@ namespace DoYourTasks
         #region Taskviews
 
         #region TaskviewsSetters
-        public TaskView CreateNewTaskView(string taskName, string taskID, string projectID)
+        public TaskView CreateNewTaskView(string taskName, string taskID, string projectID, bool isNew = true)
         {
+            Task task = null;
             TaskView tv = new TaskView(taskName, taskID, projectID);
             tv.TaskCompleted += Tv_TaskCompleted;
             tv.TaskDeleted += Tv_TaskDeleted;
+            tv.DueDateChanged += Tv_TaskDueDateChanged;
             tv.UpdateTaskView += UpdateTaskView;
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(tv));//update task view in form
 
             //create the coresponding Task
-            Task task = new Task(taskID, taskName, projectID);
-            Projects[projectID].GetTasks().Add(taskID, task);//Add task to coresponding project
+            if (isNew)
+            {
+                task = new Task(taskID, taskName, projectID);
+                Projects[projectID].GetTasks().Add(taskID, task);//Add task to coresponding project
+            }
 
             AddTaskToDicts(task, tv, taskID);
             return tv;
@@ -195,6 +236,11 @@ namespace DoYourTasks
             Taskviews.Remove(args.TV.GetID());
             args.TV.Dispose();
         }
+        private void Tv_TaskDueDateChanged(DueDateChangedEventArgs args)
+        {
+            TaskDueDateChanged.Invoke(new DueDateChangedEventArgs(null));
+        }
+
 
         private void Tv_TaskCompleted(TaskCompletedEventArgs args)
         {
@@ -204,7 +250,8 @@ namespace DoYourTasks
         private void AddTaskToDicts(Task task, TaskView taskView, string id)
         {
             Taskviews.Add(id, taskView);
-            //Projects[task.GetParentProjectID()].Tasks.Add(id,task);
+            //if (task != null)
+            //    Projects[task.GetParentProjectID()].Tasks.Add(id, task);
         }
         #endregion
 
@@ -233,12 +280,14 @@ namespace DoYourTasks
         #region SubTaskView
 
         #region SubTaskViewSetters
-        public SubTaskView CreateSubTaskView(string projectID, string taskID, string subTaskID, string subTaskName)
+        public SubTaskView CreateSubTaskView(string projectID, string taskID, string subTaskID, string subTaskName, bool isNew = true)
         {
+            SubTask st = null;
             SubTaskView stv = new SubTaskView(taskID, subTaskID, projectID, subTaskName);
             stv.SubTaskCompleted += Stv_SubTaskCompleted;
             stv.SubTaskDeleted += Stv_SubTaskDeleted;
-            SubTask st = new SubTask(taskID, subTaskID, projectID, subTaskName);
+            if (isNew)
+                st = new SubTask(subTaskName, taskID, projectID, subTaskID);
             AddSubTaskToDicts(st, stv, projectID, taskID, subTaskID);
             UpdateSubTaskViewCompleteCounter.Invoke(new UpdateSubTaskViewCompleteCounterEventArgs(projectID, taskID));
             return stv;
@@ -246,8 +295,10 @@ namespace DoYourTasks
 
         private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView, string projectID, string taskID, string subTaskID)
         {
-            SubTaskviews.Add(subTaskID, subTaskView);
-            Projects[projectID].GetTasks()[taskID].AddSubTask(subTaskID, subTask);
+            SubTaskviews.Add(subTaskView.SubTaskID, subTaskView);
+
+            if (subTask != null)
+                Projects[projectID].GetTasks()[taskID].AddSubTask(subTaskID, subTask);
         }
         #endregion
 

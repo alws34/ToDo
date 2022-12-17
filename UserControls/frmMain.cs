@@ -32,7 +32,6 @@ namespace DoYourTasks
         #endregion
 
         #region Controllers
-        private DataController DataController;
         private viewsController viewsController;
         #endregion
 
@@ -55,7 +54,6 @@ namespace DoYourTasks
 
             utils = new Utils();
             serializer = new Serializer();
-            DataController = new DataController();
             viewsController = new viewsController();
             optionsMenuTimer = new Timer()
             {
@@ -69,11 +67,17 @@ namespace DoYourTasks
             tbAddTask.LostFocus += TbAddTask_LostFocus;
             tbAddSubTask.GotFocus += TbAddTask_GotFocus;
             tbAddSubTask.LostFocus += TbAddTask_LostFocus;
+            tbNotes.GotFocus += TbAddTask_GotFocus;
+            tbNotes.LostFocus += TbAddTask_LostFocus;
+
+
 
             viewsController.SetProjectView += SetProjectTasksViewOnScreen;
             viewsController.ProjectViewDeleted += DeleteProject;
             viewsController.UpdateSubTaskViewCompleteCounter += ViewsController_UpdateSubTaskViewCompleteCounter;
             viewsController.UpdateTaskView += UpdateCurrentTaskView;
+            viewsController.TaskDueDateChanged += ViewsController_TaskDueDateChanged;
+
 
             CheckControlsCount(flpProjects, tbAddTask);
             CheckControlsCount(flpTasks, tbAddSubTask);
@@ -81,47 +85,19 @@ namespace DoYourTasks
             string path = serializer.GetDBPath();
             lblProjName.Text = String.Empty;
             btnSave.Enabled = false;
-          
+
             if (File.Exists(path))
                 LoadFromDB(path);
-        }
-
-        private void ViewsController_UpdateSubTaskViewCompleteCounter(UpdateSubTaskViewCompleteCounterEventArgs arg)
-        {
-            string projectID = arg.ParentProjectID;
-            string taskID = arg.ParentTaskID;
-
-            var subtasks = viewsController.Projects[projectID].GetTasks()[taskID].GetSubTasks();//get all Task subtasks
-            int totalSubtasks = subtasks.Values.Count;
-            int completed = 0;
-
-            foreach (var subtask in subtasks.Values)
-                if (subtask.GetIsCompleted())
-                    completed++;
-
-            currentTaskView.UpdateCompletedSubTasks(completed, totalSubtasks);
-
-            if (totalSubtasks == completed)
-            {
-                viewsController.Projects[projectID].GetTasks()[taskID].SetCompleted(true); // mark task as not completed
-                currentTaskView.SetCompleted(true);// display also in the task view
-            }
-            else
-            {
-                viewsController.Projects[projectID].GetTasks()[taskID].SetCompleted(false); // mark task as not complete
-                currentTaskView.SetCompleted(false); // display also in the task view
-            }
-
         }
         #endregion
 
         #region DataManagement
         private void LoadFromDB(string path)
         {
-
-            // viewsController.LoadFromDB(path);//DEBUG
-            //IMPLEMENT LOADING
+            viewsController.LoadFromDB(path);
+            SetProjectViewsOnScreen();
         }
+
         #endregion
 
         #region Project
@@ -182,8 +158,15 @@ namespace DoYourTasks
             ResetIndicators();
 
             foreach (var tv in viewsController.Taskviews)/*Will display all projects*/
+            {
                 if (tv.Value.GetParentProjectID() == currentProjectView.ProjectID)
+                {
+                    tv.Value.Width = flpTasks.Width - 6;
                     flpTasks.Controls.Add(tv.Value);
+                }
+            }
+
+
 
             SetIndicator(currentProjectView);
             string date = viewsController.Projects[currentProjectView.ProjectID].GetDateCreated().ToString("dd/MM/yy HH:mm tt");
@@ -194,21 +177,45 @@ namespace DoYourTasks
         }
         private void AddProjectViewToFlp(ProjectView projectView)
         {
+            ResetIndicators();
             flpProjects.Controls.Add(projectView);
             ChangeProjNameLbl(projectView.GetProjName());
             SetCurrentProjectView(new SetProjectViewEventArgs(projectView));
             currentProjectView.SetIndicator(true);
         }
-
+        private void SetProjectViewsOnScreen()
+        {
+            foreach (ProjectView pv in viewsController.Projectviews.Values.ToList())
+                AddProjectViewToFlp(pv);
+        }
         #endregion
 
         #region Task
         private void UpdateCurrentTaskView(UpdateCurrentTaskViewEventArgs arg)
         {
             currentTaskView = arg.TaskView;
+            try
+            {
+                string notes = viewsController.Projects[currentTaskView.GetParentProjectID()].Tasks[currentTaskView.GetID()].GetNotes();
+                if (notes != null)
+                {
+                    tbNotes.Text = notes;
+                    if (tbNotes.Visible == false)
+                        tbNotes.Visible = true;
+                }
+                else
+                {
+                    tbNotes.Text = (string)tbNotes.Tag;
+                }
+            }
+            catch (Exception) { tbNotes.Text = ""; }
+
+            if (!tbAddSubTask.Enabled)
+                tbAddSubTask.Enabled = true;
+
             SetSubTaskViewsOnScreen(currentTaskView.GetID());
         }
-      
+
         private void AddTaskViewToFlp(TaskView taskView)
         {
             flpTasks.Controls.Add(taskView);
@@ -244,7 +251,7 @@ namespace DoYourTasks
             TextBox tb = arg.TB;
             if (!tb.Focused && string.IsNullOrWhiteSpace(tb.Text))
             {
-                tb.Text = "Add new task";
+                tb.Text = (string)tb.Tag;
             }
             return;
         }
@@ -268,13 +275,48 @@ namespace DoYourTasks
 
         private void Exit()
         {
-            btnSave_Click(null, null);
-            Dispose();
+            if (!viewsController.SaveToFile())
+                return;
             Application.Exit();
         }
         #endregion
 
         #region Events
+        private void ViewsController_TaskDueDateChanged(DueDateChangedEventArgs args)
+        {
+            DueDatePicker.Hide();
+        }
+
+        private void ViewsController_UpdateSubTaskViewCompleteCounter(UpdateSubTaskViewCompleteCounterEventArgs arg)
+        {
+            string projectID = arg.ParentProjectID;
+            string taskID = arg.ParentTaskID;
+            bool mode = false;
+            Dictionary<string, SubTask> subtasks;
+            try
+            {
+                subtasks = viewsController.Projects[projectID].GetTasks()[taskID].GetSubTasks();//get all Task subtasks
+            }
+            catch { return; }
+
+            int totalSubtasks = subtasks.Values.Count;
+            int completed = 0;
+
+            foreach (var subtask in subtasks.Values)
+                if (subtask.GetIsCompleted())
+                    completed++;
+
+            currentTaskView.UpdateCompletedSubTasks(completed, totalSubtasks);
+
+            if (totalSubtasks == completed)
+                mode = true;
+            else
+                mode = false;
+
+            viewsController.Projects[projectID].GetTasks()[taskID].SetCompleted(mode); // mark task as not completed
+            currentTaskView.SetCompleted(mode);// display in the task view
+        }
+
         private void OptionsMenuTimer_Tick(object sender, EventArgs e)
         {/*Will not resize flpTasks due to rendering performance issues*/
             if (isOptionsCollapsed)
@@ -330,6 +372,11 @@ namespace DoYourTasks
                         AddTaskViewToFlp(tv);
                         tbAddSubTask.Enabled = true;
                         break;
+                    case "tbNotes":
+                        //add note to the task object
+                        viewsController.Projects[currentProjectView.ProjectID].GetTasks()[currentTaskView.GetID()].Notes = tbNotes.Text;
+                        //tbNotes.Hide();
+                        break;
                 }
                 tb.Text = "";
             }
@@ -337,7 +384,8 @@ namespace DoYourTasks
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            viewsController.SaveToFile();
+            if (!viewsController.SaveToFile())
+                return;
         }
 
         private void btnNormal_Click(object sender, EventArgs e)
@@ -353,6 +401,7 @@ namespace DoYourTasks
         private void TbAddTask_LostFocus(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
+            tb.Height = 40;
             if (!tb.Focused && string.IsNullOrWhiteSpace(tb.Text))
             {
                 tb.Text = "Add new task";
@@ -363,6 +412,7 @@ namespace DoYourTasks
         private void TbAddTask_GotFocus(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
+            tb.Height = 40;
             if (!string.IsNullOrEmpty(tb.Text))
                 tb.Text = string.Empty;
             return;
@@ -409,6 +459,26 @@ namespace DoYourTasks
         {
             CheckControlsCount(flpTasks, tbAddSubTask);
         }
+
+        private void btnAddDueDate_Click(object sender, EventArgs e)
+        {
+            DueDatePicker.Show();
+        }
+
+        private void btnAddNotes_Click(object sender, EventArgs e)
+        {
+            if (!tbNotes.Visible)
+                tbNotes.Visible = true;
+        }
+
+
+        private void DueDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime dueDate = DueDatePicker.Value.Date;
+            viewsController.Projects[currentProjectView.ProjectID].GetTasks()[currentTaskView.GetID()].SetDueDate(dueDate);
+            viewsController.Taskviews[currentTaskView.GetID()].SetDueDate(dueDate);
+        }
+
         #endregion
 
         #region ScreenBehaviour

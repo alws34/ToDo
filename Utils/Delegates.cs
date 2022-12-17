@@ -77,6 +77,13 @@ namespace DoYourTasks
         }
     }
 
+    public delegate void TaskDueDateChangedEventHandler(DueDateChangedEventArgs args);
+    public class DueDateChangedEventArgs : EventArgs
+    {
+        public TaskView TaskView { get; set; }
+        public DueDateChangedEventArgs(TaskView tv) { TaskView = tv; }
+    }
+
     public delegate void CustomCBcheckedChangedEventHandler(CustomCBcheckedChangedEventArgs args);
     public class CustomCBcheckedChangedEventArgs : EventArgs
     {

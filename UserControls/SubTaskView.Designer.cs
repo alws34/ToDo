@@ -35,7 +35,7 @@
             // customRadioButtonTaskName
             // 
             this.customRadioButtonTaskName.AutoSize = true;
-            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
             this.customRadioButtonTaskName.CheckedColor = System.Drawing.Color.MediumSlateBlue;
             this.customRadioButtonTaskName.Font = new System.Drawing.Font("Arial", 14F);
             this.customRadioButtonTaskName.ForeColor = System.Drawing.Color.White;
@@ -48,6 +48,8 @@
             this.customRadioButtonTaskName.Text = "customRadioButton1";
             this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
             this.customRadioButtonTaskName.UseVisualStyleBackColor = false;
+            this.customRadioButtonTaskName.MouseEnter += new System.EventHandler(this.customRadioButtonTaskName_MouseEnter);
+            this.customRadioButtonTaskName.MouseLeave += new System.EventHandler(this.customRadioButtonTaskName_MouseLeave);
             // 
             // btnDelete
             // 
@@ -60,7 +62,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(266, 2);
+            this.btnDelete.Location = new System.Drawing.Point(241, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(22, 27);
             this.btnDelete.TabIndex = 3;
@@ -73,12 +75,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
             this.Controls.Add(this.customRadioButtonTaskName);
             this.Controls.Add(this.btnDelete);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.Name = "SubTaskView";
-            this.Size = new System.Drawing.Size(290, 30);
+            this.Size = new System.Drawing.Size(265, 30);
+            this.MouseEnter += new System.EventHandler(this.customRadioButtonTaskName_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.customRadioButtonTaskName_MouseLeave);
             this.ResumeLayout(false);
             this.PerformLayout();
 

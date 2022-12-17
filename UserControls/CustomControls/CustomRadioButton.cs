@@ -20,6 +20,7 @@ namespace DoYourTasks.UserControls
         private Color checkedColor = Color.MediumSlateBlue;
         private Color unCheckedColor = Color.Gray;
         private bool isChecked = false;
+        public bool isSelected = false;
         #endregion
 
 
@@ -137,7 +138,7 @@ namespace DoYourTasks.UserControls
             using (SolidBrush brushText = new SolidBrush(this.ForeColor))
             {
                 graphics.Clear(this.BackColor);//draw surface 
-                if (this.Checked)
+                if (this.Checked || isSelected)
                 {
                     graphics.DrawEllipse(penBorder, rectRbBorder);//circle border
                     graphics.FillEllipse(brushText, rectRbCheck);//circle Radio Checked

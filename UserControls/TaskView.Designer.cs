@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlColorIndicator = new System.Windows.Forms.Panel();
+            this.lblDueDate = new System.Windows.Forms.Label();
             this.btnDelete = new DoYourTasks.UserControls.CustomButtonV2();
             this.lblCompletedSubTasks = new System.Windows.Forms.Label();
             this.customRadioButtonTaskName = new DoYourTasks.UserControls.CustomRadioButton();
@@ -40,7 +41,8 @@
             this.pnlColorIndicator.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlColorIndicator.BackColor = System.Drawing.Color.Transparent;
+            this.pnlColorIndicator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
+            this.pnlColorIndicator.Controls.Add(this.lblDueDate);
             this.pnlColorIndicator.Controls.Add(this.btnDelete);
             this.pnlColorIndicator.Controls.Add(this.lblCompletedSubTasks);
             this.pnlColorIndicator.Controls.Add(this.customRadioButtonTaskName);
@@ -53,8 +55,22 @@
             this.pnlColorIndicator.MouseEnter += new System.EventHandler(this.pnlColorIndicator_MouseEnter);
             this.pnlColorIndicator.MouseLeave += new System.EventHandler(this.pnlColorIndicator_MouseLeave);
             // 
+            // lblDueDate
+            // 
+            this.lblDueDate.AutoSize = true;
+            this.lblDueDate.BackColor = System.Drawing.Color.Transparent;
+            this.lblDueDate.ForeColor = System.Drawing.Color.White;
+            this.lblDueDate.Location = new System.Drawing.Point(254, 26);
+            this.lblDueDate.Name = "lblDueDate";
+            this.lblDueDate.Size = new System.Drawing.Size(45, 13);
+            this.lblDueDate.TabIndex = 6;
+            this.lblDueDate.Text = "Due to: ";
+            this.lblDueDate.Visible = false;
+            // 
             // btnDelete
             // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.BackColor = System.Drawing.Color.Transparent;
             this.btnDelete.BackgroundColor = System.Drawing.Color.Transparent;
             this.btnDelete.BorderColor = System.Drawing.Color.PaleVioletRed;
@@ -87,7 +103,7 @@
             // customRadioButtonTaskName
             // 
             this.customRadioButtonTaskName.AutoSize = true;
-            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(56)))), ((int)(((byte)(57)))));
+            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
             this.customRadioButtonTaskName.CheckedColor = System.Drawing.Color.MediumSlateBlue;
             this.customRadioButtonTaskName.Font = new System.Drawing.Font("Arial", 14F);
             this.customRadioButtonTaskName.ForeColor = System.Drawing.Color.White;
@@ -99,13 +115,13 @@
             this.customRadioButtonTaskName.TabStop = true;
             this.customRadioButtonTaskName.Text = "CRB";
             this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.customRadioButtonTaskName.UseVisualStyleBackColor = true;
+            this.customRadioButtonTaskName.UseVisualStyleBackColor = false;
             // 
             // TaskView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(56)))), ((int)(((byte)(57)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
             this.Controls.Add(this.pnlColorIndicator);
             this.ForeColor = System.Drawing.Color.Transparent;
             this.Name = "TaskView";
@@ -123,5 +139,6 @@
         private System.Windows.Forms.Label lblCompletedSubTasks;
         private CustomRadioButton customRadioButtonTaskName;
         private CustomButtonV2 btnDelete;
+        private System.Windows.Forms.Label lblDueDate;
     }
 }

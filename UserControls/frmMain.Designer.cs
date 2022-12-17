@@ -52,11 +52,13 @@
             this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
-            this.tbAddSubTask = new System.Windows.Forms.TextBox();
-            this.tlpTaskProperties = new System.Windows.Forms.TableLayoutPanel();
-            this.materialRaisedButton3 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.flpTaskOptions = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddNotes = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.btnAddDueDate_ = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.DueDatePicker = new DoYourTasks.RJDatePicker();
+            this.tbAddSubTask = new System.Windows.Forms.TextBox();
+            this.tbNotes = new System.Windows.Forms.TextBox();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlMain.SuspendLayout();
@@ -65,7 +67,7 @@
             this.pnlTasksHeader.SuspendLayout();
             this.pnlOptions.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.tlpTaskProperties.SuspendLayout();
+            this.flpTaskOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -178,11 +180,13 @@
             // 
             this.tbAddTask.BackColor = System.Drawing.SystemColors.Window;
             this.tbAddTask.Location = new System.Drawing.Point(309, 660);
+            this.tbAddTask.MaximumSize = new System.Drawing.Size(450, 40);
+            this.tbAddTask.MinimumSize = new System.Drawing.Size(450, 40);
             this.tbAddTask.Multiline = true;
             this.tbAddTask.Name = "tbAddTask";
-            this.tbAddTask.Size = new System.Drawing.Size(450, 41);
+            this.tbAddTask.Size = new System.Drawing.Size(450, 40);
             this.tbAddTask.TabIndex = 14;
-            this.tbAddTask.Tag = "";
+            this.tbAddTask.Tag = "Add new task";
             this.tbAddTask.Text = "Add new task";
             this.tbAddTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
             this.tbAddTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
@@ -261,7 +265,7 @@
             this.pnlTasksHeader.Controls.Add(this.btnOptionsMenu);
             this.pnlTasksHeader.Controls.Add(this.lblProjName);
             this.pnlTasksHeader.Controls.Add(this.btnSave);
-            this.pnlTasksHeader.Location = new System.Drawing.Point(3, 4);
+            this.pnlTasksHeader.Location = new System.Drawing.Point(3, 2);
             this.pnlTasksHeader.MaximumSize = new System.Drawing.Size(445, 400);
             this.pnlTasksHeader.MinimumSize = new System.Drawing.Size(445, 45);
             this.pnlTasksHeader.Name = "pnlTasksHeader";
@@ -355,9 +359,8 @@
             // panel3
             // 
             this.panel3.AutoScroll = true;
+            this.panel3.Controls.Add(this.flpTaskOptions);
             this.panel3.Controls.Add(this.flpSubTasks);
-            this.panel3.Controls.Add(this.tbAddSubTask);
-            this.panel3.Controls.Add(this.tlpTaskProperties);
             this.panel3.Location = new System.Drawing.Point(760, 5);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(303, 653);
@@ -369,75 +372,43 @@
             this.flpSubTasks.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
             this.flpSubTasks.Location = new System.Drawing.Point(3, 3);
             this.flpSubTasks.Name = "flpSubTasks";
-            this.flpSubTasks.Size = new System.Drawing.Size(298, 276);
+            this.flpSubTasks.Size = new System.Drawing.Size(298, 385);
             this.flpSubTasks.TabIndex = 15;
             // 
-            // tbAddSubTask
+            // flpTaskOptions
             // 
-            this.tbAddSubTask.BackColor = System.Drawing.SystemColors.Window;
-            this.tbAddSubTask.Location = new System.Drawing.Point(5, 411);
-            this.tbAddSubTask.Multiline = true;
-            this.tbAddSubTask.Name = "tbAddSubTask";
-            this.tbAddSubTask.Size = new System.Drawing.Size(296, 41);
-            this.tbAddSubTask.TabIndex = 14;
-            this.tbAddSubTask.Text = "Add new sub task";
-            this.tbAddSubTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
-            this.tbAddSubTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
+            this.flpTaskOptions.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flpTaskOptions.Controls.Add(this.btnAddNotes);
+            this.flpTaskOptions.Controls.Add(this.materialRaisedButton1);
+            this.flpTaskOptions.Controls.Add(this.btnAddDueDate_);
+            this.flpTaskOptions.Controls.Add(this.tbAddSubTask);
+            this.flpTaskOptions.Controls.Add(this.tbNotes);
+            this.flpTaskOptions.Controls.Add(this.DueDatePicker);
+            this.flpTaskOptions.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpTaskOptions.Location = new System.Drawing.Point(3, 390);
+            this.flpTaskOptions.MinimumSize = new System.Drawing.Size(286, 34);
+            this.flpTaskOptions.Name = "flpTaskOptions";
+            this.flpTaskOptions.Size = new System.Drawing.Size(298, 260);
+            this.flpTaskOptions.TabIndex = 15;
             // 
-            // tlpTaskProperties
+            // btnAddNotes
             // 
-            this.tlpTaskProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.tlpTaskProperties.AutoScroll = true;
-            this.tlpTaskProperties.AutoSize = true;
-            this.tlpTaskProperties.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
-            this.tlpTaskProperties.ColumnCount = 1;
-            this.tlpTaskProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpTaskProperties.Controls.Add(this.materialRaisedButton3, 0, 2);
-            this.tlpTaskProperties.Controls.Add(this.materialRaisedButton2, 0, 1);
-            this.tlpTaskProperties.Controls.Add(this.materialRaisedButton1, 0, 0);
-            this.tlpTaskProperties.Location = new System.Drawing.Point(3, 285);
-            this.tlpTaskProperties.Name = "tlpTaskProperties";
-            this.tlpTaskProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tlpTaskProperties.RowCount = 4;
-            this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpTaskProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpTaskProperties.Size = new System.Drawing.Size(299, 146);
-            this.tlpTaskProperties.TabIndex = 13;
-            // 
-            // materialRaisedButton3
-            // 
-            this.materialRaisedButton3.AutoSize = true;
-            this.materialRaisedButton3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialRaisedButton3.Depth = 0;
-            this.materialRaisedButton3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialRaisedButton3.Icon = null;
-            this.materialRaisedButton3.Location = new System.Drawing.Point(6, 86);
-            this.materialRaisedButton3.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton3.Name = "materialRaisedButton3";
-            this.materialRaisedButton3.Primary = true;
-            this.materialRaisedButton3.Size = new System.Drawing.Size(287, 34);
-            this.materialRaisedButton3.TabIndex = 14;
-            this.materialRaisedButton3.Text = "Add Task Note";
-            this.materialRaisedButton3.UseVisualStyleBackColor = true;
-            // 
-            // materialRaisedButton2
-            // 
-            this.materialRaisedButton2.AutoSize = true;
-            this.materialRaisedButton2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialRaisedButton2.Depth = 0;
-            this.materialRaisedButton2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialRaisedButton2.Icon = null;
-            this.materialRaisedButton2.Location = new System.Drawing.Point(6, 46);
-            this.materialRaisedButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton2.Name = "materialRaisedButton2";
-            this.materialRaisedButton2.Primary = true;
-            this.materialRaisedButton2.Size = new System.Drawing.Size(287, 34);
-            this.materialRaisedButton2.TabIndex = 13;
-            this.materialRaisedButton2.Text = "Add Due Date";
-            this.materialRaisedButton2.UseVisualStyleBackColor = true;
+            this.btnAddNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddNotes.AutoSize = true;
+            this.btnAddNotes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAddNotes.Depth = 0;
+            this.btnAddNotes.Icon = null;
+            this.btnAddNotes.Location = new System.Drawing.Point(3, 3);
+            this.btnAddNotes.MinimumSize = new System.Drawing.Size(292, 34);
+            this.btnAddNotes.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAddNotes.Name = "btnAddNotes";
+            this.btnAddNotes.Primary = true;
+            this.btnAddNotes.Size = new System.Drawing.Size(298, 36);
+            this.btnAddNotes.TabIndex = 15;
+            this.btnAddNotes.Text = "Add Task Note";
+            this.btnAddNotes.UseVisualStyleBackColor = true;
+            this.btnAddNotes.Click += new System.EventHandler(this.btnAddNotes_Click);
             // 
             // materialRaisedButton1
             // 
@@ -446,14 +417,80 @@
             this.materialRaisedButton1.Depth = 0;
             this.materialRaisedButton1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.materialRaisedButton1.Icon = null;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(6, 6);
+            this.materialRaisedButton1.Location = new System.Drawing.Point(3, 45);
+            this.materialRaisedButton1.MinimumSize = new System.Drawing.Size(292, 34);
             this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialRaisedButton1.Name = "materialRaisedButton1";
             this.materialRaisedButton1.Primary = true;
-            this.materialRaisedButton1.Size = new System.Drawing.Size(287, 34);
-            this.materialRaisedButton1.TabIndex = 12;
+            this.materialRaisedButton1.Size = new System.Drawing.Size(298, 36);
+            this.materialRaisedButton1.TabIndex = 16;
             this.materialRaisedButton1.Text = "Remind Me";
             this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            this.materialRaisedButton1.Visible = false;
+            // 
+            // btnAddDueDate_
+            // 
+            this.btnAddDueDate_.AutoSize = true;
+            this.btnAddDueDate_.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAddDueDate_.Depth = 0;
+            this.btnAddDueDate_.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnAddDueDate_.Icon = null;
+            this.btnAddDueDate_.Location = new System.Drawing.Point(3, 87);
+            this.btnAddDueDate_.MinimumSize = new System.Drawing.Size(292, 34);
+            this.btnAddDueDate_.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAddDueDate_.Name = "btnAddDueDate_";
+            this.btnAddDueDate_.Primary = true;
+            this.btnAddDueDate_.Size = new System.Drawing.Size(298, 36);
+            this.btnAddDueDate_.TabIndex = 17;
+            this.btnAddDueDate_.Text = "Add Due Date";
+            this.btnAddDueDate_.UseVisualStyleBackColor = true;
+            // 
+            // DueDatePicker
+            // 
+            this.DueDatePicker.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.DueDatePicker.BorderSize = 0;
+            this.DueDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.DueDatePicker.Location = new System.Drawing.Point(3, 221);
+            this.DueDatePicker.MinimumSize = new System.Drawing.Size(4, 35);
+            this.DueDatePicker.Name = "DueDatePicker";
+            this.DueDatePicker.Size = new System.Drawing.Size(298, 35);
+            this.DueDatePicker.SkinColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.DueDatePicker.TabIndex = 17;
+            this.DueDatePicker.TextColor = System.Drawing.Color.White;
+            this.DueDatePicker.Value = new System.DateTime(2022, 12, 17, 13, 3, 50, 0);
+            this.DueDatePicker.Visible = false;
+            this.DueDatePicker.ValueChanged += new System.EventHandler(this.DueDatePicker_ValueChanged);
+            // 
+            // tbAddSubTask
+            // 
+            this.tbAddSubTask.BackColor = System.Drawing.SystemColors.Window;
+            this.tbAddSubTask.Location = new System.Drawing.Point(3, 129);
+            this.tbAddSubTask.MaximumSize = new System.Drawing.Size(296, 40);
+            this.tbAddSubTask.MinimumSize = new System.Drawing.Size(296, 40);
+            this.tbAddSubTask.Multiline = true;
+            this.tbAddSubTask.Name = "tbAddSubTask";
+            this.tbAddSubTask.Size = new System.Drawing.Size(296, 40);
+            this.tbAddSubTask.TabIndex = 14;
+            this.tbAddSubTask.Tag = "Add new sub task";
+            this.tbAddSubTask.Text = "Add new sub task";
+            this.tbAddSubTask.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
+            this.tbAddSubTask.Leave += new System.EventHandler(this.tbAddTask_Leave);
+            // 
+            // tbNotes
+            // 
+            this.tbNotes.BackColor = System.Drawing.SystemColors.Window;
+            this.tbNotes.Location = new System.Drawing.Point(3, 175);
+            this.tbNotes.MaximumSize = new System.Drawing.Size(296, 40);
+            this.tbNotes.MinimumSize = new System.Drawing.Size(296, 40);
+            this.tbNotes.Multiline = true;
+            this.tbNotes.Name = "tbNotes";
+            this.tbNotes.Size = new System.Drawing.Size(296, 40);
+            this.tbNotes.TabIndex = 16;
+            this.tbNotes.Tag = "Add New Note";
+            this.tbNotes.Text = "Add New Note";
+            this.tbNotes.Visible = false;
+            this.tbNotes.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbAddTask_KeyUp);
+            this.tbNotes.Leave += new System.EventHandler(this.tbAddTask_Leave);
             // 
             // frmMain
             // 
@@ -481,9 +518,8 @@
             this.pnlOptions.ResumeLayout(false);
             this.pnlOptions.PerformLayout();
             this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.tlpTaskProperties.ResumeLayout(false);
-            this.tlpTaskProperties.PerformLayout();
+            this.flpTaskOptions.ResumeLayout(false);
+            this.flpTaskOptions.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -497,15 +533,10 @@
         private System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TableLayoutPanel tlpTaskProperties;
         private DoYourTasks.UserControls.CustomButtonV2 btnReminder;
         private DoYourTasks.UserControls.CustomButtonV2 btnRepeat;
         private UserControls.CustomButtonV2 btnAddDueDate;
-        private System.Windows.Forms.TextBox tbAddSubTask;
         private MaterialSkin.Controls.MaterialRaisedButton btnAddNewList;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton3;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton2;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
         private System.Windows.Forms.FlowLayoutPanel flpProjects;
         private System.Windows.Forms.FlowLayoutPanel flpSubTasks;
         private System.Windows.Forms.Panel pnlCreationDate;
@@ -520,6 +551,13 @@
         private System.Windows.Forms.Panel pnlOptions;
         private System.Windows.Forms.TextBox tbAddTask;
         private MaterialSkin.Controls.MaterialRaisedButton btnSetBackGroundImage;
+        private System.Windows.Forms.FlowLayoutPanel flpTaskOptions;
+        private MaterialSkin.Controls.MaterialRaisedButton btnAddNotes;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
+        private MaterialSkin.Controls.MaterialRaisedButton btnAddDueDate_;
+        private System.Windows.Forms.TextBox tbAddSubTask;
+        private System.Windows.Forms.TextBox tbNotes;
+        private RJDatePicker DueDatePicker;
     }
 }
 

@@ -20,6 +20,7 @@ namespace DoYourTasks.UserControls
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
         public event TaskCompletedEventHandler TaskCompleted;
         public event TaskDeletedEventHandler TaskDeleted;
+        public event TaskDueDateChangedEventHandler DueDateChanged;
         #endregion
 
         #region Fields
@@ -46,6 +47,11 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Getters
+        public string GetParentTaskID()
+        {
+            return parentProjectID;
+        }
+
         public string GetName()
         {
             return customRadioButtonTaskName.GetName();
@@ -68,6 +74,12 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Setters
+        public void SetDueDate(DateTime Duedate)
+        {
+            lblDueDate.Show();
+            lblDueDate.Text = $"Due to: {Duedate.ToString("dd/MM/yy")}";// HH:mm tt")}";
+            //DueDateChanged.Invoke(new DueDateChangedEventArgs(null));
+        }
         private void SetBackColor()
         {
             startBackgroundColor = customRadioButtonTaskName.BackColor;
@@ -107,6 +119,10 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Events
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            TaskDeleted.Invoke(new TaskDeletedEventArgs(this));
+        }
 
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
         {
@@ -139,9 +155,11 @@ namespace DoYourTasks.UserControls
             pnlColorIndicator.BackColor = Color.Gainsboro;
             customRadioButtonTaskName.BackColor = Color.Gainsboro;
             lblCompletedSubTasks.BackColor = Color.Gainsboro;
+            lblDueDate.BackColor = Color.Gainsboro;
 
             customRadioButtonTaskName.ForeColor = Color.Black;
             lblCompletedSubTasks.ForeColor = Color.Black;
+            lblDueDate.ForeColor = Color.Black;
         }
 
         private void pnlColorIndicator_MouseLeave(object sender, EventArgs e)
@@ -149,21 +167,13 @@ namespace DoYourTasks.UserControls
             pnlColorIndicator.BackColor = Color.Transparent;
             customRadioButtonTaskName.BackColor = startBackgroundColor;
             lblCompletedSubTasks.BackColor = Color.Transparent;
+            lblDueDate.BackColor = Color.Transparent;
 
             customRadioButtonTaskName.ForeColor = Color.White;
             lblCompletedSubTasks.ForeColor = Color.White;
+            lblDueDate.ForeColor = Color.White;
         }
 
         #endregion
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            TaskDeleted.Invoke(new TaskDeletedEventArgs(this));
-        }
-
-        public string GetParentID()
-        {
-            return parentProjectID;
-        }
     }
 }

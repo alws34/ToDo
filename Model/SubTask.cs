@@ -13,8 +13,8 @@ namespace DoYourTasks
         {
             SubTaskName = name;
             SubtaskID = id;
-            this.ParentTaskID = parentTaskID;
-            this.ParentProjectID = parentProjectID;
+            ParentTaskID = parentTaskID;
+            ParentProjectID = parentProjectID;
         }
         #endregion
 

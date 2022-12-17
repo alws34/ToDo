@@ -79,7 +79,7 @@
             this.btnEditListName.FlatAppearance.BorderSize = 0;
             this.btnEditListName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditListName.ForeColor = System.Drawing.Color.White;
-            this.btnEditListName.Location = new System.Drawing.Point(3, 39);
+            this.btnEditListName.Location = new System.Drawing.Point(3, 41);
             this.btnEditListName.Name = "btnEditListName";
             this.btnEditListName.Size = new System.Drawing.Size(57, 20);
             this.btnEditListName.TabIndex = 1;
@@ -113,7 +113,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(247, 13);
+            this.btnDelete.Location = new System.Drawing.Point(247, 10);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(22, 27);
             this.btnDelete.TabIndex = 7;
@@ -133,8 +133,10 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnEditListName);
             this.Controls.Add(this.lblName);
+            this.MaximumSize = new System.Drawing.Size(272, 60);
+            this.MinimumSize = new System.Drawing.Size(272, 50);
             this.Name = "ProjectView";
-            this.Size = new System.Drawing.Size(272, 58);
+            this.Size = new System.Drawing.Size(272, 60);
             this.Click += new System.EventHandler(this.ProjectView_GotFocus);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

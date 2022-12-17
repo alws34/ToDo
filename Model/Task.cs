@@ -16,7 +16,7 @@ namespace DoYourTasks
         public string ParentProjectID;
         public string Notes;
         public DateTime DateCreated;
-        public DateTime DueDate;
+        public DateTime? DueDate;
         public bool IsStarred;
         public bool IsCompleted;
         public Dictionary<string, SubTask> SubTasks;
@@ -31,6 +31,8 @@ namespace DoYourTasks
             DateCreated = DateTime.Now;
             IsStarred = false;
             IsCompleted = false;
+            Notes = null;
+            DueDate = null;
             SubTasks = new Dictionary<string, SubTask>();
         }
 
@@ -86,7 +88,7 @@ namespace DoYourTasks
         {
             return Notes;
         }
-        public DateTime GetDueDate()
+        public DateTime? GetDueDate()
         {
             return DueDate;
         }

@@ -52,13 +52,15 @@
     <Compile Include="Animations\AnimationDirection.cs" />
     <Compile Include="Animations\AnimationManager.cs" />
     <Compile Include="Animations\Animations.cs" />
-    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\viewsController.cs" />
     <Compile Include="DataLayer\Serializer.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\SubTask.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="UserControls\CustomControls\CustomButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\CustomDateTimePicker.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\CustomControls\CustomRadioButton.cs">
@@ -139,6 +141,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Roboto-Medium.ttf" />
+    <None Include="Resources\Roboto-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -151,6 +155,66 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-menu-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Background\Nature\01602sandringhambeach19.jpg" />
+    <Content Include="Resources\Background\Nature\0j64OR3.jpg" />
+    <Content Include="Resources\Background\Nature\15-beach-sea-photography.jpg" />
+    <Content Include="Resources\Background\Nature\156198_national-geographic_nebo_trava_solnce_1920x1080_%28www.GdeFon.ru%29.jpg" />
+    <Content Include="Resources\Background\Nature\1676181.jpg" />
+    <Content Include="Resources\Background\Nature\1920x1080.jpg" />
+    <Content Include="Resources\Background\Nature\1f90abb8dab65adc3d518d1ab02d139e0c13aae6cd3ba0d9b052cbfb34cd7e2c.jpg" />
+    <Content Include="Resources\Background\Nature\22-sunrise-beach-sand-wallpaper.jpg" />
+    <Content Include="Resources\Background\Nature\2U9ysiA.jpg" />
+    <Content Include="Resources\Background\Nature\37f23a08a9e9989aaf549f78083163ca.jpg" />
+    <Content Include="Resources\Background\Nature\3d-abstract_hdwallpaper_beautiful-sunset-hd1080p_31651.jpg" />
+    <Content Include="Resources\Background\Nature\3D-Background-Nature-HD-Wallpaper.jpg" />
+    <Content Include="Resources\Background\Nature\3d-wallpapers-of-nature.jpg" />
+    <Content Include="Resources\Background\Nature\3tfvrwP.jpg" />
+    <Content Include="Resources\Background\Nature\7aefc19891a82fca85a2006197043bdd9be85a9824894e585cb1d342a436a0a2.jpg" />
+    <Content Include="Resources\Background\Nature\7L1Rae.jpg" />
+    <Content Include="Resources\Background\Nature\859303.jpg" />
+    <Content Include="Resources\Background\Nature\859310.jpg" />
+    <Content Include="Resources\Background\Nature\859342.jpg" />
+    <Content Include="Resources\Background\Nature\85f2edca0b2c876cca801ddf8fd1d380.jpg" />
+    <Content Include="Resources\Background\Nature\autumn-scenery-wallpaper-8.jpg" />
+    <Content Include="Resources\Background\Nature\awesome-blue-shore-with-clouds.jpg" />
+    <Content Include="Resources\Background\Nature\Awesome-Nature-Wallpaper.jpg" />
+    <Content Include="Resources\Background\Nature\awesome-wallpapers-backgrounds.jpg" />
+    <Content Include="Resources\Background\Nature\BAOusTC.jpg" />
+    <Content Include="Resources\Background\Nature\bird-falcon-wallpapers.jpg" />
+    <Content Include="Resources\Background\Nature\birds-7.jpg" />
+    <Content Include="Resources\Background\Nature\colorful-nature-wallpaper.jpg" />
+    <Content Include="Resources\Background\Nature\computer-desktop-wallpaper-nature-23.jpg" />
+    <Content Include="Resources\Background\Nature\download.jpg" />
+    <Content Include="Resources\Background\Nature\elite_falcon-wallpaper-1920x1080.jpg" />
+    <Content Include="Resources\Background\Nature\f40ee37ed83c24f039566e5e73211753.jpg" />
+    <Content Include="Resources\Background\Nature\falcons-birds-wallpaper-4.jpg" />
+    <Content Include="Resources\Background\Nature\falcon_bird_hawk_wood_40472_1920x1080.jpg" />
+    <Content Include="Resources\Background\Nature\Free-Download-Ocean-Underwater-Wallpaper-HD.jpg" />
+    <Content Include="Resources\Background\Nature\Full-HD-1080p-Underwater-Wallpapers-HD-Pictures.jpg" />
+    <Content Include="Resources\Background\Nature\hd-beach-wallpapers-1080p-5.jpg" />
+    <Content Include="Resources\Background\Nature\hd-beautiful-nature-wallpapers_042327656_304.jpg" />
+    <Content Include="Resources\Background\Nature\hd-wallpaper-40.jpg" />
+    <Content Include="Resources\Background\Nature\hd-wallpaper-nature-landscape-hd-wallpaper-landscape-nature-wallpaper-1920x1080-960x540-1024x576-1280x720-1366x768-1600x900-1920x1080.jpg" />
+    <Content Include="Resources\Background\Nature\[winranx.com] Winranx Collection of Windows Spotlight lock screen wallpapers %28124%29.jpg" />
+    <Content Include="Resources\Background\Nature\[winranx.com] Winranx Collection of Windows Spotlight lock screen wallpapers %28201%29.jpg" />
+    <Content Include="Resources\Background\Nature\[winranx.com] Winranx Collection of Windows Spotlight lock screen wallpapers %28212%29.jpg" />
+    <Content Include="Resources\calendarDark.png" />
+    <Content Include="Resources\calendarWhite.png" />
+    <Content Include="Resources\Close.png" />
+    <Content Include="Resources\Collapse Arrow_20px.png" />
+    <Content Include="Resources\Expand Arrow_20px.png" />
+    <Content Include="Resources\icons8-menu-16.png" />
+    <Content Include="Resources\icons8-menu-30.png" />
+    <Content Include="Resources\maximize.png" />
+    <Content Include="Resources\maximize2.png" />
+    <Content Include="Resources\maximize3.png" />
+    <Content Include="Resources\Minimize.png" />
+    <Content Include="Resources\Minimize1.png" />
+    <Content Include="Resources\Normal.png" />
+    <Content Include="Resources\todo-list-96.ico" />
+    <Content Include="Resources\todo-list-96.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -26,15 +26,26 @@ namespace DoYourTasks.UserControls
         public string ProjectBackGroundImagePath { get; set; }
         #endregion
 
+        #region Fields
+        private bool isInEditMode = false;
+        #endregion
+
         #region Constructors
-        public ProjectView(string projectID)
+        public ProjectView(string projectID, bool isNew = true)
         {
             InitializeComponent();
             SetIndicator(false);
             EventSubscriber();
             Name = "ProjectView";
             ProjectID = projectID;
-            Height = 45;
+            isInEditMode = true;
+
+            if (!isNew)
+            {
+                isInEditMode = false; 
+                HideTB();
+            }
+
         }
         #endregion
 
@@ -42,6 +53,10 @@ namespace DoYourTasks.UserControls
         public CustomTextBox GetCurrentCustomTextBox()
         {
             return customTextBox.GetCurrentCustomTextBox();
+        }
+
+        public bool GetIsInEditMode() { 
+            return isInEditMode;
         }
 
         public string GetBackGroundImage()
@@ -64,25 +79,46 @@ namespace DoYourTasks.UserControls
         public void SetIndicator(bool mode)
         {
             IsIndicating = mode;
+
             if (mode)
+            {
                 pnlIndicator.Show();
+                btnEditListName.Show();
+                Height = MaximumSize.Height;
+            }
             else
+            {
                 pnlIndicator.Hide();
+                btnEditListName.Hide();
+                Height = MinimumSize.Height;
+            }
+
+        }
+      
+        public void SetIsInEditMode(bool mode)
+        {
+            isInEditMode = mode;
         }
 
-        public void SetBackGroundImage(string imagePath) { 
+        public void SetBackGroundImage(string imagePath)
+        {
             ProjectBackGroundImagePath = imagePath;
         }
 
         public void Rename(string text)
         {
             lblName.Text = text;
+            customTextBox.SetText(text);
+            lblName.Show();
+            lblName.Visible = true;
             ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, customTextBox.GetText()));
+            HideTB();
         }
 
         public void HideTB()
         {
             customTextBox.Hide();
+            SetIsInEditMode(false);
         }
         #endregion
 
@@ -96,9 +132,18 @@ namespace DoYourTasks.UserControls
 
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
-            Rename(customTextBox.GetText());
-            SetProjectView.Invoke(new SetProjectViewEventArgs(this));
-            Height = 58;
+            string text = customTextBox.GetText();
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                Rename(text);
+                SetProjectView.Invoke(new SetProjectViewEventArgs(this));
+                Height = MaximumSize.Height;
+                btnEditListName.Show();
+                SetIsInEditMode(false);
+            }
+            else
+                return;
         }
 
         private void ProjectView_LostFocus(object sender, EventArgs e)
@@ -114,8 +159,10 @@ namespace DoYourTasks.UserControls
         private void btnEditListName_Click(object sender, EventArgs e)
         {
             customTextBox.ResetText();
-            Height = 45;
+            btnEditListName.Hide();
+            Height = MinimumSize.Height;
             customTextBox.Show();
+            SetIsInEditMode(true);
         }
         #endregion
 

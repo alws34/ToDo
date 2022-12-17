@@ -8,7 +8,7 @@
 
         string GetName();
         string GetID();
-        string GetParentID();
+        string GetParentTaskID();
         bool GetCheckedState();
 
 

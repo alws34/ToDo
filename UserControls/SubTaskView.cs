@@ -24,6 +24,10 @@ namespace DoYourTasks.UserControls
         public bool IsCompleted { get; set; }
         #endregion
 
+        #region Fields
+        Color initialBackColor;
+        #endregion
+
         #region Constructors
         public SubTaskView(string parent_id, string id,string parentProjectID, string subTaskName)
         {
@@ -35,6 +39,7 @@ namespace DoYourTasks.UserControls
             Rename(subTaskName);
             EventSubscriber();
             ForeColor = Color.White;
+            initialBackColor = BackColor;
         }
 
         #endregion
@@ -82,9 +87,27 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Events
+
+        private void customRadioButtonTaskName_MouseEnter(object sender, EventArgs e)
+        {
+            customRadioButtonTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
+            customRadioButtonTaskName.BackColor = Color.Gainsboro;
+            customRadioButtonTaskName.isSelected = true;
+            BackColor = Color.Gainsboro;
+        }
+
+        private void customRadioButtonTaskName_MouseLeave(object sender, EventArgs e)
+        {
+            customRadioButtonTaskName.ForeColor = Color.White;
+            customRadioButtonTaskName.BackColor = initialBackColor;
+            customRadioButtonTaskName.isSelected = false;
+            BackColor = initialBackColor;
+        }
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
         {
             IsCompleted = arg.CRB.Checked; // set the current state of the Radiobutton.
+           
+            SetCheckedState(arg.CRB.Checked);
             SubTaskCompleted.Invoke(new SubTaskCompletedEventArgs(this));
         }
 
@@ -107,11 +130,7 @@ namespace DoYourTasks.UserControls
         {
             return SubTaskID;
         }
-
-        public string GetParentID()
-        {
-            return ParentTaskID;
-        }
         #endregion
+
     }
 }

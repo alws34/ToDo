@@ -18,12 +18,13 @@ namespace DoYourTasks
         #endregion
 
         #region Constructors
+        public Project() { }
         public Project(string projectID, string projectName)
         {
             ProjectID = projectID;
             ProjectName = projectName;
             DateCreated = DateTime.Now;
-            BackGroundImagePath = "";
+            BackGroundImagePath = null;
             Tasks = new Dictionary<string, Task>();
         }
 
