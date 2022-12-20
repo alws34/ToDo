@@ -77,7 +77,7 @@ namespace DoYourTasks
             viewsController.UpdateSubTaskViewCompleteCounter += ViewsController_UpdateSubTaskViewCompleteCounter;
             viewsController.UpdateTaskView += UpdateCurrentTaskView;
             viewsController.TaskDueDateChanged += ViewsController_TaskDueDateChanged;
-
+            viewsController.ShowTooltip += ViewsController_ShowTooltip;
 
             CheckControlsCount(flpProjects, tbAddTask);
             CheckControlsCount(flpTasks, tbAddSubTask);
@@ -88,6 +88,12 @@ namespace DoYourTasks
 
             if (File.Exists(path))
                 LoadFromDB(path);
+        }
+
+        private void ViewsController_ShowTooltip(ShowTooltipEventArgs arg)
+        {
+            ToolTip t = new ToolTip();
+            t.SetToolTip(arg.Control, arg.Caption);
         }
         #endregion
 

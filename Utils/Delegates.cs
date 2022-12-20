@@ -15,7 +15,17 @@ namespace DoYourTasks
         }
     }
 
-
+    public delegate void ShowTooltipEventHandler(ShowTooltipEventArgs arg);
+    public class ShowTooltipEventArgs : EventArgs
+    {
+        public string Caption { get; set; }
+        public Control Control { get; set; }
+        public ShowTooltipEventArgs(Control control ,string text)
+        {
+            Caption = text;
+            Control = control;
+        }
+    }
 
     #endregion
 

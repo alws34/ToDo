@@ -20,6 +20,7 @@ namespace DoYourTasks
         public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
         public event ProjectViewRenamedEventHandler ProjectViewRenamed;
+        public event ShowTooltipEventHandler ShowTooltip;
 
         #endregion
         #region Task
@@ -149,10 +150,15 @@ namespace DoYourTasks
             pv.SetProjectView += SetProjectViewOnScreen;
             pv.ProjectViewDeleted += DeletedProject;
             pv.ProjectViewRenamed += ProjectRenamed;
-
+            pv.ShowTooltip += Pv_ShowTooltip;
             AddProjectsToDicts(project, pv, projectID);
 
             return pv;
+        }
+
+        private void Pv_ShowTooltip(ShowTooltipEventArgs arg)
+        {
+            ShowTooltip.Invoke(arg);
         }
 
         private void ProjectRenamed(RenameProjectEventArgs args)
@@ -217,6 +223,7 @@ namespace DoYourTasks
             tv.TaskDeleted += Tv_TaskDeleted;
             tv.DueDateChanged += Tv_TaskDueDateChanged;
             tv.UpdateTaskView += UpdateTaskView;
+            tv.ShowToolTip += Pv_ShowTooltip;
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(tv));//update task view in form
 
             //create the coresponding Task
@@ -286,6 +293,7 @@ namespace DoYourTasks
             SubTaskView stv = new SubTaskView(taskID, subTaskID, projectID, subTaskName);
             stv.SubTaskCompleted += Stv_SubTaskCompleted;
             stv.SubTaskDeleted += Stv_SubTaskDeleted;
+            stv.ShowTooltip += Pv_ShowTooltip;
             if (isNew)
                 st = new SubTask(subTaskName, taskID, projectID, subTaskID);
             AddSubTaskToDicts(st, stv, projectID, taskID, subTaskID);

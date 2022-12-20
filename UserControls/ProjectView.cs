@@ -17,6 +17,7 @@ namespace DoYourTasks.UserControls
         public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
         public event ProjectViewRenamedEventHandler ProjectViewRenamed;
+        public event ShowTooltipEventHandler ShowTooltip;
         #endregion
 
         #region Properties
@@ -169,6 +170,11 @@ namespace DoYourTasks.UserControls
         private void btnDelete_Click(object sender, EventArgs e)
         {
             ProjectViewDeleted.Invoke(new ProjectViewDeletedEventArgs(this));
+        }
+
+        private void ProjectView_MouseEnter(object sender, EventArgs e)
+        {
+            ShowTooltip.Invoke(new ShowTooltipEventArgs(this, lblName.Text));
         }
     }
 }

@@ -15,6 +15,7 @@ namespace DoYourTasks.UserControls
         #region CustomEvents
         public event SubTaskCompletedEventHandler SubTaskCompleted;
         public event SubTaskDeletedEventHandler SubTaskDeleted;
+        public event ShowTooltipEventHandler ShowTooltip;
         #endregion
 
         #region Properties
@@ -94,6 +95,9 @@ namespace DoYourTasks.UserControls
             customRadioButtonTaskName.BackColor = Color.Gainsboro;
             customRadioButtonTaskName.isSelected = true;
             BackColor = Color.Gainsboro;
+
+            ShowTooltip.Invoke(new ShowTooltipEventArgs(this.customRadioButtonTaskName, customRadioButtonTaskName.GetName()));
+
         }
 
         private void customRadioButtonTaskName_MouseLeave(object sender, EventArgs e)

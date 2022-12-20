@@ -21,6 +21,7 @@ namespace DoYourTasks.UserControls
         public event TaskCompletedEventHandler TaskCompleted;
         public event TaskDeletedEventHandler TaskDeleted;
         public event TaskDueDateChangedEventHandler DueDateChanged;
+        public event ShowTooltipEventHandler ShowToolTip;
         #endregion
 
         #region Fields
@@ -152,14 +153,18 @@ namespace DoYourTasks.UserControls
 
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
         {
+            TaskView_MouseEnter(null, null);
+
             pnlColorIndicator.BackColor = Color.Gainsboro;
             customRadioButtonTaskName.BackColor = Color.Gainsboro;
             lblCompletedSubTasks.BackColor = Color.Gainsboro;
             lblDueDate.BackColor = Color.Gainsboro;
-
+            customRadioButtonTaskName.isSelected = true;
             customRadioButtonTaskName.ForeColor = Color.Black;
             lblCompletedSubTasks.ForeColor = Color.Black;
             lblDueDate.ForeColor = Color.Black;
+
+
         }
 
         private void pnlColorIndicator_MouseLeave(object sender, EventArgs e)
@@ -168,12 +173,22 @@ namespace DoYourTasks.UserControls
             customRadioButtonTaskName.BackColor = startBackgroundColor;
             lblCompletedSubTasks.BackColor = Color.Transparent;
             lblDueDate.BackColor = Color.Transparent;
-
+            customRadioButtonTaskName.isSelected = false;
             customRadioButtonTaskName.ForeColor = Color.White;
             lblCompletedSubTasks.ForeColor = Color.White;
             lblDueDate.ForeColor = Color.White;
         }
 
         #endregion
+
+        private void TaskView_MouseEnter(object sender, EventArgs e)
+        {
+            ShowToolTip.Invoke(new ShowTooltipEventArgs(this.pnlColorIndicator, customRadioButtonTaskName.GetName()));
+        }
+
+        private void customRadioButtonTaskName_MouseEnter(object sender, EventArgs e)
+        {
+            pnlColorIndicator_MouseEnter(null, null);
+        }
     }
 }

@@ -148,12 +148,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\MaterialSkin-master\MaterialSkin\MaterialSkin.csproj">
-      <Project>{8EB7611B-68CD-4B8B-987A-11717E2B250C}</Project>
-      <Name>MaterialSkin</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icons8-menu-40.png" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +209,12 @@
     <Content Include="Resources\Normal.png" />
     <Content Include="Resources\todo-list-96.ico" />
     <Content Include="Resources\todo-list-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="MaterialSkin-master\MaterialSkin\MaterialSkin.csproj">
+      <Project>{8eb7611b-68cd-4b8b-987a-11717e2b250c}</Project>
+      <Name>MaterialSkin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
