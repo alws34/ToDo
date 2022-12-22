@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-
 namespace DoYourTasks
 {
+    [Serializable]
     public class Task
     {
         #region Properties

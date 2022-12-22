@@ -51,7 +51,6 @@
             this.btnSave = new MaterialSkin.Controls.MaterialRaisedButton();
             this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.DueDatePicker = new DoYourTasks.RJDatePicker();
             this.flpTaskOptions = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNotes = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -59,6 +58,7 @@
             this.tbAddSubTask = new System.Windows.Forms.TextBox();
             this.tbNotes = new System.Windows.Forms.TextBox();
             this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
+            this.DueDatePicker = new DoYourTasks.RJDatePicker();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlMain.SuspendLayout();
@@ -364,21 +364,6 @@
             this.panel3.Size = new System.Drawing.Size(303, 605);
             this.panel3.TabIndex = 10;
             // 
-            // DueDatePicker
-            // 
-            this.DueDatePicker.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.DueDatePicker.BorderSize = 0;
-            this.DueDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
-            this.DueDatePicker.Location = new System.Drawing.Point(4, 565);
-            this.DueDatePicker.MinimumSize = new System.Drawing.Size(4, 35);
-            this.DueDatePicker.Name = "DueDatePicker";
-            this.DueDatePicker.Size = new System.Drawing.Size(298, 35);
-            this.DueDatePicker.SkinColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.DueDatePicker.TabIndex = 18;
-            this.DueDatePicker.TextColor = System.Drawing.Color.White;
-            this.DueDatePicker.Value = new System.DateTime(2022, 12, 17, 13, 3, 50, 0);
-            this.DueDatePicker.Visible = false;
-            // 
             // flpTaskOptions
             // 
             this.flpTaskOptions.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -487,6 +472,21 @@
             this.flpSubTasks.Name = "flpSubTasks";
             this.flpSubTasks.Size = new System.Drawing.Size(298, 353);
             this.flpSubTasks.TabIndex = 15;
+            // 
+            // DueDatePicker
+            // 
+            this.DueDatePicker.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.DueDatePicker.BorderSize = 0;
+            this.DueDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.DueDatePicker.Location = new System.Drawing.Point(4, 565);
+            this.DueDatePicker.MinimumSize = new System.Drawing.Size(4, 35);
+            this.DueDatePicker.Name = "DueDatePicker";
+            this.DueDatePicker.Size = new System.Drawing.Size(298, 35);
+            this.DueDatePicker.SkinColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.DueDatePicker.TabIndex = 18;
+            this.DueDatePicker.TextColor = System.Drawing.Color.White;
+            this.DueDatePicker.Value = new System.DateTime(2022, 12, 17, 13, 3, 50, 0);
+            this.DueDatePicker.Visible = false;
             // 
             // frmMain
             // 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoYourTasks
 {
+    [Serializable]
     public class SubTask
     {
         #region Constructors

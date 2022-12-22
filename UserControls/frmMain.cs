@@ -14,8 +14,6 @@ using MaterialSkin;
 using System.Security.Cryptography;
 using System.IO;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using DoYourTasks.UserControls.CustomControls;
 using System.Drawing.Drawing2D;
 
@@ -51,43 +49,54 @@ namespace DoYourTasks
         {
             InitializeComponent();
             CenterToScreen();
+            DoubleBuffered = true;
 
             utils = new Utils();
             serializer = new Serializer();
+            optionsMenuTimer = new Timer();
+
+            SetViewsController();
+            SetEvents();
+
+            lblProjName.Text = String.Empty;
+            //btnSave.Enabled = false;
+
+            string path = serializer.GetDBPath();
+            if (File.Exists(path))
+                LoadFromDB(path);
+
+            CheckControlsCount(flpProjects, tbAddTask);
+            CheckControlsCount(flpTasks, tbAddSubTask);
+        }
+
+
+        private void SetViewsController() {
             viewsController = new viewsController();
-            optionsMenuTimer = new Timer()
-            {
-                Interval = 1
-            };
-
-            DoubleBuffered = true;
-
-            optionsMenuTimer.Tick += OptionsMenuTimer_Tick;
-            tbAddTask.GotFocus += TbAddTask_GotFocus;
-            tbAddTask.LostFocus += TbAddTask_LostFocus;
-            tbAddSubTask.GotFocus += TbAddTask_GotFocus;
-            tbAddSubTask.LostFocus += TbAddTask_LostFocus;
-            tbNotes.GotFocus += TbAddTask_GotFocus;
-            tbNotes.LostFocus += TbAddTask_LostFocus;
-
-
-
             viewsController.SetProjectView += SetProjectTasksViewOnScreen;
             viewsController.ProjectViewDeleted += DeleteProject;
             viewsController.UpdateSubTaskViewCompleteCounter += ViewsController_UpdateSubTaskViewCompleteCounter;
             viewsController.UpdateTaskView += UpdateCurrentTaskView;
             viewsController.TaskDueDateChanged += ViewsController_TaskDueDateChanged;
             viewsController.ShowTooltip += ViewsController_ShowTooltip;
+        }
 
-            CheckControlsCount(flpProjects, tbAddTask);
-            CheckControlsCount(flpTasks, tbAddSubTask);
+        private void SetEvents()
+        {
+            tbAddTask.GotFocus += TbAddTask_GotFocus;
+            tbAddTask.LostFocus += TbAddTask_LostFocus;
+            tbAddSubTask.GotFocus += TbAddTask_GotFocus;
+            tbAddSubTask.LostFocus += TbAddTask_LostFocus;
+            tbNotes.GotFocus += TbAddTask_GotFocus;
+            tbNotes.LostFocus += TbAddTask_LostFocus;
+            SetTimers();
+        }
 
-            string path = serializer.GetDBPath();
-            lblProjName.Text = String.Empty;
-            btnSave.Enabled = false;
-
-            if (File.Exists(path))
-                LoadFromDB(path);
+        private void SetTimers() {
+            optionsMenuTimer.Tick += OptionsMenuTimer_Tick;
+            optionsMenuTimer = new Timer()
+            {
+                Interval = 1
+            };
         }
 
         private void ViewsController_ShowTooltip(ShowTooltipEventArgs arg)

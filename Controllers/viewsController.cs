@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.Json;
 
 namespace DoYourTasks
 {
@@ -79,7 +78,7 @@ namespace DoYourTasks
             SubTaskviews.Clear();
             List<string> tmpList = new List<string>() { "ProjectView", "TaskView", "SubTaskView" };
 
-            Projects = (Dictionary<string, Project>)serializer.JsonDeserialize_(typeof(Dictionary<string, Project>), path);
+            Projects = (Dictionary<string, Project>)serializer.Deserialize(typeof(Dictionary<string, Project>), path);
            
             if (Projects == null)
                 return;
@@ -133,7 +132,7 @@ namespace DoYourTasks
                     return false;
                 }
             }
-            serializer.JsonSerialize_(Projects, false);
+            serializer.Serialize(Projects, false);
             return true;
         }
 
