@@ -49,12 +49,12 @@
             this.lblCreatedAtVal = new System.Windows.Forms.Label();
             this.lblDueDateVal = new System.Windows.Forms.Label();
             this.flpTaskOptions = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddAttachment = new DoYourTasks.UserControls.CustomButtonV2();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnRemoveDueDate = new DoYourTasks.UserControls.CustomButtonV2();
             this.comboBoxChangePriority = new System.Windows.Forms.ComboBox();
             this.lblDrag = new System.Windows.Forms.Label();
             this.btnHideTask = new DoYourTasks.UserControls.CustomButtonV2();
-            this.btnAddAttachment = new DoYourTasks.UserControls.CustomButtonV2();
             this.pnlColorIndicator.SuspendLayout();
             this.tblLayoutTaskData.SuspendLayout();
             this.pnlPriority.SuspendLayout();
@@ -386,6 +386,28 @@
             this.flpTaskOptions.Size = new System.Drawing.Size(145, 128);
             this.flpTaskOptions.TabIndex = 14;
             // 
+            // btnAddAttachment
+            // 
+            this.btnAddAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddAttachment.BackColor = System.Drawing.Color.Transparent;
+            this.btnAddAttachment.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnAddAttachment.BorderColor = System.Drawing.Color.Black;
+            this.btnAddAttachment.BorderRadius = 0;
+            this.btnAddAttachment.BorderSize = 1;
+            this.btnAddAttachment.FlatAppearance.BorderSize = 0;
+            this.btnAddAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddAttachment.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddAttachment.ForeColor = System.Drawing.Color.Black;
+            this.btnAddAttachment.Location = new System.Drawing.Point(3, 3);
+            this.btnAddAttachment.Name = "btnAddAttachment";
+            this.btnAddAttachment.Size = new System.Drawing.Size(138, 26);
+            this.btnAddAttachment.TabIndex = 15;
+            this.btnAddAttachment.Text = "Add Attachment";
+            this.btnAddAttachment.TextColor = System.Drawing.Color.Black;
+            this.btnAddAttachment.UseVisualStyleBackColor = false;
+            this.btnAddAttachment.Click += new System.EventHandler(this.btnAddAttachment_Click);
+            // 
             // dateTimePicker1
             // 
             this.dateTimePicker1.CustomFormat = "dd/MM/yyyy HH:mm tt";
@@ -461,28 +483,6 @@
             this.btnHideTask.UseVisualStyleBackColor = false;
             this.btnHideTask.Click += new System.EventHandler(this.btnHideTask_Click);
             // 
-            // btnAddAttachment
-            // 
-            this.btnAddAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddAttachment.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddAttachment.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnAddAttachment.BorderColor = System.Drawing.Color.Black;
-            this.btnAddAttachment.BorderRadius = 0;
-            this.btnAddAttachment.BorderSize = 1;
-            this.btnAddAttachment.FlatAppearance.BorderSize = 0;
-            this.btnAddAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddAttachment.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddAttachment.ForeColor = System.Drawing.Color.Black;
-            this.btnAddAttachment.Location = new System.Drawing.Point(3, 3);
-            this.btnAddAttachment.Name = "btnAddAttachment";
-            this.btnAddAttachment.Size = new System.Drawing.Size(138, 26);
-            this.btnAddAttachment.TabIndex = 15;
-            this.btnAddAttachment.Text = "Add Attachment";
-            this.btnAddAttachment.TextColor = System.Drawing.Color.Black;
-            this.btnAddAttachment.UseVisualStyleBackColor = false;
-            this.btnAddAttachment.Click += new System.EventHandler(this.btnAddAttachment_Click);
-            // 
             // TaskView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
@@ -500,7 +500,7 @@
             this.MaximumSize = new System.Drawing.Size(415, 515);
             this.MinimumSize = new System.Drawing.Size(415, 110);
             this.Name = "TaskView";
-            this.Size = new System.Drawing.Size(415, 249);
+            this.Size = new System.Drawing.Size(415, 110);
             this.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.ResumeLayout(false);
             this.pnlColorIndicator.PerformLayout();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,18 +63,6 @@ namespace DoYourTasks.UserControls
             {
                 HideTB();
             }
-
-
-            comboBoxChangePriority.Items.Add(PriorityCodes.VeryLow.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.Low.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.Medium.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.High.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.Urgent.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.OnHold.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.Waiting.ToString());
-            comboBoxChangePriority.Items.Add(PriorityCodes.Done.ToString());
-            comboBoxChangePriority.Text = "Set Project Priority";
-
         }
         #endregion
 
@@ -130,38 +119,6 @@ namespace DoYourTasks.UserControls
 
         }
 
-        private void btnProjPriority_Click(object sender, EventArgs e)
-        {
-            int priority = 0;
-            switch (lblProjPriority.Text)
-            {
-                case "On Hold":
-                    priority = (int)ProjectPriorities.VeryLow;
-                    break;
-                case "Very Low":
-                    priority = (int)ProjectPriorities.Low;
-                    break;
-                case "Low":
-                    priority = (int)ProjectPriorities.Medium;
-                    break;
-                case "Medium":
-                    priority = (int)ProjectPriorities.High;
-                    break;
-                case "High":
-                    priority = (int)ProjectPriorities.Urgent;
-                    break;
-                case "Urgent":
-                    priority = (int)ProjectPriorities.Waiting;
-                    break;
-                case "Waiting":
-                    priority = (int)ProjectPriorities.Done;
-                    break;
-                case "Done":
-                    priority = (int)ProjectPriorities.OnHold;
-                    break;
-            }
-            SetPriority(priority);
-        }
 
         public void SetPriority(int priority = 0, bool isNew = false)
         {
@@ -285,40 +242,7 @@ namespace DoYourTasks.UserControls
             IsHidden = isHidden;
         }
 
-        public void SetCounters(int lblNum, int num)
-        {
-            Label currentLabel = null;
-            switch (lblNum)
-            {
-                case (int)ProjectPriorities.VeryLow:
-                    currentLabel = lblVeryLowTaskCount;
-                    break;
-                case (int)ProjectPriorities.Low:
-                    currentLabel = lblLowTaskCount;
-                    break;
-                case (int)ProjectPriorities.Medium:
-                    currentLabel = lblMediumTaskCount;
-                    break;
-                case (int)ProjectPriorities.High:
-                    currentLabel = lblHighTaskCount;
-                    break;
-                case (int)ProjectPriorities.Urgent:
-                    currentLabel = lblUrgentTaskCount;
-                    break;
-                case (int)ProjectPriorities.OnHold:
-                    currentLabel = lblDontProceedTaskCount;
-                    break;
-                case (int)ProjectPriorities.Waiting:
-                    currentLabel = lblWaitingTaskCount;
-                    break;
-                case (int)ProjectPriorities.Done:
-                    currentLabel = lblDoneTaskCount;
-                    break;
 
-            }
-            if (currentLabel != null)
-                currentLabel.Text = num.ToString();
-        }
 
         public void SetIsInEditMode(bool mode)
         {
@@ -410,57 +334,62 @@ namespace DoYourTasks.UserControls
 
 
 
-        private void btnAddProjectAttachment_Click(object sender, EventArgs e)
+        public void btnAddProjectAttachment_Click()
         {
             AddAttachment.Invoke();
         }
 
-        private void SetHideButtonText(string text) { btnHideProject.Text = text; }
+        //private void SetHideButtonText(string text) { btnHideProject.Text = text; }
 
-        private void btnHideProject_Click(object sender, EventArgs e)
+        public void btnHideProject_Click()
         {
             IsHidden = !IsHidden;
 
-            if (GetIsHidden())
-                SetHideButtonText("Show Project");
-            else
-                SetHideButtonText("Hide Project");
+            //if (GetIsHidden())
+            //SetHideButtonText("Show Project");
+            //else
+            //SetHideButtonText("Hide Project");
 
             HideProject.Invoke(new HideItemEventArgs(this));
         }
 
-        private void comboBoxChangePriority_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int priority = 0;
+        //private void comboBoxChangePriority_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    int priority = 0;
 
-            switch (comboBoxChangePriority.SelectedItem.ToString())
-            {
-                case "On Hold":
-                    priority = (int)PriorityCodes.OnHold;
-                    break;
-                case "Very Low":
-                    priority = (int)PriorityCodes.VeryLow;
-                    break;
-                case "Low":
-                    priority = (int)PriorityCodes.Low;
-                    break;
-                case "Medium":
-                    priority = (int)PriorityCodes.Medium;
-                    break;
-                case "High":
-                    priority = (int)PriorityCodes.High;
-                    break;
-                case "Urgent":
-                    priority = (int)PriorityCodes.Urgent;
-                    break;
-                case "Waiting":
-                    priority = (int)PriorityCodes.Waiting;
-                    break;
-                case "Done":
-                    priority = (int)PriorityCodes.Done;
-                    break;
-            }
-            SetPriority(priority);
+        //    switch (comboBoxChangePriority.SelectedItem.ToString())
+        //    {
+        //        case "On Hold":
+        //            priority = (int)PriorityCodes.OnHold;
+        //            break;
+        //        case "Very Low":
+        //            priority = (int)PriorityCodes.VeryLow;
+        //            break;
+        //        case "Low":
+        //            priority = (int)PriorityCodes.Low;
+        //            break;
+        //        case "Medium":
+        //            priority = (int)PriorityCodes.Medium;
+        //            break;
+        //        case "High":
+        //            priority = (int)PriorityCodes.High;
+        //            break;
+        //        case "Urgent":
+        //            priority = (int)PriorityCodes.Urgent;
+        //            break;
+        //        case "Waiting":
+        //            priority = (int)PriorityCodes.Waiting;
+        //            break;
+        //        case "Done":
+        //            priority = (int)PriorityCodes.Done;
+        //            break;
+        //    }
+        //    SetPriority(priority);
+        //}
+
+        public string GetProjectPrioritySTR()
+        {
+            return lblProjPriority.Text;
         }
     }
 }

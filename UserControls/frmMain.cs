@@ -15,6 +15,7 @@ using System.IO;
 
 using DoYourTasks.UserControls.CustomControls;
 using System.Drawing.Drawing2D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace DoYourTasks
 {
@@ -59,12 +60,10 @@ namespace DoYourTasks
             serializer = new Serializer();
             dataController = new DataController();
 
-            optionsMenuTimer = new Timer() { Interval = 1 };
             AutoSaveTimer = new Timer() { Interval = 60000 };//60 seconds
             pnlSaveTimer = new Timer() { Interval = 2000 };
             AutoSaveTimer.Start();//auto save every {AutoSaveTimer} seconds
 
-            optionsMenuTimer.Tick += OptionsMenuTimer_Tick;
             AutoSaveTimer.Tick += AutoSaveTimer_Tick;
             pnlSaveTimer.Tick += PnlSaveTimer_Tick;
 
@@ -111,64 +110,35 @@ namespace DoYourTasks
             flpSubTasks.DragOver += FlpSubTasks_DragOver;
             flpSubTasks.DragDrop += FlpSubTasks_DragDrop;
 
+            AddPriorityItemsToComboBox(comboBoxFilterProjectPriority);
+            comboBoxFilterProjectPriority.Items.Add("All Projects");
+            comboBoxFilterProjectPriority.SelectedIndex = comboBoxFilterProjectPriority.Items.Count - 1;
 
-            comboBoxProjectPriority.Items.Add(PriorityCodes.VeryLow.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.Low.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.Medium.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.High.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.Urgent.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.OnHold.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.Waiting.ToString());
-            comboBoxProjectPriority.Items.Add(PriorityCodes.Done.ToString());
-            comboBoxProjectPriority.Items.Add("All Projects");
-            comboBoxProjectPriority.SelectedIndex = comboBoxProjectPriority.Items.Count - 1;
+            AddPriorityItemsToComboBox(comboBoxFilterTaskPriority);
+            comboBoxFilterTaskPriority.Items.Add("All Tasks");
+            comboBoxFilterTaskPriority.SelectedIndex = comboBoxFilterTaskPriority.Items.Count - 1;
 
-
-            comboBoxTaskPriority.Items.Add(PriorityCodes.VeryLow.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.Low.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.Medium.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.High.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.Urgent.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.OnHold.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.Waiting.ToString());
-            comboBoxTaskPriority.Items.Add(PriorityCodes.Done.ToString());
-            comboBoxTaskPriority.Items.Add("All Tasks");
-            comboBoxTaskPriority.SelectedIndex = comboBoxTaskPriority.Items.Count - 1;
+            AddPriorityItemsToComboBox(comboBoxChangePriority);
+            comboBoxChangePriority.Text = "Set Project Priority";
 
             if (File.Exists(path))
                 LoadFromDB(path);
 
             foreach (Project project in dataController.GetHiddenProjects().Values.ToList())
-            {
                 frmHiddenProjects.AddControl(dataController.Projectviews[project.GetProjectID()]);
-            }
             BackupDB();
         }
 
-        private bool VerifyPriority(int priority = -1)
+        private void AddPriorityItemsToComboBox(ComboBox comboBox)
         {
-            switch (priority)
-            {
-                case (int)PriorityCodes.VeryLow:
-                    break;
-                case (int)PriorityCodes.Low:
-                    break;
-                case (int)PriorityCodes.Medium:
-                    break;
-                case (int)PriorityCodes.High:
-                    break;
-                case (int)PriorityCodes.Urgent:
-                    break;
-                case (int)PriorityCodes.OnHold:
-                    break;
-                case (int)PriorityCodes.Waiting:
-                    break;
-                case (int)PriorityCodes.Done:
-                    break;
-                case -1:
-                    break;
-            }
-            return true;
+            comboBox.Items.Add(PriorityCodes.VeryLow.ToString());
+            comboBox.Items.Add(PriorityCodes.Low.ToString());
+            comboBox.Items.Add(PriorityCodes.Medium.ToString());
+            comboBox.Items.Add(PriorityCodes.High.ToString());
+            comboBox.Items.Add(PriorityCodes.Urgent.ToString());
+            comboBox.Items.Add(PriorityCodes.OnHold.ToString());
+            comboBox.Items.Add(PriorityCodes.Waiting.ToString());
+            comboBox.Items.Add(PriorityCodes.Done.ToString());
         }
 
         /// <summary>
@@ -267,14 +237,23 @@ namespace DoYourTasks
         private void ViewsController_TaskDeleted(TaskModifiedEventArgs args)
         {
             TaskView tv = args.TV;
+            if (currentProjectView != null)
+            {
+                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
+                UpdatePriorityLabels(taskLst);
+            }
+            CalculateCompletedTasks();
         }
 
 
         private void ViewsController_PriorityChaned(PriorityChangedEventArgs args)
         {
             string projectID = args.TaskView.GetParentProjectID();
-            Dictionary<string, Task> taskLst = dataController.GetCorrectProject(projectID).GetTasks();
-            UpdatePriorityLabels(taskLst);
+            if (currentProjectView != null)
+            {
+                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
+                UpdatePriorityLabels(taskLst);
+            }
         }
 
         private void ViewsController_TaskCompleted(TaskCompletedEventArgs args)
@@ -318,7 +297,7 @@ namespace DoYourTasks
                     flpTasks.Controls.SetChildIndex(tv, task.GetIndex());//move to top
                 }
             }
-            Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetTasks();
+            Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
             UpdatePriorityLabels(taskLst);
 
             //low = 0;
@@ -336,7 +315,7 @@ namespace DoYourTasks
             int onHold = 0;
             int Waiting = 0;
             int done = 0;
-            // Dictionary<string, Task> taskLst = viewsController.Projects[currentProjectView.ProjectID].GetTasks();
+            //Dictionary<string, Task> tasklst = dataController.GetCorrectProject(currentProjectView.GetProjectID()).GetAllTasks();
             foreach (var task in taskLst)
             {
                 switch (task.Value.GetPriority())
@@ -366,16 +345,85 @@ namespace DoYourTasks
                         done++;
                         break;
                 }
-
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(0, veryLow);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(1, low);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(2, med);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(3, high);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(4, urgent);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(5, onHold);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(6, Waiting);
-                dataController.Projectviews[task.Value.GetParentProjectID()].SetCounters(7, done);
             }
+            SetCounters((int)PriorityCodes.VeryLow, veryLow);
+            SetCounters((int)PriorityCodes.Low, low);
+            SetCounters((int)PriorityCodes.Medium, med);
+            SetCounters((int)PriorityCodes.High, high);
+            SetCounters((int)PriorityCodes.Urgent, urgent);
+            SetCounters((int)PriorityCodes.OnHold, onHold);
+            SetCounters((int)PriorityCodes.Waiting, Waiting);
+            SetCounters((int)PriorityCodes.Done, done);
+        }
+
+        public void SetCounters(int lblNum, int num)
+        {
+            Label currentLabel = null;
+            switch (lblNum)
+            {
+                case (int)PriorityCodes.VeryLow:
+                    currentLabel = lblVeryLowTaskCount;
+                    break;
+                case (int)PriorityCodes.Low:
+                    currentLabel = lblLowTaskCount;
+                    break;
+                case (int)PriorityCodes.Medium:
+                    currentLabel = lblMediumTaskCount;
+                    break;
+                case (int)PriorityCodes.High:
+                    currentLabel = lblHighTaskCount;
+                    break;
+                case (int)PriorityCodes.Urgent:
+                    currentLabel = lblUrgentTaskCount;
+                    break;
+                case (int)PriorityCodes.OnHold:
+                    currentLabel = lblDontProceedTaskCount;
+                    break;
+                case (int)PriorityCodes.Waiting:
+                    currentLabel = lblWaitingTaskCount;
+                    break;
+                case (int)PriorityCodes.Done:
+                    currentLabel = lblDoneTaskCount;
+                    break;
+            }
+            if (currentLabel != null)
+                currentLabel.Text = num.ToString();
+        }
+
+
+
+        private void btnProjPriority_Click(object sender, EventArgs e)
+        {
+            int priority = 0;
+
+            switch (currentProjectView.GetProjectPrioritySTR())
+            {
+                case "On Hold":
+                    priority = (int)PriorityCodes.VeryLow;
+                    break;
+                case "Very Low":
+                    priority = (int)PriorityCodes.Low;
+                    break;
+                case "Low":
+                    priority = (int)PriorityCodes.Medium;
+                    break;
+                case "Medium":
+                    priority = (int)PriorityCodes.High;
+                    break;
+                case "High":
+                    priority = (int)PriorityCodes.Urgent;
+                    break;
+                case "Urgent":
+                    priority = (int)PriorityCodes.Waiting;
+                    break;
+                case "Waiting":
+                    priority = (int)PriorityCodes.Done;
+                    break;
+                case "Done":
+                    priority = (int)PriorityCodes.OnHold;
+                    break;
+            }
+            dataController.GetCorrectProject(currentProjectView.GetProjectID()).SetPriority(priority);
         }
 
 
@@ -428,7 +476,7 @@ namespace DoYourTasks
                 catch (Exception) { continue; }
 
 
-                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(projectID).GetTasks();
+                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(projectID).GetAllTasks();
                 UpdatePriorityLabels(taskLst);
 
             }
@@ -578,12 +626,22 @@ namespace DoYourTasks
             flpTasks.Controls.Clear();//clear the tasks view
             flpSubTasks.Controls.Clear();
             flpProjectAttachments.Controls.Clear();
-            tbCommitMsg.Clear();
 
-            //frmHiddenProjects.ClearItems();
             frmHiddenTasks.ClearItems();
 
-            ResetIndicators();
+            //ResetIndicators();
+        }
+
+        private void CalculateCompletedTasks()
+        {
+            int completedTasks = 0;
+            if (currentProjectView == null)
+                return;
+            List<Task> tasks = dataController.Projects[currentProjectView.GetProjectID()].GetTasks().Values.ToList();
+            foreach (var task in tasks)
+                if (task.IsCompleted)
+                    completedTasks++;
+            currentProjectView.SetTasksLabel($"Tasks: {completedTasks}/{tasks.Count}");
         }
 
         private void SetProjectTasksViewOnScreen(SetProjectViewEventArgs arg)
@@ -598,13 +656,34 @@ namespace DoYourTasks
                 ResetIndicators();
                 currentProjectView.SetIndicator(true);
 
+                CalculateCompletedTasks();
+
+                //SetIndicator(currentProjectView);
+
+                string date = dataController.GetCorrectProject(currentProjectView.ProjectID).GetDateCreated().ToString("dd/MM/yy");
+                lblCreationDate.Text = $"Project Created at: {date}";
+
+
+                //Get project's notes and set it to the TextBox
+                string projectNotes = dataController.GetCorrectProject(arg.PV.ProjectID).GetProjectNotes();
+                tbProjectNotes.Text = projectNotes;
+
+
+                //if (currentProjectView != null)
+                //{
+                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetTasks();
+                UpdatePriorityLabels(taskLst);
+                //}
+
                 if (currentProjectView.GetIsHidden())
                 {
                     flpTaskOptions.Enabled = false;
                     tbAddSubTask.Enabled = false;
                     tbAddTask.Enabled = false;
-                    tbProjectNotes.Enabled = false; 
+                    tbProjectNotes.Enabled = false;
                     tbCommitMsg.Enabled = false;
+                    btnHideProject.Text = "Show Project";
+                    //pnlStats.Visible = false;
                 }
                 else
                 {
@@ -613,14 +692,9 @@ namespace DoYourTasks
                     tbAddTask.Enabled = true;
                     tbProjectNotes.Enabled = true;
                     tbCommitMsg.Enabled = true;
+                    btnHideProject.Text = "Hide Project";
+                    //pnlStats.Visible = true;
                 }
-
-                // animate
-                //while (currentProjectView.Height < currentProjectView.MaximumSize.Height)
-                //    currentProjectView.Height += 60;
-
-
-                //currentProjectView.Size = currentProjectView.MaximumSize;
 
                 foreach (var tv in dataController.Taskviews)/*Will display all Project's Tasks*/
                 {
@@ -637,13 +711,13 @@ namespace DoYourTasks
                     string taskID = task.GetTaskID();
                     int taskPriority = dataController.GetCorrectProject(task.GetParentProjectID()).GetTasks()[task.GetTaskID()].GetPriority();
 
-                    if (comboBoxTaskPriority.SelectedIndex == taskPriority)
+                    if (comboBoxFilterTaskPriority.SelectedIndex == taskPriority)
                         flpTasks.Controls.Add(tv.Value);
                     else
                         flpTasks.Controls.Remove(tv.Value);
 
                     //add all
-                    if (comboBoxTaskPriority.SelectedIndex == comboBoxProjectPriority.Items.Count - 1)
+                    if (comboBoxFilterTaskPriority.SelectedIndex == comboBoxFilterProjectPriority.Items.Count - 1)
                         flpTasks.Controls.Add(tv.Value);
                 }
 
@@ -660,13 +734,6 @@ namespace DoYourTasks
                     }
                 }
 
-                SetIndicator(currentProjectView);
-                string date = dataController.GetCorrectProject(currentProjectView.ProjectID).GetDateCreated().ToString("dd/MM/yy");
-                lblCreationDate.Text = $"Project Created at: {date}";
-
-                //Get project's notes and set it to the TextBox
-                tbProjectNotes.Text = dataController.GetCorrectProject(arg.PV.ProjectID).GetProjectNotes();
-
                 //Add Project's Attachments
                 foreach (Attachment attachment in dataController.GetCorrectProject(arg.PV.ProjectID).GetAttachments())
                 {
@@ -678,6 +745,8 @@ namespace DoYourTasks
 
                 if (!lblCreationDate.Visible)
                     lblCreationDate.Visible = true;
+
+
             }
             catch (Exception e)
             {
@@ -720,7 +789,7 @@ namespace DoYourTasks
                 string projectID = dataController.GetCorrectProject(pv.GetProjectID()).GetProjectID();
                 int projectPriority = dataController.GetCorrectProject(pv.GetProjectID()).GetPriority();
 
-                if (comboBoxProjectPriority.SelectedIndex == comboBoxProjectPriority.Items.Count - 1)
+                if (comboBoxFilterProjectPriority.SelectedIndex == comboBoxFilterProjectPriority.Items.Count - 1)
                 {//add all
                     AddProjectViewToFlp(pv, isLoading);
                     addAll = true;
@@ -728,7 +797,7 @@ namespace DoYourTasks
                 if (addAll)
                     continue;
 
-                if (comboBoxProjectPriority.SelectedIndex - 1 == projectPriority)
+                if (comboBoxFilterProjectPriority.SelectedIndex - 1 == projectPriority)
                 {
                     AddProjectViewToFlp(pv);
                 }
@@ -780,10 +849,9 @@ namespace DoYourTasks
         {
             if (currentTaskView != null)
             {
-                currentTaskView.ResetSize(); // reste previous task view size (to hide attachments...)
+                currentTaskView.ResetSize();
                 currentTaskView.Size = currentTaskView.MinimumSize;
             }
-
             currentTaskView = arg.TaskView;
 
             while (currentTaskView.Size.Height < currentTaskView.MaximumSize.Height)
@@ -793,56 +861,92 @@ namespace DoYourTasks
             {
                 string projectID = currentTaskView.GetParentProjectID();
                 string taskID = currentTaskView.GetTaskID();
-                string notes = dataController.GetCorrectProject(projectID).Tasks[taskID].GetNotes();
-                List<Attachment> attachments = dataController.GetCorrectProject(projectID).Tasks[taskID].GetAttachements();
-                if (tbNotes.Visible == false)
-                    tbNotes.Visible = true;
-                if (notes != null)
+
+                // Use data controller to get task information and attachments
+                var project = dataController.GetCorrectProject(projectID);
+                var task = project.Tasks.TryGetValue(taskID, out var foundTask) ? foundTask : null;
+
+                if (task != null)
                 {
-                    tbNotes.Text = notes;
-                    if (tbNotes.Visible == false)
+                    // Update task notes
+                    var notes = task.GetNotes();
+                    if (notes != null)
+                    {
+                        tbNotes.Text = notes;
                         tbNotes.Visible = true;
+                    }
+                    else
+                    {
+                        tbNotes.Text = (string)tbNotes.Tag;
+                    }
+
+                    // Update commit message with subtasks
+                    tbCommitMsg.Text = $"{DateTime.Now:dd/MM/yyyy HH:mm tt}";
+                    foreach (var subtask in task.GetSubTasks())
+                    {
+                        tbCommitMsg.Text += $"\n - {subtask.Value.GetSubTaskName()}";
+                    }
+
+                    // Set attachments for the current task view
+                    var attachments = task.GetAttachements();
+                    if (attachments.Count > 0)
+                    {
+                        currentTaskView.SetAttachments(attachments);
+                    }
                 }
                 else
                 {
-                    tbNotes.Text = (string)tbNotes.Tag;
-                }
-
-                tbCommitMsg.Text = "";
-                tbCommitMsg.Text += DateTime.Now.ToString("dd/mm/yyyy HH:mm tt");
-
-                foreach (var subtask in dataController.GetCorrectProject(projectID).Tasks[taskID].GetSubTasks())
-                {
-                    var val = subtask.Value;
-                    string name = val.GetSubTaskName();
-                    tbCommitMsg.Text += $"\n - {name}";
-                }
-
-                if (attachments.Count > 0)
-                {
-                    currentTaskView.SetAttachments(attachments);
+                    // Task not found, clear task notes and commit message
+                    tbNotes.Text = "";
+                    tbCommitMsg.Text = $"{DateTime.Now:dd/MM/yyyy HH:mm tt}";
                 }
             }
-            catch (Exception) { tbNotes.Text = ""; }
+            catch (Exception ex)
+            {
+                // Handle any exceptions thrown when getting task information
+                tbNotes.Text = "";
+                tbCommitMsg.Text = $"{DateTime.Now:dd/MM/yyyy HH:mm tt}";
+                // Log the exception (or do something appropriate for your use case)
+                Console.WriteLine($"Error getting task information: {ex.Message}");
+            }
+
+            tbCommitMsg.Text += "\n";
 
             if (!tbAddSubTask.Enabled)
                 tbAddSubTask.Enabled = true;
+            
+            CalculateCompletedTasks();
 
             SetSubTaskViewsOnScreen(currentTaskView.GetTaskID());
             currentTaskView.SetAttachmentsVisible();
             currentTaskView.ResizeAttachmentsFLP();
+
+            if (currentProjectView != null)
+            {
+                // Use data controller to get all tasks for the current project
+                var project = dataController.GetCorrectProject(currentProjectView.ProjectID);
+                var taskLst = project.GetAllTasks();
+                UpdatePriorityLabels(taskLst);
+            }
+
             // flpSubTasks.Refresh();
+
         }
 
         private void AddTaskViewToFlp(TaskView taskView)
         {
-            int index = dataController.GetCorrectProject(taskView.GetParentProjectID()).GetTasks()[taskView.GetTaskID()].GetIndex();
             flpTasks.Controls.Add(taskView);
-            flpTasks.Controls.SetChildIndex(taskView, 0);//add to top
+            flpTasks.Controls.SetChildIndex(taskView, 0); // add to top
 
             foreach (TaskView tv in flpTasks.Controls)
-                dataController.GetCorrectProject(tv.GetParentProjectID()).GetTasks()[tv.GetTaskID()].SetIndex(flpTasks.Controls.GetChildIndex(tv));
+            {
+                string projectID = tv.GetParentProjectID();
+                string taskID = tv.GetTaskID();
+                int index = flpTasks.Controls.GetChildIndex(tv);
+                dataController.GetCorrectProject(projectID).GetAllTasks()[taskID].SetIndex(index);
+            }
         }
+
         #endregion
 
         #region SubTask
@@ -877,16 +981,13 @@ namespace DoYourTasks
 
             flpSubTasks.Controls.SetChildIndex(droppedControl, targetIndex);
 
-            // viewsController.Projects[((SubTaskView)droppedControl).GetParentProjectID()].SetIndex(flpSubTasks.Controls.GetChildIndex((SubTaskView)droppedControl));
-
             foreach (SubTaskView stv in flpSubTasks.Controls)
             {// set  indexes to all objects
-                SubTask st = dataController.GetCorrectProject(stv.GetParentProjectID()).GetTasks()[stv.GetParentTaskID()].GetSubTasks()[stv.GetID()];
+                SubTask st = dataController.GetSubTask(stv.GetParentProjectID(), stv.GetParentTaskID(), stv.GetID());
                 st.SetIndex(flpSubTasks.Controls.GetChildIndex(stv));//Set new Index
                 flpSubTasks.Controls.SetChildIndex(stv, st.GetIndex());//update flp
             }
         }
-
         private void FlpSubTasks_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
@@ -928,9 +1029,7 @@ namespace DoYourTasks
         {
             TextBox tb = arg.TB;
             if (!tb.Focused && string.IsNullOrWhiteSpace(tb.Text))
-            {
                 tb.Text = (string)tb.Tag;
-            }
             return;
         }
 
@@ -948,7 +1047,15 @@ namespace DoYourTasks
 
         private void btnOptionsMenu_Click(object sender, EventArgs e)
         {
-            optionsMenuTimer.Start();
+            if (pnlTasksHeader.Height < pnlTasksHeader.MaximumSize.Height)
+                while (pnlTasksHeader.Height < pnlTasksHeader.MaximumSize.Height)
+                    pnlTasksHeader.Height += 55;
+            else
+                while (pnlTasksHeader.Height > pnlTasksHeader.MinimumSize.Height)
+                    pnlTasksHeader.Height -= 55;
+
+            dataController.RoundCorners(tbCommitMsg, null);
+            dataController.RoundCorners(tbProjectNotes, null);
         }
 
         private void Exit()
@@ -1012,34 +1119,6 @@ namespace DoYourTasks
 
             dataController.GetCorrectProject(projectID).GetTasks()[taskID].SetCompleted(mode); // mark task as not completed
             currentTaskView.SetCompleted(mode);// display in the task view
-        }
-
-        private void OptionsMenuTimer_Tick(object sender, EventArgs e)
-        {/*Will not resize flpTasks due to rendering performance issues*/
-
-            if (isOptionsCollapsed)
-            {
-                pnlTasksHeader.Height += 55;
-                //flpTasks.Height -= 5;
-                if (pnlTasksHeader.Size == pnlTasksHeader.MaximumSize) //&& flpTasks.Size == flpTasks.MinimumSize)
-                {
-                    optionsMenuTimer.Stop();
-                    isOptionsCollapsed = false;
-                }
-            }
-            else
-            {
-                pnlTasksHeader.Height -= 55;
-                //flpTasks.Height += 5;
-                if (pnlTasksHeader.Size == pnlTasksHeader.MinimumSize) //&& flpTasks.Size == flpTasks.MaximumSize)
-                {
-                    optionsMenuTimer.Stop();
-                    isOptionsCollapsed = true;
-                }
-
-            }
-
-
         }
 
         private void btnNewList_Click(object sender, EventArgs e)
@@ -1192,6 +1271,12 @@ namespace DoYourTasks
 
             //apply gradient         
             graphics.FillRectangle(b, gradient_rectangle);
+
+
+
+            dataController.RoundCorners(tbAddSubTask, null);
+            dataController.RoundCorners(tbAddTask, null);
+            dataController.RoundCorners(tbNotes, null);
         }
 
         private void flpTasks_ControlAdded(object sender, ControlEventArgs e)
@@ -1315,15 +1400,48 @@ namespace DoYourTasks
         private void tbProjectNotes_TextChanged(object sender, EventArgs e)
         {
             string projectNotes = tbProjectNotes.Text;
-            if (string.IsNullOrWhiteSpace(projectNotes))
-                projectNotes = "";
-
+            //if (string.IsNullOrWhiteSpace(projectNotes))
+            //    projectNotes = "";
+            if (currentProjectView == null)
+                return;
             dataController.GetCorrectProject(currentProjectView.GetProjectID()).SetProjectNotes(projectNotes);
         }
 
         private void comboBoxProjectPriority_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetProjectViewsOnScreen();
+            int priority = 0;
+
+            if (comboBoxChangePriority.SelectedItem == null)
+                return;
+
+            switch (comboBoxChangePriority.SelectedItem.ToString())
+            {
+                case "On Hold":
+                    priority = (int)PriorityCodes.OnHold;
+                    break;
+                case "Very Low":
+                    priority = (int)PriorityCodes.VeryLow;
+                    break;
+                case "Low":
+                    priority = (int)PriorityCodes.Low;
+                    break;
+                case "Medium":
+                    priority = (int)PriorityCodes.Medium;
+                    break;
+                case "High":
+                    priority = (int)PriorityCodes.High;
+                    break;
+                case "Urgent":
+                    priority = (int)PriorityCodes.Urgent;
+                    break;
+                case "Waiting":
+                    priority = (int)PriorityCodes.Waiting;
+                    break;
+                case "Done":
+                    priority = (int)PriorityCodes.Done;
+                    break;
+            }
+            currentProjectView.SetPriority(priority);
 
             //SetProjectTasksViewOnScreen(new SetProjectViewEventArgs(null), comboBoxProjectPriority.SelectedIndex);
         }
@@ -1342,6 +1460,39 @@ namespace DoYourTasks
 
             if (tb.Focused && tb.Text == tb.Tag.ToString())
                 tb.Clear();
+        }
+
+        private void btnHideProject_Click(object sender, EventArgs e)
+        {
+            currentProjectView.btnHideProject_Click();
+        }
+
+        private void btnAddProjectAttachment_Click(object sender, EventArgs e)
+        {
+            currentProjectView.btnAddProjectAttachment_Click();
+        }
+
+        private void comboBoxFilterProjectPriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            ResetScreen();
+            flpProjects.Controls.Clear();
+            string selectedItem = comboBoxFilterProjectPriority.SelectedItem.ToString();
+
+            foreach (ProjectView pv in dataController.Projectviews.Values.ToList())
+            {
+                //if (pv.GetProjectID() != currentProjectView.GetProjectID())
+                //    continue;
+
+                string prioritySTR = pv.GetProjectPrioritySTR();
+
+                if (prioritySTR == selectedItem && !pv.GetIsHidden())
+                    flpProjects.Controls.Add(pv);
+
+            }
+
+            if (selectedItem == "All Projects")
+                SetProjectViewsOnScreen();
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)

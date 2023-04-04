@@ -70,6 +70,11 @@ namespace DoYourTasks
             return Tasks;
         }
         public Dictionary<string, Task> GetHiddenTasks() { return HiddenTasks; }
+
+        public Dictionary<string, Task> GetAllTasks()
+        {
+            return Tasks.Concat(HiddenTasks).ToDictionary(x => x.Key, x => x.Value);
+        }
         #endregion
     }
 }

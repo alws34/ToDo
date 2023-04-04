@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Drawing2D;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Media3D;
 
 namespace DoYourTasks
 {
@@ -53,6 +56,18 @@ namespace DoYourTasks
 
         public Dictionary<string, Project> Projects;
         public Dictionary<string, Project> HiddenProjects;
+
+        private Dictionary<Type, int> radiusMap = new Dictionary<Type, int>()
+        {
+            { typeof(ProjectView), 20 },
+            { typeof(TaskView), 20 },
+            { typeof(SubTaskView), 20 },
+            { typeof(Panel), 20 },
+            { typeof(TextBox), 20 },
+            { typeof(Form), 20 },
+            { typeof(ComboBox), 20 }
+        };
+
         Utils utils;
         Serializer serializer;
         Timer timer;
@@ -197,7 +212,7 @@ namespace DoYourTasks
             }
 
             pv.Name = "ProjectView";
-
+            pv.Paint += RoundCorners;
             pv.SetProjectView += SetProjectViewOnScreen;
             pv.ProjectViewDeleted += DeletedProject;
             pv.ProjectViewRenamed += ProjectRenamed;
@@ -243,7 +258,7 @@ namespace DoYourTasks
             else
                 HiddenProjects.Remove(projectID);
         }
-
+        public Dictionary<string, Project> GetAllProjects() { return Projects.Concat(HiddenProjects).ToDictionary(x => x.Key, x => x.Value); }
         private void Pv_ChangePriority(ChangePriorityEventArgs arg)
         {
             switch (arg.Control.GetType().Name)
@@ -342,7 +357,7 @@ namespace DoYourTasks
         {
             Task task = null;
             TaskView tv = new TaskView(taskName, taskID, projectID, priority);
-
+            tv.Paint += RoundCorners;
             tv.TaskCompleted += Tv_TaskCompleted;
             tv.TaskDeleted += Tv_TaskDeleted;
             tv.DueDateChanged += Tv_TaskDueDateChanged;
@@ -366,6 +381,41 @@ namespace DoYourTasks
 
             AddTaskToDicts(task, tv, taskID);
             return tv;
+        }
+
+        public void RoundCorners(object sender, PaintEventArgs e)
+        {
+            Control control = null;
+            string name = sender.GetType().Name;
+            if (name == "ProjectView")
+                control = (Control)(sender as ProjectView);
+            else if (name == "TaskView")
+                control = (Control)(sender as TaskView);
+            else if (name == "SubTaskView")
+                control = (sender as SubTaskView);
+            else if (name.StartsWith("Panel") || name.StartsWith("pnl"))
+                control = (Control)(sender as Panel);
+            else if (name.StartsWith("TextBox") || name.StartsWith("tb"))
+                control = (Control)(sender as TextBox);
+            else if (name.StartsWith("Form") || name.StartsWith("frm"))
+                control = (Control)(sender as Form);
+            else if (name.StartsWith("comboBox"))
+                control = (Control)(sender as ComboBox);
+            else
+                return;
+
+            if (control == null)
+                return;
+
+            GraphicsPath path = new GraphicsPath();
+            int radius = 20;
+            Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+            control.Region = new Region(path);
         }
 
         private void Tv_AddTaskAttachment(TaskModifiedEventArgs args)
@@ -509,7 +559,8 @@ namespace DoYourTasks
             try
             {
                 Taskviews.Add(taskID, taskView);
-            }catch(Exception ex) { }
+            }
+            catch (Exception ex) { }
         }
         #endregion
 
@@ -544,6 +595,7 @@ namespace DoYourTasks
             SubTaskView stv = new SubTaskView(taskID, subTaskID, projectID, subTaskName, createdAt);
             stv.SubTaskCompleted += Stv_SubTaskCompleted;
             stv.SubTaskDeleted += Stv_SubTaskDeleted;
+            stv.Paint += RoundCorners;
 
             if (isNew)
             {
@@ -576,7 +628,7 @@ namespace DoYourTasks
         {
             try
             {
-                GetCorrectProject(args.STV.GetParentProjectID()).GetTasks()[args.STV.GetParentTaskID()].GetSubTasks()[args.STV.GetParentTaskID()].SetCompleted(args.STV.IsCompleted);
+                GetCorrectProject(args.STV.GetParentProjectID()).GetAllTasks()[args.STV.GetParentTaskID()].GetSubTasks()[args.STV.GetID()].SetCompleted(args.STV.IsCompleted);
                 UpdateSubTaskViewCompleteCounter.Invoke(new UpdateSubTaskViewCompleteCounterEventArgs(args.STV.GetParentProjectID(), args.STV.GetParentTaskID()));
             }
             catch (KeyNotFoundException) { return; }
@@ -593,6 +645,11 @@ namespace DoYourTasks
                 arg.STV.Dispose();
             }
             catch (KeyNotFoundException) { return; }
+        }
+
+        public SubTask GetSubTask(string projectID, string taskID, string subTaskID)
+        {
+            return GetAllProjects()[projectID].GetAllTasks()[taskID].GetSubTasks()[subTaskID];
         }
         #endregion
 

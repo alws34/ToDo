@@ -372,11 +372,12 @@ namespace DoYourTasks.UserControls
             if (mode)
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size, FontStyle.Strikeout);
+                SetPriority((int)PriorityCodes.Done);
             }
             else
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size);
-
+                SetPriority((int)PriorityCodes.High);
             }
         }
 
