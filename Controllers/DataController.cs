@@ -640,7 +640,7 @@ namespace DoYourTasks
             try
             {
                 SubTaskviews.Remove(arg.STV.GetParentTaskID());
-                GetCorrectProject(arg.STV.GetParentProjectID()).GetTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetParentTaskID());
+                GetCorrectProject(arg.STV.GetParentProjectID()).GetAllTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetID());
                 SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(arg.STV));
                 arg.STV.Dispose();
             }

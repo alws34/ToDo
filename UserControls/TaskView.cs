@@ -365,7 +365,7 @@ namespace DoYourTasks.UserControls
         {
             lblCompletedSubTasks.Text = $"{completedSubtasks}/{totalSubtasks}";
         }
-        public void SetCompleted(bool mode)
+        public void SetCompleted(bool mode = false)
         {
             isCompleted = mode;
             customRadioButtonTaskName.Checked = mode;
@@ -377,7 +377,6 @@ namespace DoYourTasks.UserControls
             else
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size);
-                SetPriority((int)PriorityCodes.High);
             }
         }
 

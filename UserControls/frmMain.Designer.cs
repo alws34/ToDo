@@ -541,6 +541,7 @@
             // 
             // pnlCreationDate
             // 
+            this.pnlCreationDate.BackColor = System.Drawing.Color.Transparent;
             this.pnlCreationDate.Controls.Add(this.lblCreationDate);
             this.pnlCreationDate.Location = new System.Drawing.Point(761, 697);
             this.pnlCreationDate.Name = "pnlCreationDate";
@@ -702,7 +703,7 @@
             // 
             this.lblProjName.AutoEllipsis = true;
             this.lblProjName.BackColor = System.Drawing.Color.Transparent;
-            this.lblProjName.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Bold);
+            this.lblProjName.Font = new System.Drawing.Font("Arial", 22.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProjName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(140)))), ((int)(((byte)(222)))));
             this.lblProjName.Location = new System.Drawing.Point(4, -1);
             this.lblProjName.MaximumSize = new System.Drawing.Size(320, 45);

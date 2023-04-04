@@ -147,7 +147,7 @@ namespace DoYourTasks.UserControls
         private void btnDelete_Click(object sender, EventArgs e)
         {
             SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(this));
-            Delete();
+            Dispose();
         }
 
         private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)

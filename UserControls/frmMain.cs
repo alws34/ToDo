@@ -914,7 +914,7 @@ namespace DoYourTasks
 
             if (!tbAddSubTask.Enabled)
                 tbAddSubTask.Enabled = true;
-            
+
             CalculateCompletedTasks();
 
             SetSubTaskViewsOnScreen(currentTaskView.GetTaskID());
@@ -1110,15 +1110,18 @@ namespace DoYourTasks
                 if (subtask.GetIsCompleted())
                     completed++;
 
-            currentTaskView.UpdateCompletedSubTasks(completed, totalSubtasks);
-
             if (totalSubtasks == completed)
                 mode = true;
             else
                 mode = false;
 
-            dataController.GetCorrectProject(projectID).GetTasks()[taskID].SetCompleted(mode); // mark task as not completed
-            currentTaskView.SetCompleted(mode);// display in the task view
+            currentTaskView.UpdateCompletedSubTasks(completed, totalSubtasks);
+            if (totalSubtasks > 0)
+            {
+                dataController.GetCorrectProject(projectID).GetTasks()[taskID].SetCompleted(mode); // mark task as not completed
+                currentTaskView.SetCompleted(mode);// display in the task view
+            }
+
         }
 
         private void btnNewList_Click(object sender, EventArgs e)
@@ -1277,6 +1280,7 @@ namespace DoYourTasks
             dataController.RoundCorners(tbAddSubTask, null);
             dataController.RoundCorners(tbAddTask, null);
             dataController.RoundCorners(tbNotes, null);
+            dataController.RoundCorners(pnlStats, null);
         }
 
         private void flpTasks_ControlAdded(object sender, ControlEventArgs e)
