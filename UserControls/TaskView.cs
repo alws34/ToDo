@@ -33,7 +33,7 @@ namespace DoYourTasks.UserControls
         private Color startBackgroundColor;
         private bool isCompleted = false;
         public bool isHidden { get; set; }
-        
+
         private string taskID;
         private string parentProjectID;
         ToolTip toolTip = new ToolTip();
@@ -55,6 +55,17 @@ namespace DoYourTasks.UserControls
             DoubleBuffered = true;
             SetPriority(priority);
             //lblTaskName.Location = new Point(40, 3);
+
+
+            comboBoxChangePriority.Items.Add(PriorityCodes.VeryLow.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.Low.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.Medium.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.High.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.Urgent.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.OnHold.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.Waiting.ToString());
+            comboBoxChangePriority.Items.Add(PriorityCodes.Done.ToString());
+            comboBoxChangePriority.Text = "Set Task Priority";
         }
 
         #endregion
@@ -416,7 +427,7 @@ namespace DoYourTasks.UserControls
         private void btnHideTask_Click(object sender, EventArgs e)
         {
             SetIsHidden(!isHidden);
-            
+
             if (GetIsHidden())
                 btnHideTask.Text = "Show Task";
             else
@@ -425,12 +436,46 @@ namespace DoYourTasks.UserControls
             HideTask.Invoke(new HideItemEventArgs(this));
         }
 
+
+
+
+
+
         #endregion
 
+        private void comboBoxChangePriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int priority = 0;
 
+            switch (comboBoxChangePriority.SelectedItem.ToString())
+            {
+                case "On Hold":
+                    priority = (int)PriorityCodes.OnHold;
+                    break;
+                case "Very Low":
+                    priority = (int)PriorityCodes.VeryLow;
+                    break;
+                case "Low":
+                    priority = (int)PriorityCodes.Low;
+                    break;
+                case "Medium":
+                    priority = (int)PriorityCodes.Medium;
+                    break;
+                case "High":
+                    priority = (int)PriorityCodes.High;
+                    break;
+                case "Urgent":
+                    priority = (int)PriorityCodes.Urgent;
+                    break;
+                case "Waiting":
+                    priority = (int)PriorityCodes.Waiting;
+                    break;
+                case "Done":
+                    priority = (int)PriorityCodes.Done;
+                    break;
+            }
+            SetPriority(priority);
 
-
-
-
+        }
     }
 }

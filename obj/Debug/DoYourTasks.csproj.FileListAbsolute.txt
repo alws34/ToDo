@@ -136,3 +136,27 @@ D:\ToDo\bin\Debug\ReadMe.txt
 \\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Debug\DoYourTasks.csproj.CopyComplete
 \\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Debug\DoYourTasks.exe
 \\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Debug\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\ReadMe.txt
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\DoYourTasks.exe.config
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\DoYourTasks.exe
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\Control.Draggable.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\Newtonsoft.Json.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.csproj.AssemblyReference.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.exe.config
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.frmHiddenItems.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.Properties.Resources.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.frmMain.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.UserControls.ProjectView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.UserControls.SubTaskView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.UserControls.TaskView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.UserControls.UCAttachmentView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.csproj.GenerateResource.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.csproj.CoreCompileInputs.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.csproj.CopyComplete
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.exe
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Debug\Newtonsoft.Json.xml

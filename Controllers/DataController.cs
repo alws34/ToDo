@@ -13,7 +13,6 @@ namespace DoYourTasks
 {
     public class DataController
     {
-
         #region CustomEvents
         #region General
         public event HideItemEventHandler HideItem;
@@ -185,7 +184,11 @@ namespace DoYourTasks
             Project project = null;
             ProjectView pv = new ProjectView(projectID, isNew);
             if (isNew)
+            {
+                pv.SetIsInEditMode(true);
                 project = new Project(projectID, isHidden);
+            }
+
             pv.Name = "ProjectView";
 
             pv.SetProjectView += SetProjectViewOnScreen;
@@ -377,12 +380,16 @@ namespace DoYourTasks
             string originalDesdtFileName = desdtFileName;
             try
             {
+                if (!Directory.Exists("K:\\"))
+                    return;
                 if (!Directory.Exists(destPath))
                     Directory.CreateDirectory(destPath);
             }
             catch
             {
                 destPath = "H:\\ToDoBackup";
+                if (!Directory.Exists("H:\\"))
+                    return;
                 if (!Directory.Exists(destPath))
                     Directory.CreateDirectory(destPath);
             }

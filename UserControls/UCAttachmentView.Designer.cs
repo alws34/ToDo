@@ -145,6 +145,7 @@ namespace DoYourTasks.UserControls
             this.Controls.Add(this.lblAttachmentType);
             this.Controls.Add(this.btnOpenAttachment);
             this.Controls.Add(this.lblAttachemtnName);
+            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MaximumSize = new System.Drawing.Size(375, 70);
             this.MinimumSize = new System.Drawing.Size(375, 70);

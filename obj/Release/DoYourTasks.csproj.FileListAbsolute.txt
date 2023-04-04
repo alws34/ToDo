@@ -121,3 +121,27 @@ D:\ToDo\bin\Release\ReadMe.txt
 \\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.csproj.CopyComplete
 \\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.exe
 \\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\ReadMe.txt
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\DoYourTasks.exe.config
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\DoYourTasks.exe
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\Control.Draggable.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\Newtonsoft.Json.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.exe.config
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.frmHiddenItems.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.Properties.Resources.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.frmMain.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.UserControls.TaskView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.UserControls.UCAttachmentView.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.csproj.CopyComplete
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.exe
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\Newtonsoft.Json.xml

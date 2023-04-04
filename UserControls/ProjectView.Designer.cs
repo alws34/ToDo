@@ -52,7 +52,7 @@
             this.lblDrag = new System.Windows.Forms.Label();
             this.lblProjPriority = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnProjPriority = new DoYourTasks.UserControls.CustomButtonV2();
+            this.comboBoxChangePriority = new System.Windows.Forms.ComboBox();
             this.btnAddProjectAttachment = new DoYourTasks.UserControls.CustomButtonV2();
             this.btnHideProject = new DoYourTasks.UserControls.CustomButtonV2();
             this.customTextBox = new DoYourTasks.UserControls.CustomControls.CustomTextBox();
@@ -88,7 +88,7 @@
             this.lblTaskCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.lblTaskCount.Location = new System.Drawing.Point(3, 84);
             this.lblTaskCount.Name = "lblTaskCount";
-            this.lblTaskCount.Size = new System.Drawing.Size(79, 16);
+            this.lblTaskCount.Size = new System.Drawing.Size(141, 30);
             this.lblTaskCount.TabIndex = 8;
             this.lblTaskCount.Tag = "Tasks: 0/0";
             this.lblTaskCount.Text = "Tasks: 0/0";
@@ -170,7 +170,7 @@
             this.lblDoneTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblDoneTaskCount.Location = new System.Drawing.Point(92, 155);
             this.lblDoneTaskCount.Name = "lblDoneTaskCount";
-            this.lblDoneTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblDoneTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblDoneTaskCount.TabIndex = 23;
             this.lblDoneTaskCount.Tag = "";
             this.lblDoneTaskCount.Text = "0";
@@ -183,7 +183,7 @@
             this.lblVeryLowTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblVeryLowTaskCount.Location = new System.Drawing.Point(92, 89);
             this.lblVeryLowTaskCount.Name = "lblVeryLowTaskCount";
-            this.lblVeryLowTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblVeryLowTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblVeryLowTaskCount.TabIndex = 17;
             this.lblVeryLowTaskCount.Tag = "";
             this.lblVeryLowTaskCount.Text = "0";
@@ -196,7 +196,7 @@
             this.lblLowTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblLowTaskCount.Location = new System.Drawing.Point(92, 67);
             this.lblLowTaskCount.Name = "lblLowTaskCount";
-            this.lblLowTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblLowTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblLowTaskCount.TabIndex = 12;
             this.lblLowTaskCount.Tag = "";
             this.lblLowTaskCount.Text = "0";
@@ -209,7 +209,7 @@
             this.lblMediumTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblMediumTaskCount.Location = new System.Drawing.Point(92, 45);
             this.lblMediumTaskCount.Name = "lblMediumTaskCount";
-            this.lblMediumTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblMediumTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblMediumTaskCount.TabIndex = 13;
             this.lblMediumTaskCount.Tag = "";
             this.lblMediumTaskCount.Text = "0";
@@ -222,7 +222,7 @@
             this.lblHighTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblHighTaskCount.Location = new System.Drawing.Point(92, 23);
             this.lblHighTaskCount.Name = "lblHighTaskCount";
-            this.lblHighTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblHighTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblHighTaskCount.TabIndex = 14;
             this.lblHighTaskCount.Tag = "";
             this.lblHighTaskCount.Text = "0";
@@ -312,7 +312,7 @@
             this.lblUrgentTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblUrgentTaskCount.Location = new System.Drawing.Point(92, 1);
             this.lblUrgentTaskCount.Name = "lblUrgentTaskCount";
-            this.lblUrgentTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblUrgentTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblUrgentTaskCount.TabIndex = 25;
             this.lblUrgentTaskCount.Text = "0";
             this.lblUrgentTaskCount.Click += new System.EventHandler(this.ProjectView_GotFocus);
@@ -340,7 +340,7 @@
             this.lblWaitingTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblWaitingTaskCount.Location = new System.Drawing.Point(92, 133);
             this.lblWaitingTaskCount.Name = "lblWaitingTaskCount";
-            this.lblWaitingTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblWaitingTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblWaitingTaskCount.TabIndex = 19;
             this.lblWaitingTaskCount.Tag = "";
             this.lblWaitingTaskCount.Text = "0";
@@ -353,7 +353,7 @@
             this.lblDontProceedTaskCount.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblDontProceedTaskCount.Location = new System.Drawing.Point(92, 111);
             this.lblDontProceedTaskCount.Name = "lblDontProceedTaskCount";
-            this.lblDontProceedTaskCount.Size = new System.Drawing.Size(18, 19);
+            this.lblDontProceedTaskCount.Size = new System.Drawing.Size(27, 21);
             this.lblDontProceedTaskCount.TabIndex = 21;
             this.lblDontProceedTaskCount.Tag = "";
             this.lblDontProceedTaskCount.Text = "0";
@@ -367,7 +367,7 @@
             this.lblDrag.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.lblDrag.Location = new System.Drawing.Point(127, 81);
             this.lblDrag.Name = "lblDrag";
-            this.lblDrag.Size = new System.Drawing.Size(140, 22);
+            this.lblDrag.Size = new System.Drawing.Size(265, 39);
             this.lblDrag.TabIndex = 11;
             this.lblDrag.Text = "Drag From Here";
             // 
@@ -381,7 +381,7 @@
             this.lblProjPriority.Location = new System.Drawing.Point(127, 52);
             this.lblProjPriority.Margin = new System.Windows.Forms.Padding(0);
             this.lblProjPriority.Name = "lblProjPriority";
-            this.lblProjPriority.Size = new System.Drawing.Size(56, 27);
+            this.lblProjPriority.Size = new System.Drawing.Size(108, 54);
             this.lblProjPriority.TabIndex = 16;
             this.lblProjPriority.Tag = "";
             this.lblProjPriority.Text = "Low";
@@ -389,7 +389,7 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.btnProjPriority);
+            this.flowLayoutPanel1.Controls.Add(this.comboBoxChangePriority);
             this.flowLayoutPanel1.Controls.Add(this.btnAddProjectAttachment);
             this.flowLayoutPanel1.Controls.Add(this.btnHideProject);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(129, 177);
@@ -397,25 +397,14 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(140, 100);
             this.flowLayoutPanel1.TabIndex = 21;
             // 
-            // btnProjPriority
+            // comboBoxChangePriority
             // 
-            this.btnProjPriority.BackColor = System.Drawing.Color.Transparent;
-            this.btnProjPriority.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnProjPriority.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnProjPriority.BorderRadius = 0;
-            this.btnProjPriority.BorderSize = 0;
-            this.btnProjPriority.FlatAppearance.BorderSize = 0;
-            this.btnProjPriority.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProjPriority.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProjPriority.ForeColor = System.Drawing.Color.Black;
-            this.btnProjPriority.Location = new System.Drawing.Point(3, 3);
-            this.btnProjPriority.Name = "btnProjPriority";
-            this.btnProjPriority.Size = new System.Drawing.Size(140, 29);
-            this.btnProjPriority.TabIndex = 17;
-            this.btnProjPriority.Text = "change Project Priority";
-            this.btnProjPriority.TextColor = System.Drawing.Color.Black;
-            this.btnProjPriority.UseVisualStyleBackColor = false;
-            this.btnProjPriority.Click += new System.EventHandler(this.btnProjPriority_Click);
+            this.comboBoxChangePriority.FormattingEnabled = true;
+            this.comboBoxChangePriority.Location = new System.Drawing.Point(3, 3);
+            this.comboBoxChangePriority.Name = "comboBoxChangePriority";
+            this.comboBoxChangePriority.Size = new System.Drawing.Size(137, 33);
+            this.comboBoxChangePriority.TabIndex = 21;
+            this.comboBoxChangePriority.SelectedIndexChanged += new System.EventHandler(this.comboBoxChangePriority_SelectedIndexChanged);
             // 
             // btnAddProjectAttachment
             // 
@@ -428,7 +417,7 @@
             this.btnAddProjectAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddProjectAttachment.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddProjectAttachment.ForeColor = System.Drawing.Color.Black;
-            this.btnAddProjectAttachment.Location = new System.Drawing.Point(3, 38);
+            this.btnAddProjectAttachment.Location = new System.Drawing.Point(3, 42);
             this.btnAddProjectAttachment.Name = "btnAddProjectAttachment";
             this.btnAddProjectAttachment.Size = new System.Drawing.Size(137, 29);
             this.btnAddProjectAttachment.TabIndex = 19;
@@ -448,7 +437,7 @@
             this.btnHideProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHideProject.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHideProject.ForeColor = System.Drawing.Color.Black;
-            this.btnHideProject.Location = new System.Drawing.Point(3, 73);
+            this.btnHideProject.Location = new System.Drawing.Point(3, 77);
             this.btnHideProject.Name = "btnHideProject";
             this.btnHideProject.Size = new System.Drawing.Size(137, 29);
             this.btnHideProject.TabIndex = 20;
@@ -514,7 +503,7 @@
             // 
             // ProjectView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.Controls.Add(this.flowLayoutPanel1);
@@ -527,12 +516,13 @@
             this.Controls.Add(this.pnlIndicator);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnEditListName);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.ForeColor = System.Drawing.Color.Black;
             this.MaximumSize = new System.Drawing.Size(272, 280);
             this.MinimumSize = new System.Drawing.Size(272, 103);
             this.Name = "ProjectView";
-            this.Size = new System.Drawing.Size(272, 103);
+            this.Size = new System.Drawing.Size(272, 280);
             this.Click += new System.EventHandler(this.ProjectView_GotFocus);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -558,7 +548,6 @@
         private System.Windows.Forms.Label lblMediumTaskCount;
         private System.Windows.Forms.Label lblHighTaskCount;
         private System.Windows.Forms.Label lblDrag;
-        private CustomButtonV2 btnProjPriority;
         private System.Windows.Forms.Label lblProjPriority;
         private CustomButtonV2 btnAddProjectAttachment;
         private CustomButtonV2 btnHideProject;
@@ -573,5 +562,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblUrgentTaskCount;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.ComboBox comboBoxChangePriority;
     }
 }

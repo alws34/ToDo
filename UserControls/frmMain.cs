@@ -556,7 +556,6 @@ namespace DoYourTasks
         {
             currentProjectView = arg.PV;
             lblProjName.Text = dataController.GetCorrectProject(arg.PV.ProjectID).GetProjectName();
-
         }
 
         private void DeleteProject(ProjectViewDeletedEventArgs arg)
