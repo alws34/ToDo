@@ -47,11 +47,12 @@
             this.label1.Size = new System.Drawing.Size(261, 39);
             this.label1.TabIndex = 10;
             this.label1.Text = "Drag From Here";
+            this.label1.Visible = false;
             // 
             // ctbTaskName
             // 
-            this.ctbTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
-            this.ctbTaskName.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
+            this.ctbTaskName.BackColor = System.Drawing.Color.LightGray;
+            this.ctbTaskName.BorderColor = System.Drawing.Color.LightGray;
             this.ctbTaskName.BorderSize = 2;
             this.ctbTaskName.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.ctbTaskName.ForeColor = System.Drawing.Color.White;
@@ -70,7 +71,7 @@
             // customRadioButtonTaskName
             // 
             this.customRadioButtonTaskName.AutoSize = true;
-            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
+            this.customRadioButtonTaskName.BackColor = System.Drawing.Color.LightGray;
             this.customRadioButtonTaskName.CheckedColor = System.Drawing.Color.MediumSlateBlue;
             this.customRadioButtonTaskName.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.customRadioButtonTaskName.ForeColor = System.Drawing.Color.White;
@@ -98,13 +99,13 @@
             this.btnEditTaskName.FlatAppearance.BorderSize = 0;
             this.btnEditTaskName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditTaskName.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.btnEditTaskName.ForeColor = System.Drawing.Color.White;
+            this.btnEditTaskName.ForeColor = System.Drawing.Color.Black;
             this.btnEditTaskName.Location = new System.Drawing.Point(3, 75);
             this.btnEditTaskName.Name = "btnEditTaskName";
             this.btnEditTaskName.Size = new System.Drawing.Size(54, 26);
             this.btnEditTaskName.TabIndex = 8;
             this.btnEditTaskName.Text = "Edit";
-            this.btnEditTaskName.TextColor = System.Drawing.Color.White;
+            this.btnEditTaskName.TextColor = System.Drawing.Color.Black;
             this.btnEditTaskName.UseVisualStyleBackColor = false;
             this.btnEditTaskName.Click += new System.EventHandler(this.btnEditTaskName_Click);
             // 
@@ -144,7 +145,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
+            this.BackColor = System.Drawing.Color.LightGray;
             this.Controls.Add(this.lblDateCreated);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ctbTaskName);
@@ -153,7 +154,7 @@
             this.Controls.Add(this.btnDelete);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.ForeColor = System.Drawing.Color.White;
+            this.ForeColor = System.Drawing.Color.Black;
             this.Name = "SubTaskView";
             this.Size = new System.Drawing.Size(265, 104);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SubTaskView_MouseDown);

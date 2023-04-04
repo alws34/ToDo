@@ -173,7 +173,13 @@ namespace DoYourTasks
                         return false;
                 }
             }
-            serializer.JsonSerialize_(Projects, false);
+            Dictionary<string, Project> saveAllProjects = Projects;
+            foreach (var project in HiddenProjects)
+                if (!saveAllProjects.ContainsKey(project.Key))
+                    saveAllProjects.Add(project.Key, project.Value);
+
+
+            serializer.JsonSerialize_(saveAllProjects, false);
             return true;
         }
 

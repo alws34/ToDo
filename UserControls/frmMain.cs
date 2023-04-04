@@ -188,7 +188,7 @@ namespace DoYourTasks
                     project = dataController.GetCorrectProject(projectID);
 
                     //project.SetIsHidden(!project.GetIsHidden());
-
+                    
                     if (pv.GetIsHidden())
                     {
                         //move control between view-locations
@@ -951,7 +951,8 @@ namespace DoYourTasks
 
             if (!dataController.SaveToFile())
                 return;
-            Application.Exit();
+            //Application.Exit();
+            Environment.Exit(0);
         }
         #endregion
 
