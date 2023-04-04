@@ -359,6 +359,7 @@ namespace DoYourTasks
                 task = new Task(taskID, taskName, projectID);
                 GetCorrectProject(projectID).GetTasks().Add(taskID, task);//Add task to coresponding project
                 tv.SetDateCreated(task.DateCreated);
+                tv.isHidden = false;
             }
 
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(tv));//update task view in form
@@ -505,7 +506,10 @@ namespace DoYourTasks
 
         private void AddTaskToDicts(Task task, TaskView taskView, string taskID)
         {
-            Taskviews.Add(taskID, taskView);
+            try
+            {
+                Taskviews.Add(taskID, taskView);
+            }catch(Exception ex) { }
         }
         #endregion
 

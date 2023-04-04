@@ -188,7 +188,7 @@ namespace DoYourTasks
                     project = dataController.GetCorrectProject(projectID);
 
                     //project.SetIsHidden(!project.GetIsHidden());
-                    
+
                     if (pv.GetIsHidden())
                     {
                         //move control between view-locations
@@ -231,7 +231,9 @@ namespace DoYourTasks
                     break;
                 case "TaskView":
                     TaskView tv = control as TaskView;
-                    Task task = dataController.GetCorrectProject(tv.GetParentProjectID()).GetTasks()[tv.GetTaskID()];
+                    projectID = tv.GetParentProjectID();
+                    string taskID = tv.GetTaskID();
+                    Task task = dataController.GetCorrectProject(projectID).GetTasks()[taskID];
                     if (tv.GetIsHidden())
                     {
                         frmHiddenTasks.AddControl(control);
@@ -595,6 +597,23 @@ namespace DoYourTasks
                 SetCurrentProjectView(new SetProjectViewEventArgs(arg.PV));
                 ResetIndicators();
                 currentProjectView.SetIndicator(true);
+
+                if (currentProjectView.GetIsHidden())
+                {
+                    flpTaskOptions.Enabled = false;
+                    tbAddSubTask.Enabled = false;
+                    tbAddTask.Enabled = false;
+                    tbProjectNotes.Enabled = false; 
+                    tbCommitMsg.Enabled = false;
+                }
+                else
+                {
+                    flpTaskOptions.Enabled = true;
+                    tbAddSubTask.Enabled = true;
+                    tbAddTask.Enabled = true;
+                    tbProjectNotes.Enabled = true;
+                    tbCommitMsg.Enabled = true;
+                }
 
                 // animate
                 //while (currentProjectView.Height < currentProjectView.MaximumSize.Height)

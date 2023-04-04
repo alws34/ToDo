@@ -39,7 +39,14 @@ namespace DoYourTasks
         public void SetProjectNotes(string note) { ProjectNotes = note; }
         public void SetPriority(int priority) { Priority = priority; }
         public void AddTask(Task task) { Tasks.Add(task.GetTaskID(), task); }
-        public void AddHiddenTask(Task task) { HiddenTasks.Add(task.GetTaskID(), task); }
+        public void AddHiddenTask(Task task)
+        {
+            try
+            {
+                HiddenTasks.Add(task.GetTaskID(), task);
+            }
+            catch (Exception) { }
+        }
         public void RemoveTask(string taskID) { Tasks.Remove(taskID); }
         public void AddSubTask(string taskID, SubTask subTask) { Tasks[taskID].AddSubTask(subTask.GetSubTaskID(), subTask); }
         public void Rename(string newName) { ProjectName = newName; }
@@ -56,7 +63,12 @@ namespace DoYourTasks
         public string GetProjectNotes() { return ProjectNotes; }
         public string GetProjectName() { return ProjectName; }
         public DateTime GetDateCreated() { return DateCreated; }
-        public Dictionary<string, Task> GetTasks() { return Tasks; }
+        public Dictionary<string, Task> GetTasks()
+        {
+            if (GetIsHidden())
+                return GetHiddenTasks();
+            return Tasks;
+        }
         public Dictionary<string, Task> GetHiddenTasks() { return HiddenTasks; }
         #endregion
     }

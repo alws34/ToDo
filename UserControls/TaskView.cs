@@ -113,10 +113,7 @@ namespace DoYourTasks.UserControls
         #region Setters
 
 
-        private void SetIsHidden(bool mode)
-        {
-            isHidden = mode;
-        }
+        private void SetIsHidden(bool mode) { isHidden = mode; }
 
         public void SetAttachments(List<Attachment> attachments)
         {
@@ -479,7 +476,7 @@ namespace DoYourTasks.UserControls
 
         #endregion
 
-    
+
         private void btnAddAttachment_Click(object sender, EventArgs e)
         {
             AddTaskAttachment.Invoke(new TaskModifiedEventArgs(this));
