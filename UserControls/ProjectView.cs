@@ -17,46 +17,63 @@ namespace DoYourTasks.UserControls
         public event SetProjectViewEventHandler SetProjectView;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
         public event ProjectViewRenamedEventHandler ProjectViewRenamed;
-        public event ShowTooltipEventHandler ShowTooltip;
+        public event ChangePriorityEventHandler ChangePriority;
+        public event HideItemEventHandler HideProject;
+        public event AddNewProjectAttachmentEventHandler AddAttachment;
+
         #endregion
 
         #region Properties
         public string ProjectID { get; set; }
         public string ProjectName { get; set; }
         public bool IsIndicating { get; set; }
+        public bool IsHidden { get; set; }
         public string ProjectBackGroundImagePath { get; set; }
         #endregion
 
         #region Fields
         private bool isInEditMode = false;
+        private enum ProjectPriorities
+        {
+            VeryLow,
+            Low,
+            Medium,
+            High,
+            Urgent,
+            OnHold,
+            Waiting,
+            Done
+        }
+
         #endregion
 
         #region Constructors
         public ProjectView(string projectID, bool isNew = true)
         {
             InitializeComponent();
+            Name = "ProjectView";
+
             SetIndicator(false);
             EventSubscriber();
-            Name = "ProjectView";
             ProjectID = projectID;
-            isInEditMode = true;
-
+            isInEditMode = isNew;
+            IsHidden = false;
             if (!isNew)
             {
-                isInEditMode = false; 
                 HideTB();
             }
-
         }
         #endregion
 
         #region Getters
+        public string GetProjectID() { return ProjectID; }
         public CustomTextBox GetCurrentCustomTextBox()
         {
             return customTextBox.GetCurrentCustomTextBox();
         }
 
-        public bool GetIsInEditMode() { 
+        public bool GetIsInEditMode()
+        {
             return isInEditMode;
         }
 
@@ -70,13 +87,14 @@ namespace DoYourTasks.UserControls
             return IsIndicating;
         }
 
-        public string GetProjName()
+        public string GetProjectName()
         {
-            return lblName.Text;
+            return customTextBox.Text;
         }
         #endregion
 
         #region Setters
+
         public void SetIndicator(bool mode)
         {
             IsIndicating = mode;
@@ -95,10 +113,207 @@ namespace DoYourTasks.UserControls
             }
 
         }
-      
+
+        private void btnProjPriority_Click(object sender, EventArgs e)
+        {
+            int priority = 0;
+            switch (lblProjPriority.Text)
+            {
+                case "On Hold":
+                    priority = (int)ProjectPriorities.VeryLow;
+                    break;
+                case "Very Low":
+                    priority = (int)ProjectPriorities.Low;
+                    break;
+                case "Low":
+                    priority = (int)ProjectPriorities.Medium;
+                    break;
+                case "Medium":
+                    priority = (int)ProjectPriorities.High;
+                    break;
+                case "High":
+                    priority = (int)ProjectPriorities.Urgent;
+                    break;
+                case "Urgent":
+                    priority = (int)ProjectPriorities.Waiting;
+                    break;
+                case "Waiting":
+                    priority = (int)ProjectPriorities.Done;
+                    break;
+                case "Done":
+                    priority = (int)ProjectPriorities.OnHold;
+                    break;
+            }
+            SetPriority(priority);
+        }
+
+        public void SetPriority(int priority = 0, bool isNew = false)
+        {
+            switch (priority)
+            {
+                case (int)ProjectPriorities.VeryLow:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Cyan;
+                        lblProjPriority.ForeColor = Color.Black;
+                        lblProjPriority.Text = "Very Low";//current
+                        priority = (int)ProjectPriorities.Done;//loop (previous)
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.Low);//Next
+                    }
+                    break;
+                case (int)ProjectPriorities.Low:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.DeepSkyBlue;
+                        lblProjPriority.ForeColor = Color.Black;
+                        lblProjPriority.Text = "Low";
+                        priority = (int)ProjectPriorities.VeryLow;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.Medium);
+                    }
+                    break;
+                case (int)ProjectPriorities.Medium:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Blue;
+                        lblProjPriority.ForeColor = Color.White;
+                        lblProjPriority.Text = "Medium";
+                        priority = (int)ProjectPriorities.Low;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.High);
+                    }
+                    break;
+                case (int)ProjectPriorities.High:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Yellow;
+                        lblProjPriority.ForeColor = Color.Black;
+                        lblProjPriority.Text = "High";
+                        priority = (int)ProjectPriorities.Medium;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.Urgent);
+                    }
+                    break;
+                case (int)ProjectPriorities.Urgent:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Red;
+                        lblProjPriority.ForeColor = Color.Yellow;
+                        lblProjPriority.Text = "Urgent";
+                        priority = (int)ProjectPriorities.High;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.OnHold);
+                    }
+                    break;
+                case (int)ProjectPriorities.OnHold:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Black;
+                        lblProjPriority.ForeColor = Color.White;
+                        lblProjPriority.Text = "On Hold";
+                        priority = (int)ProjectPriorities.Urgent;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.Waiting);
+                    }
+                    break;
+                case (int)ProjectPriorities.Waiting:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Orange;
+                        lblProjPriority.ForeColor = Color.Black;
+                        lblProjPriority.Text = "Waiting";
+                        priority = (int)ProjectPriorities.OnHold;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.Done);
+                    }
+                    break;
+                case (int)ProjectPriorities.Done:
+                    if (!isNew)//loaing from saved data
+                    {
+                        lblProjPriority.BackColor = Color.Green;
+                        lblProjPriority.ForeColor = Color.White;
+                        lblProjPriority.Text = "Done";
+                        priority = (int)ProjectPriorities.OnHold;
+                    }
+                    else
+                    {
+                        SetPriority((int)ProjectPriorities.VeryLow);
+                    }
+                    break;
+            }//switch
+            ChangePriority.Invoke(new ChangePriorityEventArgs(this, "project", priority));
+        }
+
+        public bool GetIsHidden()
+        {
+            return IsHidden;
+        }
+
+        public void SetHidden(bool isHidden)
+        {
+            IsHidden = isHidden;
+        }
+
+        public void SetCounters(int lblNum, int num)
+        {
+            Label currentLabel = null;
+            switch (lblNum)
+            {
+                case (int)ProjectPriorities.VeryLow:
+                    currentLabel = lblVeryLowTaskCount;
+                    break;
+                case (int)ProjectPriorities.Low:
+                    currentLabel = lblLowTaskCount;
+                    break;
+                case (int)ProjectPriorities.Medium:
+                    currentLabel = lblMediumTaskCount;
+                    break;
+                case (int)ProjectPriorities.High:
+                    currentLabel = lblHighTaskCount;
+                    break;
+                case (int)ProjectPriorities.Urgent:
+                    currentLabel = lblUrgentTaskCount;
+                    break;
+                case (int)ProjectPriorities.OnHold:
+                    currentLabel = lblDontProceedTaskCount;
+                    break;
+                case (int)ProjectPriorities.Waiting:
+                    currentLabel = lblWaitingTaskCount;
+                    break;
+                case (int)ProjectPriorities.Done:
+                    currentLabel = lblDoneTaskCount;
+                    break;
+
+            }
+            if (currentLabel != null)
+                currentLabel.Text = num.ToString();
+        }
+
         public void SetIsInEditMode(bool mode)
         {
             isInEditMode = mode;
+            customTextBox.SetIsInEdit(mode);
+        }
+
+        public void SetTasksLabel(string tasks)
+        {
+            lblTaskCount.Text = tasks;
+            lblTaskCount.Visible = true;
         }
 
         public void SetBackGroundImage(string imagePath)
@@ -108,17 +323,17 @@ namespace DoYourTasks.UserControls
 
         public void Rename(string text)
         {
-            lblName.Text = text;
+            customTextBox.Text = text;
             customTextBox.SetText(text);
-            lblName.Show();
-            lblName.Visible = true;
+            //customTextBox.Show();
+            //customTextBox.Visible = true;
             ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, customTextBox.GetText()));
             HideTB();
         }
 
         public void HideTB()
         {
-            customTextBox.Hide();
+            //customTextBox.Hide();
             SetIsInEditMode(false);
         }
         #endregion
@@ -159,7 +374,7 @@ namespace DoYourTasks.UserControls
 
         private void btnEditListName_Click(object sender, EventArgs e)
         {
-            customTextBox.ResetText();
+            //customTextBox.ResetText();
             btnEditListName.Hide();
             Height = MinimumSize.Height;
             customTextBox.Show();
@@ -169,12 +384,34 @@ namespace DoYourTasks.UserControls
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            ProjectViewDeleted.Invoke(new ProjectViewDeletedEventArgs(this));
+            DialogResult res = MessageBox.Show("Are you sure you want to delete this Project?\nThis cannot be reversed!", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (res == DialogResult.Yes)
+                ProjectViewDeleted.Invoke(new ProjectViewDeletedEventArgs(this));
+            else
+                return;
         }
 
-        private void ProjectView_MouseEnter(object sender, EventArgs e)
+
+
+
+        private void btnAddProjectAttachment_Click(object sender, EventArgs e)
         {
-            ShowTooltip.Invoke(new ShowTooltipEventArgs(this, lblName.Text));
+            AddAttachment.Invoke();
         }
+
+        private void SetHideButtonText(string text) { btnHideProject.Text = text; }
+
+        private void btnHideProject_Click(object sender, EventArgs e)
+        {
+            IsHidden = !IsHidden;
+
+            if (GetIsHidden())
+                SetHideButtonText("Show Project");
+            else
+                SetHideButtonText("Hide Project");
+
+            HideProject.Invoke(new HideItemEventArgs(this));
+        }
+
     }
 }

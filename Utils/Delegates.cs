@@ -4,6 +4,37 @@ using System.Windows.Forms;
 
 namespace DoYourTasks
 {
+    #region General
+    public delegate void ChangePriorityEventHandler(ChangePriorityEventArgs arg);
+    /// <summary>
+    /// Type: Priority - "Dont proceed" : 1, "Very Low" : 2, "Low" : 3, "Medium" : 4, "High" : 5, "Urgent" : 6 
+    /// </summary>
+    public class ChangePriorityEventArgs : EventArgs
+    {
+        public string Type { get; set; } 
+        public int Priority { get; set; }
+        public object Control { get; set; }
+        public ChangePriorityEventArgs(object control,string type, int priority)
+        {
+            Type = type;
+            Priority = priority;
+            Control = control;
+        }
+    }
+
+    public delegate void HideItemEventHandler(HideItemEventArgs arg);
+    public class HideItemEventArgs : EventArgs
+    {
+        public Control Control { get; set; }
+        public HideItemEventArgs(Control control)
+        {
+            Control = control;
+        }
+    }
+
+    #endregion
+
+
     #region Utils
     public delegate void SetPlaceHolderEventHandler(SetPlaceHolderEventArgs arg);
     public class SetPlaceHolderEventArgs : EventArgs
@@ -15,21 +46,14 @@ namespace DoYourTasks
         }
     }
 
-    public delegate void ShowTooltipEventHandler(ShowTooltipEventArgs arg);
-    public class ShowTooltipEventArgs : EventArgs
-    {
-        public string Caption { get; set; }
-        public Control Control { get; set; }
-        public ShowTooltipEventArgs(Control control ,string text)
-        {
-            Caption = text;
-            Control = control;
-        }
-    }
+
 
     #endregion
 
     #region Project
+    public delegate void AddNewProjectAttachmentEventHandler();
+
+
     public delegate void SetProjectViewEventHandler(SetProjectViewEventArgs arg);
     public class SetProjectViewEventArgs : EventArgs
     {
@@ -87,11 +111,36 @@ namespace DoYourTasks
         }
     }
 
+    public delegate void PriorityChangedEventHandler(PriorityChangedEventArgs args);
+    public class PriorityChangedEventArgs : EventArgs
+    {
+        public TaskView TaskView { get; set; }
+        public int Priority { get; set; }
+        public PriorityChangedEventArgs(TaskView tv, int priority)
+        {
+            TaskView = tv;
+            Priority = priority;
+        }
+    }
+
+
+    public delegate void TaskRenamedEventHandler(TaskRenamedEventArgs args);
+    public class TaskRenamedEventArgs : EventArgs
+    {
+        public TaskView TaskView { get; set; }
+        public TaskRenamedEventArgs(TaskView tv) { TaskView = tv; }
+    }
+
+
     public delegate void TaskDueDateChangedEventHandler(DueDateChangedEventArgs args);
     public class DueDateChangedEventArgs : EventArgs
     {
         public TaskView TaskView { get; set; }
-        public DueDateChangedEventArgs(TaskView tv) { TaskView = tv; }
+        public string DueDate { get; set; }
+        public DueDateChangedEventArgs(TaskView tv, string date) { 
+            TaskView = tv;
+            DueDate = date;
+        }
     }
 
     public delegate void CustomCBcheckedChangedEventHandler(CustomCBcheckedChangedEventArgs args);
@@ -147,6 +196,7 @@ namespace DoYourTasks
         }
     }
 
+    public delegate void NewSubTaskViewEventHandler(SubTaskDeletedEventArgs arg);
     public delegate void SubTaskDeletedEventHandler(SubTaskDeletedEventArgs arg);
     public class SubTaskDeletedEventArgs : EventArgs
     {
@@ -169,4 +219,30 @@ namespace DoYourTasks
         }
     }
     #endregion
+
+    #region Attachments
+
+    public delegate void AttachmentRemovedEventHandler(AttachmentRemovedEventArgs arg);
+    public class AttachmentRemovedEventArgs : EventArgs
+    {
+        public UCAttachmentView Attachment { get; set; }
+        public AttachmentRemovedEventArgs(UCAttachmentView attachment)
+        {
+            Attachment = attachment;
+        }
+    }
+    #endregion
+
+    public enum PriorityCodes
+    {
+        VeryLow,
+        Low,
+        Medium,
+        High,
+        Urgent,
+        OnHold,
+        Waiting,
+        Done
+    };
+
 }

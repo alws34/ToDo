@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +47,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>todo-list-96.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Control.Draggable, Version=1.0.8460.14862, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\40236\Desktop\Control.Draggable-master\bin\Debug\Control.Draggable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Toolkit.Uwp.Notifications, Version=7.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Nugets\Microsoft.Toolkit.Uwp.Notifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,6 +75,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Windows">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.22000.0\Windows.winmd</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animations\AnimationDirection.cs" />
@@ -52,6 +85,13 @@
     <Compile Include="Animations\Animations.cs" />
     <Compile Include="Controllers\viewsController.cs" />
     <Compile Include="DataLayer\Serializer.cs" />
+    <Compile Include="frmHiddenItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHiddenItems.Designer.cs">
+      <DependentUpon>frmHiddenItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Attachment.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\SubTask.cs" />
     <Compile Include="Model\Task.cs" />
@@ -73,8 +113,56 @@
     <Compile Include="UserControls\CustomControls\CustomButtonV2.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialCheckbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialDivider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialFlatButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialRaisedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialSingleLineTextField.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\CustomControls\MaterialTabSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserControls\CustomControls\RJToggleButton.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\frmAttachments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\frmAttachments.Designer.cs">
+      <DependentUpon>frmAttachments.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\frmMain.cs">
       <SubType>Form</SubType>
@@ -102,9 +190,22 @@
     <Compile Include="UserControls\TaskView.Designer.cs">
       <DependentUpon>TaskView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UCAttachmentView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCAttachmentView.Designer.cs">
+      <DependentUpon>UCAttachmentView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ColorScheme.cs" />
     <Compile Include="Utils\Delegates.cs" />
+    <Compile Include="Utils\DrawHelper.cs" />
+    <Compile Include="Utils\IMaterialControl.cs" />
     <Compile Include="Utils\IViewAble.cs" />
+    <Compile Include="Utils\MaterialSkinManager.cs" />
     <Compile Include="Utils\Utils.cs" />
+    <EmbeddedResource Include="frmHiddenItems.resx">
+      <DependentUpon>frmHiddenItems.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -120,6 +221,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ProjectView.resx">
       <DependentUpon>ProjectView.cs</DependentUpon>
@@ -130,6 +232,9 @@
     <EmbeddedResource Include="UserControls\TaskView.resx">
       <DependentUpon>TaskView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UCAttachmentView.resx">
+      <DependentUpon>UCAttachmentView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -139,8 +244,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Roboto-Medium.ttf" />
-    <None Include="Resources\Roboto-Regular.ttf" />
+    <!-- <Compile Include="Resources\Roboto-Medium.ttf" />
+    <Compile Include="Resources\Roboto-Regular.ttf" /> -->
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -149,6 +254,12 @@
     <None Include="Resources\icons8-menu-40.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Newtonsoft.Json.dll" />
+    <Content Include="Control.Draggable.dll" />
+    <Content Include="Microsoft.Toolkit.Uwp.Notifications.dll" />
+    <AdditionalFiles Include="ReadMe.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <Content Include="Resources\Background\Nature\01602sandringhambeach19.jpg" />
     <Content Include="Resources\Background\Nature\0j64OR3.jpg" />
     <Content Include="Resources\Background\Nature\15-beach-sea-photography.jpg" />
@@ -207,12 +318,19 @@
     <Content Include="Resources\Normal.png" />
     <Content Include="Resources\todo-list-96.ico" />
     <Content Include="Resources\todo-list-96.png" />
+    <Content Include="todo-list-96.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MaterialSkin-master\MaterialSkin\MaterialSkin.csproj">
-      <Project>{8eb7611b-68cd-4b8b-987a-11717e2b250c}</Project>
-      <Name>MaterialSkin</Name>
-    </ProjectReference>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

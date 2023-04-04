@@ -1,0 +1,123 @@
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\DoYourTasks.exe.config
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\DoYourTasks.exe
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\DoYourTasks.pdb
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\MaterialSkin.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\Newtonsoft.Json.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.Text.Json.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.Text.Encodings.Web.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.ValueTuple.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.Numerics.Vectors.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.Threading.Tasks.Extensions.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.Buffers.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\bin\Release\MaterialSkin.pdb
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.exe.config
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.Properties.Resources.resources
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.frmMain.resources
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.UserControls.TaskView.resources
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.csproj.CopyComplete
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.exe
+D:\Google Drive\Alon\Projects\OnGoing\ToDoMockup\obj\Release\DoYourTasks.pdb
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\bin\Release\DoYourTasks.exe.config
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\bin\Release\DoYourTasks.exe
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\bin\Release\DoYourTasks.pdb
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\bin\Release\Newtonsoft.Json.dll
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.Properties.Resources.resources
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.frmMain.resources
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.UserControls.TaskView.resources
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.csproj.CopyComplete
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.exe
+C:\Users\40236\Desktop\12202022_122031\allowed\ToDoMockup\obj\Release\DoYourTasks.pdb
+D:\ToDoMockup\bin\Release\DoYourTasks.exe.config
+D:\ToDoMockup\bin\Release\DoYourTasks.exe
+D:\ToDoMockup\bin\Release\DoYourTasks.pdb
+D:\ToDoMockup\bin\Release\Newtonsoft.Json.dll
+D:\ToDoMockup\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+D:\ToDoMockup\obj\Release\DoYourTasks.Properties.Resources.resources
+D:\ToDoMockup\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+D:\ToDoMockup\obj\Release\DoYourTasks.frmMain.resources
+D:\ToDoMockup\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+D:\ToDoMockup\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+D:\ToDoMockup\obj\Release\DoYourTasks.UserControls.TaskView.resources
+D:\ToDoMockup\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+D:\ToDoMockup\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+D:\ToDoMockup\obj\Release\DoYourTasks.csproj.CopyComplete
+D:\ToDoMockup\obj\Release\DoYourTasks.exe
+D:\ToDoMockup\obj\Release\DoYourTasks.pdb
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.Properties.Resources.resources
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.frmMain.resources
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.TaskView.resources
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.exe
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.pdb
+C:\Users\40236\Desktop\ToDo\bin\Release\DoYourTasks.exe.config
+C:\Users\40236\Desktop\ToDo\bin\Release\DoYourTasks.exe
+C:\Users\40236\Desktop\ToDo\bin\Release\DoYourTasks.pdb
+C:\Users\40236\Desktop\ToDo\bin\Release\Newtonsoft.Json.dll
+C:\Users\40236\Desktop\ToDo\obj\Release\DoYourTasks.csproj.CopyComplete
+D:\ToDo\bin\Release\DoYourTasks.exe.config
+D:\ToDo\bin\Release\DoYourTasks.exe
+D:\ToDo\bin\Release\Newtonsoft.Json.dll
+D:\ToDo\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+D:\ToDo\obj\Release\DoYourTasks.Properties.Resources.resources
+D:\ToDo\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+D:\ToDo\obj\Release\DoYourTasks.frmMain.resources
+D:\ToDo\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+D:\ToDo\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+D:\ToDo\obj\Release\DoYourTasks.UserControls.TaskView.resources
+D:\ToDo\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+D:\ToDo\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+D:\ToDo\obj\Release\DoYourTasks.csproj.CopyComplete
+D:\ToDo\obj\Release\DoYourTasks.exe
+D:\ToDo\obj\Release\DoYourTasks.pdb
+D:\ToDo\bin\Release\DoYourTasks.pdb
+D:\ToDo\obj\Release\DoYourTasks.UserControls.UCAttachmentView.resources
+D:\ToDo\bin\Release\Control.Draggable.dll
+D:\ToDo\bin\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+D:\ToDo\bin\Release\Windows.winmd
+D:\ToDo\obj\Release\DoYourTasks.exe.config
+D:\ToDo\obj\Release\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+D:\ToDo\obj\Release\DoYourTasks.frmHiddenItems.resources
+D:\ToDo\bin\Release\ReadMe.txt
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\ReadMe.txt
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\DoYourTasks.exe.config
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\DoYourTasks.exe
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\DoYourTasks.pdb
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\Control.Draggable.dll
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\bin\Release\Newtonsoft.Json.dll
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.exe.config
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.frmHiddenItems.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.Properties.Resources.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.frmMain.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.TaskView.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.UserControls.UCAttachmentView.resources
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.csproj.CopyComplete
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.exe
+\\IAI.CO.IL\MBT\USERS\W15a636\Desktop\ToDo\obj\Release\DoYourTasks.pdb

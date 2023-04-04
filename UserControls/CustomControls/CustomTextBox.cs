@@ -21,7 +21,7 @@ namespace DoYourTasks.UserControls.CustomControls
         private Color borderColor = Color.MediumSlateBlue;
         private int borderSize = 2;
         private bool underlinedStyle = false;
-        private bool isInCreationMode = false;
+        ToolTip toolTip = new ToolTip();
         #endregion
 
         #region Properties
@@ -61,6 +61,7 @@ namespace DoYourTasks.UserControls.CustomControls
                 this.Invalidate();
             }
         }
+        public bool IsInEdit { get; set; } = false;
         #endregion
 
         #region Constructors
@@ -81,10 +82,34 @@ namespace DoYourTasks.UserControls.CustomControls
         {
             return textBox.Text;
         }
+        public bool GetIsInEdit()
+        {
+            //if (BorderColor == Color.MediumSlateBlue)
+            //    return true;
+            //return false;
+            return IsInEdit;
+        }
 
         #endregion
 
         #region Setters
+        public void SetIsInEdit(bool isInEdit)
+        {
+            IsInEdit = isInEdit;
+            if (IsInEdit)
+            {
+                BorderColor = Color.MediumSlateBlue;
+            }
+            else
+            {
+                BorderColor = BackColor;
+            }
+
+        }
+
+        public void SetTBBackColor(Color c) { textBox.BackColor = c; }
+        public void SetTBForeColor(Color c) { textBox.ForeColor = c; }
+
         public void SetText(string text)
         {
             textBox.Text = text;
@@ -156,12 +181,40 @@ namespace DoYourTasks.UserControls.CustomControls
 
         private void textBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && !string.IsNullOrWhiteSpace(textBox.Text))
+            if (e.KeyCode == Keys.Enter )//&& !string.IsNullOrWhiteSpace(textBox.Text))
             {
-                Hide();
+                //Hide();
+                Parent.Select();
                 OnHide();
             }
         }
+
+        private void textBox_MouseEnter(object sender, EventArgs e)
+        {
+            toolTip.SetToolTip(textBox, textBox.Text);
+        }
+
+        private void textBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (BorderColor == Color.MediumSlateBlue)
+                IsInEdit = true;
+            else
+                IsInEdit = false;
+
+            if (e.KeyCode == Keys.Enter && IsInEdit)
+            {
+                e.SuppressKeyPress = true;
+                SetIsInEdit(false);
+            }
+            else
+            {
+                if (!IsInEdit)
+                    e.SuppressKeyPress = true;
+            }
+        }
+
         #endregion
+
+
     }
 }

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace DoYourTasks
 {
-    [Serializable]
     public class Task
     {
         #region Properties
@@ -15,11 +14,17 @@ namespace DoYourTasks
         public string TaskID;
         public string ParentProjectID;
         public string Notes;
+        public string DueDate;
         public DateTime DateCreated;
-        public DateTime? DueDate;
+        public DateTime DateCompleted;
+        public int Priority;
         public bool IsStarred;
         public bool IsCompleted;
+        public bool IsHidden;
+        public string Assigner;// who asked\opened the issue?
+        public int Index;
         public Dictionary<string, SubTask> SubTasks;
+        public List<Attachment> Attachments = new List<Attachment>();//list will hold file paths
         #endregion
 
         #region Constructors
@@ -32,11 +37,14 @@ namespace DoYourTasks
             IsStarred = false;
             IsCompleted = false;
             Notes = null;
-            DueDate = null;
+            DueDate = "No Due Date";
+            Index = 10000;
+            Priority = 0; // low as default
             SubTasks = new Dictionary<string, SubTask>();
         }
 
         #endregion
+
         #region Modifiers
         public void RemoveSubTask(string subtaskID)
         {
@@ -46,68 +54,43 @@ namespace DoYourTasks
         {
             TaskName = newName;
         }
+
+        public void AddAttachment(Attachment attachment)
+        {
+            Attachments.Add(attachment);
+        }
+
         #endregion
 
         #region Setters
-        public void SetStarred(bool mode)
-        {
-            IsStarred = mode;
-        }
-        public void SetCompleted(bool mode)
-        {
-            IsCompleted = mode;
-        }
-        public void AddSubTask(string subtaskID, SubTask subtask)
-        {
-            SubTasks.Add(subtaskID, subtask);
-        }
-        public void SetDueDate(DateTime dueTime)
-        {
-            DueDate = dueTime;
-        }
-        public void AddNotes(string note)
-        {
-            Notes = note;
-        }
+        public void SetIsHidden(bool mode) { IsHidden = mode; }
+        public void SetIndex(int index) { Index = index; }
+        public void SetAssigner(string assigner) { Assigner = assigner; }
+        public void SetPriority(int priority) { Priority = priority; }
+        public void SetStarred(bool mode) { IsStarred = mode; }
+        public void SetCompleted(bool mode) { IsCompleted = mode; }
+        public void AddSubTask(string subtaskID, SubTask subtask) { SubTasks.Add(subtaskID, subtask); }
+        public void SetDueDate(string dueTime) { DueDate = dueTime; }
+        public void SetDateCompleted(DateTime dateCompleted) { DateCompleted = dateCompleted; }
+        public void AddNotes(string note) { Notes = note; }
         #endregion
 
         #region Getters
-        public string GetParentProjectID()
-        {
-            return ParentProjectID;
-        }
-        public string GetTaskName()
-        {
-            return TaskName;
-        }
-        public string GetTaskID()
-        {
-            return TaskID;
-        }
-        public string GetNotes()
-        {
-            return Notes;
-        }
-        public DateTime? GetDueDate()
-        {
-            return DueDate;
-        }
-        public DateTime GetDateCreated()
-        {
-            return DateCreated;
-        }
-        public Dictionary<string, SubTask> GetSubTasks()
-        {
-            return SubTasks;
-        }
-        public bool GetIsStarred()
-        {
-            return IsStarred;
-        }
-        public bool GetIsCompleted()
-        {
-            return IsCompleted;
-        }
+        public string GetAssigner() { return Assigner; }
+        public int GetPriority() { return Priority; }
+        public string GetParentProjectID() { return ParentProjectID; }
+        public string GetTaskName() { return TaskName; }
+        public string GetTaskID() { return TaskID; }
+        public string GetNotes() { return Notes; }
+        public string GetDueDate() { return DueDate; }
+        public DateTime GetDateCreated() { return DateCreated; }
+        public DateTime GetDateCompleted() { return DateCompleted; }
+        public Dictionary<string, SubTask> GetSubTasks() { return SubTasks; }
+        public bool GetIsStarred() { return IsStarred; }
+        public bool GetIsCompleted() { return IsCompleted; }
+        public List<Attachment> GetAttachements() { return Attachments; }
+        public int GetIndex() { return Index; }
+        public bool GetIsHidden() { return IsHidden; }
         #endregion
     }
 }

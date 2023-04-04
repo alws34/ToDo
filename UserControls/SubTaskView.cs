@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class SubTaskView : UserControl, IViewAble
+    public partial class SubTaskView : UserControl, IViewable
     {
         #region CustomEvents
         public event SubTaskCompletedEventHandler SubTaskCompleted;
         public event SubTaskDeletedEventHandler SubTaskDeleted;
-        public event ShowTooltipEventHandler ShowTooltip;
         #endregion
 
         #region Properties
@@ -26,11 +25,12 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Fields
-        Color initialBackColor;
+        Color StartBackColor;
+        ToolTip toolTip;
         #endregion
 
         #region Constructors
-        public SubTaskView(string parent_id, string id,string parentProjectID, string subTaskName)
+        public SubTaskView(string parent_id, string id,string parentProjectID, string subTaskName, string createdAt)
         {
             InitializeComponent();
             ParentTaskID = parent_id;
@@ -39,8 +39,10 @@ namespace DoYourTasks.UserControls
             Name = "SubTaskView";
             Rename(subTaskName);
             EventSubscriber();
+            lblDateCreated.Text += createdAt;
             ForeColor = Color.White;
-            initialBackColor = BackColor;
+            StartBackColor = BackColor;
+            toolTip = new ToolTip();
         }
 
         #endregion
@@ -79,7 +81,13 @@ namespace DoYourTasks.UserControls
         }
         public void Rename(string newName)
         {
-            customRadioButtonTaskName.Rename(newName);
+            //customRadioButtonTaskName.Rename(newName);
+            ctbTaskName.SetText(newName);
+            //var textsize = TextRenderer.MeasureText(ctbTaskName.Text, ctbTaskName.Font);
+            //ctbTaskName.Left = 0;
+            //ctbTaskName.Width = textsize.Width;
+            ctbTaskName.Visible = true;
+
         }
         public void Delete()
         {
@@ -94,18 +102,40 @@ namespace DoYourTasks.UserControls
             customRadioButtonTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
             customRadioButtonTaskName.BackColor = Color.Gainsboro;
             customRadioButtonTaskName.isSelected = true;
+            
+            if (!ctbTaskName.GetIsInEdit())
+                ctbTaskName.BorderColor = Color.Gainsboro;
+
+            ctbTaskName.SetTBBackColor(Color.Gainsboro);
+            ctbTaskName.SetTBForeColor(Color.Black);
+
+            ctbTaskName.ForeColor = Color.Black;
+            ctbTaskName.BackColor = Color.Gainsboro;
+
+            //ctbTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
+            //ctbTaskName.BackColor = Color.Gainsboro;
+
             BackColor = Color.Gainsboro;
-
-            ShowTooltip.Invoke(new ShowTooltipEventArgs(this.customRadioButtonTaskName, customRadioButtonTaskName.GetName()));
-
+            toolTip.SetToolTip(this.ctbTaskName, this.ctbTaskName.Text);
         }
 
         private void customRadioButtonTaskName_MouseLeave(object sender, EventArgs e)
         {
             customRadioButtonTaskName.ForeColor = Color.White;
-            customRadioButtonTaskName.BackColor = initialBackColor;
+            customRadioButtonTaskName.BackColor = StartBackColor;
             customRadioButtonTaskName.isSelected = false;
-            BackColor = initialBackColor;
+
+            ctbTaskName.SetTBBackColor(StartBackColor);
+            ctbTaskName.SetTBForeColor(Color.White);
+            ctbTaskName.BackColor = StartBackColor;
+            ctbTaskName.ForeColor = Color.White;
+
+
+            if (!ctbTaskName.GetIsInEdit())
+                ctbTaskName.BorderColor = StartBackColor;
+            ctbTaskName.SetTBBackColor(StartBackColor);
+
+            BackColor = StartBackColor;
         }
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
         {
@@ -114,14 +144,9 @@ namespace DoYourTasks.UserControls
             SetCheckedState(arg.CRB.Checked);
             SubTaskCompleted.Invoke(new SubTaskCompletedEventArgs(this));
         }
-
-        private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
-        {
-            //throw new NotImplementedException();
-        }
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(this));
             Delete();
         }
 
@@ -136,5 +161,21 @@ namespace DoYourTasks.UserControls
         }
         #endregion
 
+        private void btnEditTaskName_Click(object sender, EventArgs e)
+        {
+            ctbTaskName.SetIsInEdit(true);
+        }
+
+        private void SubTaskView_MouseDown(object sender, MouseEventArgs e)
+        {
+            Control c = (Control)sender;
+            c.DoDragDrop(c, DragDropEffects.Move);
+        }
+
+        public string GetTaskID()
+        {
+            return "";
+            //throw new NotImplementedException();
+        }
     }
 }

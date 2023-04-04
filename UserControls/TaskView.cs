@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
@@ -14,26 +15,34 @@ using System.Xml.Linq;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class TaskView : UserControl, IViewAble
+    public partial class TaskView : UserControl, IViewable
     {
         #region CustomEvents
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
         public event TaskCompletedEventHandler TaskCompleted;
         public event TaskDeletedEventHandler TaskDeleted;
         public event TaskDueDateChangedEventHandler DueDateChanged;
-        public event ShowTooltipEventHandler ShowToolTip;
+        public event TaskRenamedEventHandler TaskRenamed;
+        public event AttachmentRemovedEventHandler AttachemntRemoved;
+        public event PriorityChangedEventHandler PriorityChanged;
+        public event HideItemEventHandler HideTask;
+
         #endregion
 
         #region Fields
         private Color startBackgroundColor;
         private bool isCompleted = false;
-
+        public bool isHidden { get; set; }
+        
         private string taskID;
         private string parentProjectID;
+        ToolTip toolTip = new ToolTip();
+        int currentPriority = (int)PriorityCodes.Low;
+        int nextPriority = (int)PriorityCodes.Medium;
         #endregion
 
         #region Constructors
-        public TaskView(string taskName, string id, string parentProjectID)
+        public TaskView(string taskName, string id, string parentProjectID, int priority)
         {
             InitializeComponent();
             SetBackColor();
@@ -42,12 +51,22 @@ namespace DoYourTasks.UserControls
             Rename(taskName);
             Name = "TaskView";
             SubscribeToEvents();
+            SetDueDate("No Due Date");
             DoubleBuffered = true;
+            SetPriority(priority);
+            //lblTaskName.Location = new Point(40, 3);
         }
 
         #endregion
 
         #region Getters
+        public string GetDueDate()
+        {
+            if (!string.IsNullOrWhiteSpace(lblDueDateVal.Text))
+                return lblDueDateVal.Text;
+            return "No Due Date";
+
+        }
         public string GetParentTaskID()
         {
             return parentProjectID;
@@ -55,10 +74,10 @@ namespace DoYourTasks.UserControls
 
         public string GetName()
         {
-            return customRadioButtonTaskName.GetName();
+            return ctbTaskName.GetText();
         }
 
-        public string GetID()
+        public string GetTaskID()
         {
             return taskID;
         }
@@ -71,25 +90,155 @@ namespace DoYourTasks.UserControls
         {
             return customRadioButtonTaskName.Checked;
         }
+        public bool GetIsHidden()
+        {
+            return isHidden;
+        }
+
 
         #endregion
 
         #region Setters
-        public void SetDueDate(DateTime Duedate)
+
+
+        private void SetIsHidden(bool mode)
         {
-            lblDueDate.Show();
-            lblDueDate.Text = $"Due to: {Duedate.ToString("dd/MM/yy")}";// HH:mm tt")}";
+            isHidden = mode;
+        }
+
+        public void SetAttachments(List<Attachment> attachments)
+        {
+            bool toAdd = false;
+            flpAttachments.Controls.Clear();
+
+            foreach (Attachment attachment in attachments)
+            {
+                UCAttachmentView uav = new UCAttachmentView(attachment);
+                uav.AttachemntRemoved += AttachemntRemoved;
+                flpAttachments.Controls.Add(uav);
+                //uav.Width = flpAttachments.Width - 90;
+                //uav.MinimumSize = new Size(Width, 70);
+                //uav.Size = uav.MinimumSize;
+            }
+
+            //if (flpAttachments.Controls.Count == 0)
+            //    toAdd = true;
+            //else
+            //{
+            //    foreach (Control control in flpAttachments.Controls)
+            //    {
+            //        UCAttachmentView uav = control as UCAttachmentView;
+            //        if (uav == null)
+            //            continue;
+            //        if (control.GetType().Name != "UCAttachmentView")
+            //            continue;  
+            //        if (uav.AttachmentID == av.AttachmentID)
+            //            continue;
+
+            //        toAdd = true;
+            //        break;
+            //    }
+            //}
+
+            //if (toAdd)
+            //{
+            //    av.AttachemntRemoved += Av_AttachemntRemoved;
+            //    flpAttachments.Controls.Add(av);
+            //    ResizeAttachmentsFLP();
+            //    pnlAttachments.Visible = true;
+            //}
+
+            SetAttachmentsVisible();
+            ResizeAttachmentsFLP();
+            //Parent.Refresh();
+
+        }
+
+
+        public void SetAttachmentsVisible()
+        {
+            lblAttachmentsCount.Text = flpAttachments.Controls.Count.ToString();
+        }
+
+
+        private void SetPriority(int priority)
+        {
+            switch (priority)
+            {
+                case (int)PriorityCodes.VeryLow:
+                    currentPriority = (int)PriorityCodes.VeryLow;
+                    pnlPriority.BackColor = Color.Cyan;
+                    lblPriorityLvl.ForeColor = Color.Black;
+                    lblPriorityLvl.Text = "Very Low";
+                    break;
+                case (int)PriorityCodes.Low:
+                    currentPriority = (int)PriorityCodes.Low;
+                    pnlPriority.BackColor = Color.DeepSkyBlue;
+                    lblPriorityLvl.ForeColor = Color.Black;
+                    lblPriorityLvl.Text = "Low";
+                    break;
+                case (int)PriorityCodes.Medium:
+                    currentPriority = (int)PriorityCodes.Medium;
+                    pnlPriority.BackColor = Color.Blue;
+                    lblPriorityLvl.ForeColor = Color.White;
+                    lblPriorityLvl.Text = "Medium";
+                    break;
+                case (int)PriorityCodes.High:
+                    currentPriority = (int)PriorityCodes.High;
+                    pnlPriority.BackColor = Color.Yellow;
+                    lblPriorityLvl.ForeColor = Color.Black;
+                    lblPriorityLvl.Text = "High";
+                    break;
+                case (int)PriorityCodes.Urgent:
+                    currentPriority = (int)PriorityCodes.Urgent;
+                    pnlPriority.BackColor = Color.Red;
+                    pnlPriority.ForeColor = Color.Yellow;
+                    lblPriorityLvl.Text = "Urgent";
+                    break;
+                case (int)PriorityCodes.OnHold:
+                    currentPriority = (int)PriorityCodes.OnHold;
+                    pnlPriority.BackColor = Color.Black;
+                    lblPriorityLvl.ForeColor = Color.White;
+                    lblPriorityLvl.Text = "On Hold";
+                    break;
+                case (int)PriorityCodes.Waiting:
+                    currentPriority = (int)PriorityCodes.Waiting;
+                    pnlPriority.BackColor = Color.Orange;
+                    lblPriorityLvl.ForeColor = Color.White;
+                    lblPriorityLvl.Text = "Waiting";
+                    break;
+                case (int)PriorityCodes.Done:
+                    currentPriority = (int)PriorityCodes.Done;
+                    pnlPriority.BackColor = Color.Green;
+                    lblPriorityLvl.ForeColor = Color.White;
+                    lblPriorityLvl.Text = "Done";
+                    break;
+            }
+            if (PriorityChanged != null)
+                PriorityChanged.Invoke(new PriorityChangedEventArgs(this, currentPriority));
+        }
+        public void SetDueDate(string Duedate)
+        {
+            lblDueDateVal.Show();
+            lblDueDateVal.Text = $"{Duedate}";
             //DueDateChanged.Invoke(new DueDateChangedEventArgs(null));
+        }
+
+        public void SetDateCreated(DateTime dateTime)
+        {
+            lblCreatedAtVal.Text = $"{dateTime.ToString("dd/MM/yy HH:mm tt")}";
+            lblCreatedAtVal.Visible = true;
+
         }
         private void SetBackColor()
         {
             startBackgroundColor = customRadioButtonTaskName.BackColor;
         }
 
-        private void SetForeColor(Color color)
-        {
-            customRadioButtonTaskName.ForeColor = color;
-        }
+        //private void SetForeColor(Color color)
+        //{
+        //    customRadioButtonTaskName.ForeColor = color;
+        //}
 
         public void SetCheckedState(bool mode)
         {
@@ -100,29 +249,60 @@ namespace DoYourTasks.UserControls
         private void SubscribeToEvents()
         {
             customRadioButtonTaskName.customCheckedChanged += CustomRadioButtonTaskName_checkedChanged;
+            ctbTaskName.gotHidden += CtbTaskName_gotHidden; ;
+        }
+
+        private void CtbTaskName_gotHidden(bool isHidden, EventArgs arg)
+        {
+            //lblTaskName.Text = ctbTaskName.GetText();
+            //lblTaskName.Visible = true;
+
+            ctbTaskName.BorderColor = Color.FromArgb(71, 71, 71);
+            TaskRenamed.Invoke(new TaskRenamedEventArgs(this));
         }
         #endregion
 
         #region Modifiers
-        private void RemoveSelected()
-        {
-            if (customRadioButtonTaskName.Checked)
-                customRadioButtonTaskName.Checked = false;
-        }
         public void Rename(string newName)
         {
-            customRadioButtonTaskName.Rename(newName);
+            ctbTaskName.SetText(newName);
+            ctbTaskName.Visible = true;
         }
+
         public void Delete()
         {
             //throw new NotImplementedException();
+        }
+
+
+        public void ResizeAttachmentsFLP()
+        {
+            //foreach (Control control in flpAttachments.Controls)
+            //{
+            //    if (control.GetType().Name == "UCAttachmentView")
+            //    {
+            //        //flpAttachments.Height += control.Height;
+            //        //control.Visible = true;
+            //        //Height += control.Height;
+            //    }
+            //}
+            //Height -= 10;
+            return;
+
+        }
+        public void ResetSize()
+        {
+            flpAttachments.Height = MinimumSize.Height;
+            Height = MinimumSize.Height;
         }
         #endregion
 
         #region Events
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            TaskDeleted.Invoke(new TaskDeletedEventArgs(this));
+            DialogResult res = MessageBox.Show("Are you sure you want to delete this task?\nThis cannot be reversed!", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (res == DialogResult.Yes)
+                TaskDeleted.Invoke(new TaskDeletedEventArgs(this));
         }
 
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
@@ -134,6 +314,7 @@ namespace DoYourTasks.UserControls
         private void TaskView_Click(object sender, EventArgs e)
         {
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(this));
+            SetAttachmentsVisible();
         }
 
         public void UpdateCompletedSubTasks(int completedSubtasks, int totalSubtasks)
@@ -145,50 +326,111 @@ namespace DoYourTasks.UserControls
             isCompleted = mode;
             customRadioButtonTaskName.Checked = mode;
             if (mode)
-                customRadioButtonTaskName.Font = new Font(new FontFamily("Arial"), 14, FontStyle.Strikeout);
+            {
+                ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size, FontStyle.Strikeout);
+            }
             else
-                customRadioButtonTaskName.Font = new Font(new FontFamily("Arial"), 14);
+            {
+                ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size);
 
+            }
         }
 
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
         {
-            TaskView_MouseEnter(null, null);
+            Color backcolor = Color.DarkGray;
+            Color forecolor = Color.Black;
+            pnlColorIndicator.BackColor = backcolor;
+            customRadioButtonTaskName.BackColor = backcolor;
+            ctbTaskName.BackColor = backcolor;
+            btnDelete.BackColor = backcolor;
+            btnEditTaskName.BackColor = backcolor;
 
-            pnlColorIndicator.BackColor = Color.Gainsboro;
-            customRadioButtonTaskName.BackColor = Color.Gainsboro;
-            lblCompletedSubTasks.BackColor = Color.Gainsboro;
-            lblDueDate.BackColor = Color.Gainsboro;
-            customRadioButtonTaskName.isSelected = true;
-            customRadioButtonTaskName.ForeColor = Color.Black;
-            lblCompletedSubTasks.ForeColor = Color.Black;
-            lblDueDate.ForeColor = Color.Black;
+            if (!ctbTaskName.GetIsInEdit())
+                ctbTaskName.BorderColor = backcolor;
 
-
+            ctbTaskName.SetTBBackColor(backcolor);
+            ctbTaskName.SetTBForeColor(forecolor);
+            btnEditTaskName.ForeColor = forecolor;
+            btnDelete.ForeColor = forecolor;
+            customRadioButtonTaskName.ForeColor = forecolor;
+            ctbTaskName.ForeColor = forecolor;
+            toolTip.SetToolTip(this.ctbTaskName, ctbTaskName.GetText());
         }
 
         private void pnlColorIndicator_MouseLeave(object sender, EventArgs e)
         {
-            pnlColorIndicator.BackColor = Color.Transparent;
+            Color backcolor = Color.LightGray;
+            Color forecolor = Color.Black;
+            pnlColorIndicator.BackColor = backcolor;
             customRadioButtonTaskName.BackColor = startBackgroundColor;
-            lblCompletedSubTasks.BackColor = Color.Transparent;
-            lblDueDate.BackColor = Color.Transparent;
-            customRadioButtonTaskName.isSelected = false;
-            customRadioButtonTaskName.ForeColor = Color.White;
-            lblCompletedSubTasks.ForeColor = Color.White;
-            lblDueDate.ForeColor = Color.White;
+            ctbTaskName.BackColor = startBackgroundColor;
+            if (!ctbTaskName.GetIsInEdit())
+                ctbTaskName.BorderColor = startBackgroundColor;
+            ctbTaskName.SetTBBackColor(startBackgroundColor);
+
+            btnDelete.BackColor = backcolor;
+            btnEditTaskName.BackColor = backcolor;
+            ctbTaskName.ForeColor = backcolor;
+            ctbTaskName.SetTBForeColor(forecolor);
+            btnEditTaskName.ForeColor = forecolor;
+            btnDelete.ForeColor = forecolor;
+
+        }
+
+
+
+        private void btnEditTaskName_Click(object sender, EventArgs e)
+        {
+            //ctbTaskName.SetText(lblTaskName.Text);
+            //ctbTaskName.Visible = true;
+            //lblTaskName.Visible = false;
+            ctbTaskName.BorderColor = Color.MediumSlateBlue;
+            ctbTaskName.SetIsInEdit(true);
+        }
+
+        private void btnAddDueDate_Click(object sender, EventArgs e)
+        {
+            string dueDate = dateTimePicker1.Value.ToString("dd/MM/yyyy HH:mm tt");
+            lblDueDateVal.Text = dueDate;
+            DueDateChangedEventArgs args = new DueDateChangedEventArgs(this, dueDate);
+            DueDateChanged.Invoke(args);
+        }
+
+        private void btnRemoveDueDate_Click(object sender, EventArgs e)
+        {
+            string dueDate = "No Due Date";
+            lblDueDateVal.Text = dueDate;
+            DueDateChangedEventArgs args = new DueDateChangedEventArgs(this, dueDate);
+            DueDateChanged.Invoke(args);
+        }
+
+        private void btnChangePriority_Click(object sender, EventArgs e)
+        {
+            currentPriority++;
+            if (currentPriority > (int)PriorityCodes.Done)
+                currentPriority = (int)PriorityCodes.VeryLow;
+            SetPriority(currentPriority);
+        }
+
+        private void btnHideTask_Click(object sender, EventArgs e)
+        {
+            SetIsHidden(!isHidden);
+            
+            if (GetIsHidden())
+                btnHideTask.Text = "Show Task";
+            else
+                btnHideTask.Text = "Hide Task";
+
+            HideTask.Invoke(new HideItemEventArgs(this));
         }
 
         #endregion
 
-        private void TaskView_MouseEnter(object sender, EventArgs e)
-        {
-            ShowToolTip.Invoke(new ShowTooltipEventArgs(this.pnlColorIndicator, customRadioButtonTaskName.GetName()));
-        }
 
-        private void customRadioButtonTaskName_MouseEnter(object sender, EventArgs e)
-        {
-            pnlColorIndicator_MouseEnter(null, null);
-        }
+
+
+
+
     }
 }
