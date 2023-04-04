@@ -163,11 +163,11 @@ namespace DoYourTasks
         }
     }
 
-    public delegate void TaskDeletedEventHandler(TaskDeletedEventArgs args);
-    public class TaskDeletedEventArgs : EventArgs
+    public delegate void TaskModifierEventHandler(TaskModifiedEventArgs args);
+    public class TaskModifiedEventArgs : EventArgs
     {
         public TaskView TV { get; set; }
-        public TaskDeletedEventArgs(TaskView tv)
+        public TaskModifiedEventArgs(TaskView tv)
         {
             TV = tv;
         }

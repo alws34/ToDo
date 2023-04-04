@@ -49,12 +49,12 @@
             this.lblCreatedAtVal = new System.Windows.Forms.Label();
             this.lblDueDateVal = new System.Windows.Forms.Label();
             this.flpTaskOptions = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnAddDueDate = new DoYourTasks.UserControls.CustomButtonV2();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnRemoveDueDate = new DoYourTasks.UserControls.CustomButtonV2();
             this.comboBoxChangePriority = new System.Windows.Forms.ComboBox();
             this.lblDrag = new System.Windows.Forms.Label();
             this.btnHideTask = new DoYourTasks.UserControls.CustomButtonV2();
+            this.btnAddAttachment = new DoYourTasks.UserControls.CustomButtonV2();
             this.pnlColorIndicator.SuspendLayout();
             this.tblLayoutTaskData.SuspendLayout();
             this.pnlPriority.SuspendLayout();
@@ -377,7 +377,7 @@
             // 
             // flpTaskOptions
             // 
-            this.flpTaskOptions.Controls.Add(this.btnAddDueDate);
+            this.flpTaskOptions.Controls.Add(this.btnAddAttachment);
             this.flpTaskOptions.Controls.Add(this.dateTimePicker1);
             this.flpTaskOptions.Controls.Add(this.btnRemoveDueDate);
             this.flpTaskOptions.Controls.Add(this.comboBoxChangePriority);
@@ -385,28 +385,6 @@
             this.flpTaskOptions.Name = "flpTaskOptions";
             this.flpTaskOptions.Size = new System.Drawing.Size(145, 128);
             this.flpTaskOptions.TabIndex = 14;
-            // 
-            // btnAddDueDate
-            // 
-            this.btnAddDueDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddDueDate.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddDueDate.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnAddDueDate.BorderColor = System.Drawing.Color.Black;
-            this.btnAddDueDate.BorderRadius = 0;
-            this.btnAddDueDate.BorderSize = 1;
-            this.btnAddDueDate.FlatAppearance.BorderSize = 0;
-            this.btnAddDueDate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddDueDate.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddDueDate.ForeColor = System.Drawing.Color.Black;
-            this.btnAddDueDate.Location = new System.Drawing.Point(3, 3);
-            this.btnAddDueDate.Name = "btnAddDueDate";
-            this.btnAddDueDate.Size = new System.Drawing.Size(138, 26);
-            this.btnAddDueDate.TabIndex = 11;
-            this.btnAddDueDate.Text = "Set Due Date";
-            this.btnAddDueDate.TextColor = System.Drawing.Color.Black;
-            this.btnAddDueDate.UseVisualStyleBackColor = false;
-            this.btnAddDueDate.Click += new System.EventHandler(this.btnAddDueDate_Click);
             // 
             // dateTimePicker1
             // 
@@ -483,6 +461,28 @@
             this.btnHideTask.UseVisualStyleBackColor = false;
             this.btnHideTask.Click += new System.EventHandler(this.btnHideTask_Click);
             // 
+            // btnAddAttachment
+            // 
+            this.btnAddAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddAttachment.BackColor = System.Drawing.Color.Transparent;
+            this.btnAddAttachment.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnAddAttachment.BorderColor = System.Drawing.Color.Black;
+            this.btnAddAttachment.BorderRadius = 0;
+            this.btnAddAttachment.BorderSize = 1;
+            this.btnAddAttachment.FlatAppearance.BorderSize = 0;
+            this.btnAddAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddAttachment.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddAttachment.ForeColor = System.Drawing.Color.Black;
+            this.btnAddAttachment.Location = new System.Drawing.Point(3, 3);
+            this.btnAddAttachment.Name = "btnAddAttachment";
+            this.btnAddAttachment.Size = new System.Drawing.Size(138, 26);
+            this.btnAddAttachment.TabIndex = 15;
+            this.btnAddAttachment.Text = "Add Attachment";
+            this.btnAddAttachment.TextColor = System.Drawing.Color.Black;
+            this.btnAddAttachment.UseVisualStyleBackColor = false;
+            this.btnAddAttachment.Click += new System.EventHandler(this.btnAddAttachment_Click);
+            // 
             // TaskView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
@@ -500,7 +500,7 @@
             this.MaximumSize = new System.Drawing.Size(415, 515);
             this.MinimumSize = new System.Drawing.Size(415, 110);
             this.Name = "TaskView";
-            this.Size = new System.Drawing.Size(415, 110);
+            this.Size = new System.Drawing.Size(415, 249);
             this.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.ResumeLayout(false);
             this.pnlColorIndicator.PerformLayout();
@@ -532,7 +532,6 @@
         private System.Windows.Forms.Label lblDueDateVal;
         private System.Windows.Forms.Label lblCreatedAtVal;
         private System.Windows.Forms.FlowLayoutPanel flpTaskOptions;
-        private CustomButtonV2 btnAddDueDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private CustomButtonV2 btnRemoveDueDate;
         private System.Windows.Forms.Label label1;
@@ -543,5 +542,6 @@
         private System.Windows.Forms.Label lblCompletedOn;
         private CustomButtonV2 btnHideTask;
         private System.Windows.Forms.ComboBox comboBoxChangePriority;
+        private CustomButtonV2 btnAddAttachment;
     }
 }

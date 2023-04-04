@@ -90,6 +90,8 @@ namespace DoYourTasks
             dataController.NewSubTaskView += ViewsController_NewSubTaskView;
             dataController.HideItem += DataController_LoadViewsToScreen;
             dataController.AddNewProjectAttachment += AddProjectAttachment;
+            dataController.AddTaskAttachment += btnAddAttachment_Click;
+
 
             CheckControlsCount(flpProjects, tbAddTask);
             CheckControlsCount(flpTasks, tbAddSubTask);
@@ -260,7 +262,7 @@ namespace DoYourTasks
         #endregion
 
         #region ViewsController
-        private void ViewsController_TaskDeleted(TaskDeletedEventArgs args)
+        private void ViewsController_TaskDeleted(TaskModifiedEventArgs args)
         {
             TaskView tv = args.TV;
         }
@@ -576,7 +578,7 @@ namespace DoYourTasks
             flpProjectAttachments.Controls.Clear();
             tbCommitMsg.Clear();
 
-            frmHiddenProjects.ClearItems();
+            //frmHiddenProjects.ClearItems();
             frmHiddenTasks.ClearItems();
 
             ResetIndicators();
@@ -1211,13 +1213,13 @@ namespace DoYourTasks
 
         }
 
-        private void btnAddAttachment_Click(object sender, EventArgs e)
+        private void btnAddAttachment_Click(TaskModifiedEventArgs args)
         {
             string filepath = GetFilefromDialog();
             if (string.IsNullOrWhiteSpace(filepath))
                 return;
-            string taskID = currentTaskView.GetTaskID();
-            string projectID = currentTaskView.GetParentProjectID();
+            string taskID = args.TV.GetTaskID();
+            string projectID = args.TV.GetParentProjectID();
             Attachment attachment = new Attachment()
             {
                 AttachmentID = utils.GetUniqueID(),

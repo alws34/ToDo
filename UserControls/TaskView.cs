@@ -20,12 +20,13 @@ namespace DoYourTasks.UserControls
         #region CustomEvents
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
         public event TaskCompletedEventHandler TaskCompleted;
-        public event TaskDeletedEventHandler TaskDeleted;
+        public event TaskModifierEventHandler TaskDeleted;
         public event TaskDueDateChangedEventHandler DueDateChanged;
         public event TaskRenamedEventHandler TaskRenamed;
         public event AttachmentRemovedEventHandler AttachemntRemoved;
         public event PriorityChangedEventHandler PriorityChanged;
         public event HideItemEventHandler HideTask;
+        public event TaskModifierEventHandler AddTaskAttachment;
 
         #endregion
 
@@ -309,11 +310,46 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Events
+        private void comboBoxChangePriority_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int priority = 0;
+
+            switch (comboBoxChangePriority.SelectedItem.ToString())
+            {
+                case "On Hold":
+                    priority = (int)PriorityCodes.OnHold;
+                    break;
+                case "Very Low":
+                    priority = (int)PriorityCodes.VeryLow;
+                    break;
+                case "Low":
+                    priority = (int)PriorityCodes.Low;
+                    break;
+                case "Medium":
+                    priority = (int)PriorityCodes.Medium;
+                    break;
+                case "High":
+                    priority = (int)PriorityCodes.High;
+                    break;
+                case "Urgent":
+                    priority = (int)PriorityCodes.Urgent;
+                    break;
+                case "Waiting":
+                    priority = (int)PriorityCodes.Waiting;
+                    break;
+                case "Done":
+                    priority = (int)PriorityCodes.Done;
+                    break;
+            }
+            SetPriority(priority);
+
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("Are you sure you want to delete this task?\nThis cannot be reversed!", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (res == DialogResult.Yes)
-                TaskDeleted.Invoke(new TaskDeletedEventArgs(this));
+                TaskDeleted.Invoke(new TaskModifiedEventArgs(this));
         }
 
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
@@ -443,39 +479,10 @@ namespace DoYourTasks.UserControls
 
         #endregion
 
-        private void comboBoxChangePriority_SelectedIndexChanged(object sender, EventArgs e)
+    
+        private void btnAddAttachment_Click(object sender, EventArgs e)
         {
-            int priority = 0;
-
-            switch (comboBoxChangePriority.SelectedItem.ToString())
-            {
-                case "On Hold":
-                    priority = (int)PriorityCodes.OnHold;
-                    break;
-                case "Very Low":
-                    priority = (int)PriorityCodes.VeryLow;
-                    break;
-                case "Low":
-                    priority = (int)PriorityCodes.Low;
-                    break;
-                case "Medium":
-                    priority = (int)PriorityCodes.Medium;
-                    break;
-                case "High":
-                    priority = (int)PriorityCodes.High;
-                    break;
-                case "Urgent":
-                    priority = (int)PriorityCodes.Urgent;
-                    break;
-                case "Waiting":
-                    priority = (int)PriorityCodes.Waiting;
-                    break;
-                case "Done":
-                    priority = (int)PriorityCodes.Done;
-                    break;
-            }
-            SetPriority(priority);
-
+            AddTaskAttachment.Invoke(new TaskModifiedEventArgs(this));
         }
     }
 }

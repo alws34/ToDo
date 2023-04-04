@@ -32,8 +32,9 @@ namespace DoYourTasks
         public event TaskDueDateChangedEventHandler TaskDueDateChanged;
         public event TaskRenamedEventHandler TaskRenamed;
         public event TaskCompletedEventHandler TaskCompleted;
-        public event TaskDeletedEventHandler TaskDeleted;
+        public event TaskModifierEventHandler TaskDeleted;
         public event HideItemEventHandler HideTask;
+        public event TaskModifierEventHandler AddTaskAttachment;
         #endregion
 
         #region SubTask
@@ -345,7 +346,7 @@ namespace DoYourTasks
             tv.PriorityChanged += Tv_PriorityChanged;
             tv.MouseDown += Tv_MouseDown;
             tv.HideTask += Tv_HideTask;
-
+            tv.AddTaskAttachment += Tv_AddTaskAttachment;
             //create the coresponding Task
             if (isNew)
             {
@@ -358,6 +359,11 @@ namespace DoYourTasks
 
             AddTaskToDicts(task, tv, taskID);
             return tv;
+        }
+
+        private void Tv_AddTaskAttachment(TaskModifiedEventArgs args)
+        {
+            AddTaskAttachment.Invoke(args);
         }
 
         private void Tv_HideTask(HideItemEventArgs arg)
@@ -453,7 +459,7 @@ namespace DoYourTasks
 
         }
 
-        private void Tv_TaskDeleted(TaskDeletedEventArgs args)
+        private void Tv_TaskDeleted(TaskModifiedEventArgs args)
         {
             GetCorrectProject(args.TV.GetParentProjectID()).RemoveTask(args.TV.GetTaskID());
             Taskviews.Remove(args.TV.GetTaskID());
