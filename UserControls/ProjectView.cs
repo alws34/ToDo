@@ -53,7 +53,7 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Constructors
-        public ProjectView(string projectID, Theme theme,  bool isNew = true)
+        public ProjectView(string projectID, Theme theme, bool isNew = true)
         {
             InitializeComponent();
 
@@ -69,7 +69,8 @@ namespace DoYourTasks.UserControls
 
             isExitAnimating.Tick += IsExitAnimating_Tick; // exit button (gif) "animation" control
 
-            SetTheme(theme);
+            //SetTheme(theme);
+
         }
         #endregion
 
@@ -91,20 +92,32 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Setters
-        public void SetTheme(Theme theme) {
+        public void SetTheme(Theme theme)
+        {
+
             BackColor = theme.BackColor;
             ForeColor = theme.ForeColor;
 
             btnEditListName.ForeColor = ForeColor;
             lblTaskCount.ForeColor = ForeColor;
 
-            btnEditListName.BackColor = BackColor; 
+            btnEditListName.BackColor = BackColor;
             btnEditListName.ForeColor = ForeColor;
 
             ctbProjectName.BackColor = BackColor;
-            ctbProjectName.BorderColor= BackColor;
+            ctbProjectName.BorderColor = BackColor;
             ctbProjectName.SetTBBackColor(BackColor);
             ctbProjectName.SetTBForeColor(ForeColor);
+        }
+
+        public void SetImages(bool mode)
+        {
+            if (mode)
+            {
+                pbDeleteProject.Image = Resources._39_trash_solid_black;
+            }
+            else
+                pbDeleteProject.Image = Resources._39_trash_solid_white;
         }
         public void SetIndicator(bool mode)
         {
@@ -289,7 +302,7 @@ namespace DoYourTasks.UserControls
         private void IsExitAnimating_Tick(object sender, EventArgs e)
         {
             pbDeleteProject.Enabled = false;
-            pbDeleteProject.Image = Resources._29_cross_solid;
+            pbDeleteProject.Image = pbDeleteProject.Image;
         }
 
         private void pbDeleteProject_MouseEnter(object sender, EventArgs e)

@@ -79,7 +79,7 @@
             // pbDeleteProject
             // 
             this.pbDeleteProject.Enabled = false;
-            this.pbDeleteProject.Image = global::DoYourTasks.Properties.Resources._29_cross_solid;
+            this.pbDeleteProject.Image = ((System.Drawing.Image)(resources.GetObject("pbDeleteProject.Image")));
             this.pbDeleteProject.Location = new System.Drawing.Point(4, 3);
             this.pbDeleteProject.Name = "pbDeleteProject";
             this.pbDeleteProject.Size = new System.Drawing.Size(34, 27);

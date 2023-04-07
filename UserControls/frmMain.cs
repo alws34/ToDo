@@ -19,6 +19,7 @@ using System.Drawing.Drawing2D;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 using Windows.UI.Xaml.Media;
 using LinearGradientBrush = System.Drawing.Drawing2D.LinearGradientBrush;
+using DoYourTasks.Properties;
 
 namespace DoYourTasks
 {
@@ -145,15 +146,21 @@ namespace DoYourTasks
             currentTheme = dataController.GetTheme();
 
             FrmMain_ChangeTheme(new ChangeThemeEventArgs(dataController.GetThemeMode(currentTheme)));
-
         }
 
         private void FrmMain_ChangeTheme(ChangeThemeEventArgs args)
         {
             if (args.Mode)
+            {
                 currentTheme = utils.LightTheme;
+                pbNotification.Image = Resources._46_notification_bell_outlineWhite;
+            } 
             else
+            {
                 currentTheme = utils.DarkTheme;
+                pbNotification.Image = Resources._46_notification_bell_outline;
+            }
+                
 
             TogglebtnTheme.Checked = args.Mode;
 
@@ -178,10 +185,12 @@ namespace DoYourTasks
             tbNotes.BackColor = BackColor;
             tbNotes.ForeColor = ForeColor;
 
+            lblNotificationCounter.ForeColor = BackColor;            
 
             foreach (ProjectView pv in flpProjects.Controls)
             {
                 pv.SetTheme(currentTheme);
+                pv.SetImages(dataController.GetThemeMode(currentTheme));
             }
             foreach (UCAttachmentView ucav in flpProjectAttachments.Controls)
             {
@@ -622,7 +631,7 @@ namespace DoYourTasks
             flpProjectAttachments.Refresh();
         }
 
-        private void FlpProjects_DragDrop(object sender, DragEventArgs e)
+        private void FlpProjects_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(typeof(ProjectView)))
                 return;
@@ -651,7 +660,7 @@ namespace DoYourTasks
             }
         }
 
-        private void FlpProjects_DragOver(object sender, DragEventArgs e)
+        private void FlpProjects_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
@@ -892,12 +901,12 @@ namespace DoYourTasks
         #endregion
 
         #region Task
-        private void FlpTasks_DragOver(object sender, DragEventArgs e)
+        private void FlpTasks_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
 
-        private void FlpTasks_DragDrop(object sender, DragEventArgs e)
+        private void FlpTasks_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(typeof(TaskView)))
                 return;
@@ -1059,7 +1068,7 @@ namespace DoYourTasks
 
         }
 
-        private void FlpSubTasks_DragDrop(object sender, DragEventArgs e)
+        private void FlpSubTasks_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(typeof(SubTaskView)))
                 return;
@@ -1086,7 +1095,7 @@ namespace DoYourTasks
                 flpSubTasks.Controls.SetChildIndex(stv, st.GetIndex());//update flp
             }
         }
-        private void FlpSubTasks_DragOver(object sender, DragEventArgs e)
+        private void FlpSubTasks_DragOver(object sender, System.Windows.Forms.DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
@@ -1578,6 +1587,28 @@ namespace DoYourTasks
         private void TogglebtnTheme_CheckedChanged(object sender, EventArgs e)
         {
             ChangeTheme.Invoke(new ChangeThemeEventArgs(TogglebtnTheme.Checked));
+        }
+
+        private void pbNotification_MouseEnter(object sender, EventArgs e)
+        {
+            pnlNotifications.Visible = true;
+            while (pnlNotifications.Height < pnlNotifications.MaximumSize.Height)
+            {
+                NotificationView nv = new NotificationView();
+                flpNotifications.Controls.Add(nv);
+                pnlNotifications.Height += 35;
+                pnlNotifications.Refresh();
+            }
+        }
+
+        private void pbNotification_MouseLeave(object sender, EventArgs e)
+        {
+            while (pnlNotifications.Height > pnlNotifications.MinimumSize.Height)
+            {
+                pnlNotifications.Height -= 35;
+                pnlNotifications.Refresh();
+            }
+            pnlNotifications.Visible = false;
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)

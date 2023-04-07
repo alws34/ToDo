@@ -31,8 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.lblNotificationCounter = new System.Windows.Forms.Label();
+            this.pbNotification = new System.Windows.Forms.PictureBox();
             this.TogglebtnTheme = new CustomControls.RJControls.RJToggleButton();
             this.pnlSave = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.btnNormal = new System.Windows.Forms.Button();
@@ -40,6 +44,8 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnMaximizar = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.pnlNotifications = new System.Windows.Forms.Panel();
+            this.flpNotifications = new System.Windows.Forms.FlowLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.flpProjects = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNewList = new DoYourTasks.UserControls.MaterialRaisedButton();
@@ -94,9 +100,13 @@
             this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.Notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.pnlTop.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbNotification)).BeginInit();
             this.pnlSave.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlMain.SuspendLayout();
+            this.pnlNotifications.SuspendLayout();
             this.panel4.SuspendLayout();
             this.pnlStats.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -113,6 +123,7 @@
             // pnlTop
             // 
             this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(95)))), ((int)(((byte)(122)))));
+            this.pnlTop.Controls.Add(this.panel5);
             this.pnlTop.Controls.Add(this.TogglebtnTheme);
             this.pnlTop.Controls.Add(this.pnlSave);
             this.pnlTop.Controls.Add(this.pbLogo);
@@ -127,11 +138,45 @@
             this.pnlTop.TabIndex = 11;
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.Transparent;
+            this.panel5.Controls.Add(this.lblNotificationCounter);
+            this.panel5.Controls.Add(this.pbNotification);
+            this.panel5.Location = new System.Drawing.Point(867, -5);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(55, 50);
+            this.panel5.TabIndex = 16;
+            this.panel5.MouseEnter += new System.EventHandler(this.pbNotification_MouseEnter);
+            // 
+            // lblNotificationCounter
+            // 
+            this.lblNotificationCounter.AutoSize = true;
+            this.lblNotificationCounter.BackColor = System.Drawing.Color.Transparent;
+            this.lblNotificationCounter.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.lblNotificationCounter.ForeColor = System.Drawing.Color.Black;
+            this.lblNotificationCounter.Location = new System.Drawing.Point(35, 4);
+            this.lblNotificationCounter.Name = "lblNotificationCounter";
+            this.lblNotificationCounter.Size = new System.Drawing.Size(18, 19);
+            this.lblNotificationCounter.TabIndex = 13;
+            this.lblNotificationCounter.Text = "0";
+            // 
+            // pbNotification
+            // 
+            this.pbNotification.Enabled = false;
+            this.pbNotification.Image = ((System.Drawing.Image)(resources.GetObject("pbNotification.Image")));
+            this.pbNotification.Location = new System.Drawing.Point(6, 8);
+            this.pbNotification.Name = "pbNotification";
+            this.pbNotification.Size = new System.Drawing.Size(45, 37);
+            this.pbNotification.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbNotification.TabIndex = 12;
+            this.pbNotification.TabStop = false;
+            // 
             // TogglebtnTheme
             // 
             this.TogglebtnTheme.AutoSize = true;
             this.TogglebtnTheme.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(198)))), ((int)(((byte)(199)))));
-            this.TogglebtnTheme.Location = new System.Drawing.Point(862, 8);
+            this.TogglebtnTheme.Location = new System.Drawing.Point(797, 8);
             this.TogglebtnTheme.MinimumSize = new System.Drawing.Size(45, 22);
             this.TogglebtnTheme.Name = "TogglebtnTheme";
             this.TogglebtnTheme.OffBackColor = System.Drawing.Color.Gray;
@@ -146,12 +191,23 @@
             // pnlSave
             // 
             this.pnlSave.BackColor = System.Drawing.Color.Transparent;
+            this.pnlSave.Controls.Add(this.pictureBox1);
             this.pnlSave.Controls.Add(this.label1);
             this.pnlSave.Location = new System.Drawing.Point(45, 5);
             this.pnlSave.Name = "pnlSave";
-            this.pnlSave.Size = new System.Drawing.Size(166, 30);
+            this.pnlSave.Size = new System.Drawing.Size(215, 30);
             this.pnlSave.TabIndex = 9;
             this.pnlSave.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(170, -3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(45, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -240,6 +296,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.pnlMain.Controls.Add(this.pnlNotifications);
             this.pnlMain.Controls.Add(this.panel4);
             this.pnlMain.Controls.Add(this.tbAddTask);
             this.pnlMain.Controls.Add(this.lblCredits);
@@ -255,6 +312,27 @@
             this.pnlMain.Size = new System.Drawing.Size(1065, 755);
             this.pnlMain.TabIndex = 13;
             this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlMain_Paint);
+            // 
+            // pnlNotifications
+            // 
+            this.pnlNotifications.AutoScroll = true;
+            this.pnlNotifications.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.pnlNotifications.Controls.Add(this.flpNotifications);
+            this.pnlNotifications.Location = new System.Drawing.Point(769, 2);
+            this.pnlNotifications.MaximumSize = new System.Drawing.Size(290, 350);
+            this.pnlNotifications.Name = "pnlNotifications";
+            this.pnlNotifications.Size = new System.Drawing.Size(290, 10);
+            this.pnlNotifications.TabIndex = 12;
+            this.pnlNotifications.Visible = false;
+            this.pnlNotifications.MouseLeave += new System.EventHandler(this.pbNotification_MouseLeave);
+            // 
+            // flpNotifications
+            // 
+            this.flpNotifications.AutoScroll = true;
+            this.flpNotifications.Location = new System.Drawing.Point(3, 3);
+            this.flpNotifications.Name = "flpNotifications";
+            this.flpNotifications.Size = new System.Drawing.Size(283, 344);
+            this.flpNotifications.TabIndex = 0;
             // 
             // panel4
             // 
@@ -999,11 +1077,16 @@
             this.Text = "ToDo";
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbNotification)).EndInit();
             this.pnlSave.ResumeLayout(false);
             this.pnlSave.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
+            this.pnlNotifications.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.pnlStats.ResumeLayout(false);
@@ -1093,6 +1176,12 @@
         private System.Windows.Forms.Panel panel4;
         private CustomControls.RJControls.RJToggleButton TogglebtnTheme;
         private System.Windows.Forms.NotifyIcon Notification;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel pnlNotifications;
+        private System.Windows.Forms.FlowLayoutPanel flpNotifications;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label lblNotificationCounter;
+        private System.Windows.Forms.PictureBox pbNotification;
     }
 }
 

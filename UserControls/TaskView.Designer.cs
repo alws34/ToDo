@@ -73,10 +73,10 @@
             this.pnlColorIndicator.Controls.Add(this.btnDelete);
             this.pnlColorIndicator.Controls.Add(this.customRadioButtonTaskName);
             this.pnlColorIndicator.ForeColor = System.Drawing.Color.Transparent;
-            this.pnlColorIndicator.Location = new System.Drawing.Point(5, 5);
-            this.pnlColorIndicator.MaximumSize = new System.Drawing.Size(410, 52);
+            this.pnlColorIndicator.Location = new System.Drawing.Point(4, 5);
+            this.pnlColorIndicator.MaximumSize = new System.Drawing.Size(443, 52);
             this.pnlColorIndicator.Name = "pnlColorIndicator";
-            this.pnlColorIndicator.Size = new System.Drawing.Size(410, 52);
+            this.pnlColorIndicator.Size = new System.Drawing.Size(432, 52);
             this.pnlColorIndicator.TabIndex = 0;
             this.pnlColorIndicator.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.MouseEnter += new System.EventHandler(this.pnlColorIndicator_MouseEnter);
@@ -115,7 +115,7 @@
             this.btnEditTaskName.ForeColor = System.Drawing.Color.White;
             this.btnEditTaskName.Location = new System.Drawing.Point(352, 24);
             this.btnEditTaskName.Name = "btnEditTaskName";
-            this.btnEditTaskName.Size = new System.Drawing.Size(54, 26);
+            this.btnEditTaskName.Size = new System.Drawing.Size(76, 26);
             this.btnEditTaskName.TabIndex = 7;
             this.btnEditTaskName.Text = "Edit";
             this.btnEditTaskName.TextColor = System.Drawing.Color.White;
@@ -137,7 +137,7 @@
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.Location = new System.Drawing.Point(363, 4);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(30, 23);
+            this.btnDelete.Size = new System.Drawing.Size(52, 23);
             this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "X";
             this.btnDelete.TextColor = System.Drawing.Color.White;
@@ -204,10 +204,10 @@
             // 
             this.flpAttachments.AutoScroll = true;
             this.flpAttachments.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
-            this.flpAttachments.Location = new System.Drawing.Point(5, 253);
-            this.flpAttachments.MinimumSize = new System.Drawing.Size(398, 256);
+            this.flpAttachments.Location = new System.Drawing.Point(4, 255);
+            this.flpAttachments.MinimumSize = new System.Drawing.Size(432, 256);
             this.flpAttachments.Name = "flpAttachments";
-            this.flpAttachments.Size = new System.Drawing.Size(410, 260);
+            this.flpAttachments.Size = new System.Drawing.Size(432, 260);
             this.flpAttachments.TabIndex = 1;
             // 
             // lblSubTasks
@@ -268,7 +268,7 @@
             this.tblLayoutTaskData.Controls.Add(this.lblAttachmentsCount, 1, 2);
             this.tblLayoutTaskData.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.tblLayoutTaskData.ForeColor = System.Drawing.Color.White;
-            this.tblLayoutTaskData.Location = new System.Drawing.Point(5, 63);
+            this.tblLayoutTaskData.Location = new System.Drawing.Point(4, 63);
             this.tblLayoutTaskData.Name = "tblLayoutTaskData";
             this.tblLayoutTaskData.RowCount = 6;
             this.tblLayoutTaskData.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52F));
@@ -382,7 +382,7 @@
             this.flpTaskOptions.Controls.Add(this.TaskDueDatePicker);
             this.flpTaskOptions.Controls.Add(this.btnRemoveDueDate);
             this.flpTaskOptions.Controls.Add(this.comboBoxChangePriority);
-            this.flpTaskOptions.Location = new System.Drawing.Point(270, 82);
+            this.flpTaskOptions.Location = new System.Drawing.Point(292, 82);
             this.flpTaskOptions.Name = "flpTaskOptions";
             this.flpTaskOptions.Size = new System.Drawing.Size(145, 133);
             this.flpTaskOptions.TabIndex = 14;
@@ -468,7 +468,7 @@
             this.lblDrag.Enabled = false;
             this.lblDrag.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.lblDrag.ForeColor = System.Drawing.Color.Black;
-            this.lblDrag.Location = new System.Drawing.Point(270, 60);
+            this.lblDrag.Location = new System.Drawing.Point(292, 58);
             this.lblDrag.Name = "lblDrag";
             this.lblDrag.Size = new System.Drawing.Size(145, 22);
             this.lblDrag.TabIndex = 15;
@@ -487,9 +487,9 @@
             this.btnHideTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHideTask.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnHideTask.ForeColor = System.Drawing.Color.Black;
-            this.btnHideTask.Location = new System.Drawing.Point(5, 221);
+            this.btnHideTask.Location = new System.Drawing.Point(4, 221);
             this.btnHideTask.Name = "btnHideTask";
-            this.btnHideTask.Size = new System.Drawing.Size(86, 26);
+            this.btnHideTask.Size = new System.Drawing.Size(106, 26);
             this.btnHideTask.TabIndex = 16;
             this.btnHideTask.Text = "Hide Task";
             this.btnHideTask.TextColor = System.Drawing.Color.Black;
@@ -510,10 +510,10 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.ForeColor = System.Drawing.Color.Black;
-            this.MaximumSize = new System.Drawing.Size(420, 520);
-            this.MinimumSize = new System.Drawing.Size(420, 111);
+            this.MaximumSize = new System.Drawing.Size(440, 520);
+            this.MinimumSize = new System.Drawing.Size(440, 111);
             this.Name = "TaskView";
-            this.Size = new System.Drawing.Size(420, 111);
+            this.Size = new System.Drawing.Size(440, 111);
             this.Tag = "248";
             this.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.ResumeLayout(false);

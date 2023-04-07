@@ -174,6 +174,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\NotificationCounter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\NotificationCounter.Designer.cs">
+      <DependentUpon>NotificationCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NotificationView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\NotificationView.Designer.cs">
+      <DependentUpon>NotificationView.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ProjectView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -226,6 +238,12 @@
       <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\NotificationCounter.resx">
+      <DependentUpon>NotificationCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\NotificationView.resx">
+      <DependentUpon>NotificationView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ProjectView.resx">
       <DependentUpon>ProjectView.cs</DependentUpon>
     </EmbeddedResource>
@@ -248,6 +266,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Roboto-Medium.ttf.old" />
+    <None Include="Resources\Roboto-Regular.ttf.old" />
     <!-- <Compile Include="Resources\Roboto-Medium.ttf" />
     <Compile Include="Resources\Roboto-Regular.ttf" /> -->
   </ItemGroup>
@@ -271,6 +291,8 @@
     <Content Include="Resources\39-trash-solid-black.gif" />
     <Content Include="Resources\39-trash-solid-white.gif" />
     <Content Include="Resources\44-folder-solid %281%29.gif" />
+    <Content Include="Resources\46-notification-bell-outline.gif" />
+    <Content Include="Resources\46-notification-bell-outlineWhite.gif" />
     <Content Include="Resources\48-favorite-heart-solid.gif" />
     <Content Include="Resources\50-file-solid.gif" />
     <Content Include="Resources\Background\Nature\01602sandringhambeach19.jpg" />
