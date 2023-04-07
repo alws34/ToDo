@@ -11,24 +11,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
+using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.UI.Xaml.Media;
 
 namespace DoYourTasks
 {
     public class DataController
     {
         #region CustomEvents
-        #region General
+        #region GeneralEvents
         public event HideItemEventHandler HideItem;
-        #endregion
+        #endregion GeneralEvents
 
         #region Project
         public event SetProjectViewEventHandler SetProjectView;
+        public event MouseEventHandler ProjectViewMouseDown;
         public event ProjectViewDeletedEventHandler ProjectViewDeleted;
         public event ProjectViewRenamedEventHandler ProjectViewRenamed;
         public event PriorityChangedEventHandler PriorityChaned;
         public event AddNewProjectAttachmentEventHandler AddNewProjectAttachment;
 
-        #endregion
+        #endregion Project
 
         #region Task
         public event UpdateCurrentTaskViewEventHandler UpdateTaskView;
@@ -38,16 +41,15 @@ namespace DoYourTasks
         public event TaskModifierEventHandler TaskDeleted;
         public event HideItemEventHandler HideTask;
         public event TaskModifierEventHandler AddTaskAttachment;
-        #endregion
+        #endregion Task
 
         #region SubTask
         public event UpdateSubTaskViewCompleteCounterEventHandler UpdateSubTaskViewCompleteCounter;
         public event SubTaskDeletedEventHandler SubTaskDeleted;
         public event NewSubTaskViewEventHandler NewSubTaskView;
 
-        #endregion
-        #endregion
-
+        #endregion SubTask
+        #endregion CustomEvents
 
         #region Fields
         public Dictionary<string, ProjectView> Projectviews;
@@ -57,21 +59,13 @@ namespace DoYourTasks
         public Dictionary<string, Project> Projects;
         public Dictionary<string, Project> HiddenProjects;
 
-        private Dictionary<Type, int> radiusMap = new Dictionary<Type, int>()
-        {
-            { typeof(ProjectView), 20 },
-            { typeof(TaskView), 20 },
-            { typeof(SubTaskView), 20 },
-            { typeof(Panel), 20 },
-            { typeof(TextBox), 20 },
-            { typeof(Form), 20 },
-            { typeof(ComboBox), 20 }
-        };
+        public Theme CurrentTheme { get; set; }
+        public Settings settings { get; set; }
 
         Utils utils;
         Serializer serializer;
         Timer timer;
-        #endregion
+        #endregion Fields
 
         #region Constructors
         public DataController()
@@ -86,88 +80,84 @@ namespace DoYourTasks
             utils = new Utils();
             serializer = new Serializer();
 
-            timer = new Timer();
-            timer.Interval = 1000 * 60 * 10; //10 minutes
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            //timer = new Timer();
+            //timer.Interval = 1000 * 60 * 10; //10 minutes
+            //timer.Tick += Timer_Tick;
+            //timer.Start();
         }
 
+        #endregion Constructors
+
+        #region Utils
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (!SaveToFile(toAppend: true))
+            if (!SaveToFile(toAppend: false))
                 return;
         }
 
-        #endregion
 
+
+        #endregion Utils
+
+        #region DataHandling
         public void LoadFromDB(string path)
         {
             Projectviews.Clear();
             Taskviews.Clear();
             SubTaskviews.Clear();
-            List<string> tmpList = new List<string>() { "ProjectView", "TaskView", "SubTaskView" };
 
-            Projects = (Dictionary<string, Project>)serializer.JsonDeserialize_(typeof(Dictionary<string, Project>), path);
+            SaveObject saveObject = (SaveObject)serializer.JsonDeserialize_(typeof(SaveObject), path);
+
+            Projects = saveObject.Project;
+            settings = saveObject.Settings;
+            if (settings != null)
+                CurrentTheme = settings.SavedTheme;
+            else
+                settings = new Settings();
 
             if (Projects == null)
-                return;
-
-            string taskViewID;
-            string pvID;
-            string stvID;
-            ProjectView pv;
-            TaskView tv;
-            SubTaskView stv;
-
-            List<Project> projects = new List<Project>();
-            foreach (Project project in Projects.Values.ToList())
             {
-                if (project.GetIsHidden())//load correctly
+                Projects = new Dictionary<string, Project>();
+                return;
+            }
+
+            foreach (Project project in Projects.Values)
+            {
+                if (project.GetIsHidden())
                 {
                     HiddenProjects.Add(project.GetProjectID(), project);
                     Projects.Remove(project.GetProjectID());
+                    continue;
                 }
 
-                projects.Add(project);// this in order to create the view object
-            }
-
-            foreach (Project project in projects)
-            {
-                //create the Projects Property
-                pv = CreateNewProjectView(project.GetProjectID(), false, project.GetIsHidden());
+                ProjectView pv = CreateNewProjectView(project.GetProjectID(), false, project.GetIsHidden());
                 pv.Rename(project.GetProjectName());
-                pvID = pv.ProjectID;
-                //Projectviews.Add(pvID, pv);
 
-                //create the TaskViews
-                List<Task> tasks = project.GetTasks().Values.ToList();
-                tasks.AddRange(project.GetHiddenTasks().Values.ToList());
+                List<Task> tasks = new List<Task>();
+                tasks.AddRange(project.GetTasks().Values);
+                tasks.AddRange(project.GetHiddenTasks().Values);
 
                 int completedTasks = 0;
-                foreach (var task in tasks)
+
+                foreach (Task task in tasks)
                 {
-                    tv = CreateNewTaskView(task.GetTaskName(), task.GetTaskID(), task.GetParentProjectID(), false, task.Priority);
-                    tv.Rename(task.GetTaskName());
-                    tv.SetCompleted(task.IsCompleted);
+                    TaskView taskView = CreateNewTaskView(task.GetTaskName(), task.GetTaskID(), task.GetParentProjectID(), false, task.Priority);
+                    taskView.Rename(task.GetTaskName());
+                    taskView.SetCompleted(task.IsCompleted);
 
-                    if (task.GetDateCreated() != null)
-                        tv.SetDateCreated(task.DateCreated);
+                    taskView.SetDateCreated(task.GetDateCreated());
+                    taskView.SetDueDate(task.GetDueDate());
 
-                    if (task.GetDueDate() != null)
-                        tv.SetDueDate(task.GetDueDate());
-
-                    taskViewID = task.GetTaskID();
                     if (task.IsCompleted)
-                        completedTasks++;
-                    //Taskviews.Add(taskViewID, tv);
-
-                    //create the SubTaskViews
-                    List<SubTask> subTasks = task.GetSubTasks().Values.ToList();
-                    foreach (var subtask in subTasks)
                     {
-                        stv = CreateSubTaskView(subtask.GetParentProjectID(), subtask.GetParentTaskID(), subtask.GetSubTaskID(), subtask.GetSubTaskName(), subtask.GetCreatedAt(), false);
+                        taskView.SetCompletedOn(task.GetDateCompleted());
+                        completedTasks++;
+                    }
+
+                    foreach (SubTask subtask in task.GetSubTasks().Values)
+                    {
+                        SubTaskView stv = CreateSubTaskView(subtask.GetParentProjectID(), subtask.GetParentTaskID(), subtask.GetSubTaskID(), subtask.GetSubTaskName(), subtask.GetCreatedAt(), false);
                         stv.Rename(subtask.GetSubTaskName());
-                        stvID = subtask.GetSubTaskID();
                         stv.SetCheckedState(subtask.IsCompleted);
                         stv.IsCompleted = subtask.IsCompleted;
                     }
@@ -177,34 +167,112 @@ namespace DoYourTasks
             }
         }
 
+        public void BackupDB()
+        {
+            string sourcePath = serializer.GetDBPath();
+            string fileName = Path.GetFileName(sourcePath);
+            string destinationPath = Directory.Exists("K:\\ToDoBackup") ? "K:\\ToDoBackup" : Directory.Exists("H:\\ToDoBackup") ? "H:\\ToDoBackup" : null;
+            if (destinationPath == null) return;
+
+            try
+            {
+                File.Copy(sourcePath, Path.Combine(destinationPath, fileName), false);
+            }
+            catch (IOException)
+            {
+                int i = 1;
+                string newFileName = Path.GetFileNameWithoutExtension(fileName) + $".{i.ToString()}" + Path.GetExtension(fileName);
+                while (File.Exists(Path.Combine(destinationPath, newFileName)))
+                {
+                    i++;
+                    newFileName = Path.GetFileNameWithoutExtension(fileName) + $".{i.ToString()}" + Path.GetExtension(fileName);
+                }
+                File.Copy(sourcePath, Path.Combine(destinationPath, newFileName), false);
+            }
+
+            string[] filePaths = Directory.GetFiles(destinationPath);
+            foreach (string filePath in filePaths)
+                if (File.GetCreationTime(filePath) < DateTime.Now.AddMonths(-1))
+                    File.Delete(filePath);
+        }
+
         public bool SaveToFile(bool isAutoSave = false, bool toAppend = false)
         {
-            foreach (ProjectView pv in Projectviews.Values.ToList())
-            {
-                if (pv.GetIsInEditMode())
-                {
-                    if (!isAutoSave)//dont disturb the user
-                                    //MessageBox.Show("One or more projects are in edit mode.\ncannot quit.", "Editing in progress", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                }
-            }
-            Dictionary<string, Project> saveAllProjects = Projects;
+            // Check if any ProjectView is in edit mode
+            if (!isAutoSave && Projectviews.Values.Any(pv => pv.GetIsInEditMode()))
+                return false;
+
+            // Combine Projects and HiddenProjects dictionaries
+            Dictionary<string, Project> saveAllProjects = Projects.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             foreach (var project in HiddenProjects)
                 if (!saveAllProjects.ContainsKey(project.Key))
                     saveAllProjects.Add(project.Key, project.Value);
 
+            // Serialize and save all projects
+            SaveObject saveObject = new SaveObject()
+            {
+                Settings = settings,
+                Project = saveAllProjects
+            };
 
-            serializer.JsonSerialize_(saveAllProjects, false);
+            serializer.JsonSerialize_(saveObject, false);
             return true;
         }
 
-        #region ProjectViews
+        #endregion DataHandling
 
-        #region ProjectViewsSetters
+        #region Models
+
+        #region Projects
+
+        /// <summary>
+        /// Get project name from the view object (ProjectView)
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public string GetProjectName(string projectID)
+        {
+            return Projectviews[projectID].GetProjectName();
+        }
+
+        /// <summary>
+        /// Get The Project object by its coresponding View object
+        /// </summary>
+        /// <param name="projctID"></param>
+        /// <returns></returns>
+        public Project GetProject(string projctID)
+        {
+            return GetCorrectProject(projctID);
+        }
+
+        #endregion Projects
+
+        #region Tasks
+        public Task GetNewTask(string taskID, string taskName, string projectID)
+        {
+            return new Task(taskID, taskName, projectID);
+        }
+        #endregion Tasks
+
+        #region SubTasks
+        public SubTask GetNewSubTask(string subTaskName, string taskID, string projectID, string subTaskID, string createdAt)
+        {
+            return new SubTask(subTaskName, taskID, projectID, subTaskID, createdAt);
+        }
+        #endregion SubTasks
+
+        #endregion Models
+
+        #region Views
+        #region ProjectViews
         public ProjectView CreateNewProjectView(string projectID, bool isNew = true, bool isHidden = false)
         {
             Project project = null;
-            ProjectView pv = new ProjectView(projectID, isNew);
+
+            if (CurrentTheme == null)
+                CurrentTheme = utils.LightTheme;
+
+            ProjectView pv = new ProjectView(projectID, CurrentTheme, isNew);
             if (isNew)
             {
                 pv.SetIsInEditMode(true);
@@ -212,19 +280,36 @@ namespace DoYourTasks
             }
 
             pv.Name = "ProjectView";
-            pv.Paint += RoundCorners;
-            pv.SetProjectView += SetProjectViewOnScreen;
-            pv.ProjectViewDeleted += DeletedProject;
-            pv.ProjectViewRenamed += ProjectRenamed;
-            pv.ChangePriority += Pv_ChangePriority;
-            pv.HideProject += Pv_HideProject;
-            pv.AddAttachment += Pv_AddAttachment;
+            SubscribeProejctViewEvents(pv);
 
             AddProjectsToDicts(project, pv, projectID);
             pv.SetPriority(GetCorrectProject(projectID).GetPriority(), !isNew);
             pv.SetHidden(isHidden);
 
             return pv;
+        }
+
+        #region ProjectViewSetters
+
+        #endregion ProjectViewSetters
+
+        #region ProjectViewEvents
+
+        private void ProjectView_MouseDown(object sender, MouseEventArgs e)
+        {
+            ProjectViewMouseDown.Invoke(sender, e);
+        }
+
+        private void SubscribeProejctViewEvents(ProjectView pv)
+        {
+            //pv.Load += RoundCorners;
+            pv.MouseDown += ProjectView_MouseDown;
+            pv.SetProjectView += SetProjectViewOnScreen;
+            pv.ProjectViewDeleted += DeletedProject;
+            pv.ProjectViewRenamed += ProjectRenamed;
+            pv.ChangePriority += Pv_ChangePriority;
+            pv.HideProject += Pv_HideProject;
+            pv.AddAttachment += Pv_AddAttachment;
         }
 
         private void Pv_AddAttachment()
@@ -237,28 +322,6 @@ namespace DoYourTasks
             HideItem.Invoke(arg);//delegate to main form
         }
 
-        /// <summary>
-        /// Return the appropriate project object weather its hidden or not
-        /// </summary>
-        /// <param name="projectID"></param>
-        /// <returns></returns>
-        public Project GetCorrectProject(string projectID)
-        {
-            if (Projects.ContainsKey(projectID))
-                return Projects[projectID];
-            else
-                return HiddenProjects[projectID];
-        }
-        public Dictionary<string, Project> GetProjects() { return Projects; }
-        public Dictionary<string, Project> GetHiddenProjects() { return HiddenProjects; }
-        public void RemoveCorrectProject(string projectID)
-        {
-            if (Projects.ContainsKey(projectID))
-                Projects.Remove(projectID);
-            else
-                HiddenProjects.Remove(projectID);
-        }
-        public Dictionary<string, Project> GetAllProjects() { return Projects.Concat(HiddenProjects).ToDictionary(x => x.Key, x => x.Value); }
         private void Pv_ChangePriority(ChangePriorityEventArgs arg)
         {
             switch (arg.Control.GetType().Name)
@@ -285,6 +348,41 @@ namespace DoYourTasks
 
         }
 
+        #endregion ProjectViewEvents
+
+
+
+        #region ProjectView
+
+
+
+
+
+        /// <summary>
+        /// Return the appropriate project object weather its hidden or not
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public Project GetCorrectProject(string projectID)
+        {
+            if (Projects.ContainsKey(projectID))
+                return Projects[projectID];
+            else if (HiddenProjects.ContainsKey(projectID))
+                return HiddenProjects[projectID];
+            else return null;
+        }
+
+        public Dictionary<string, Project> GetProjects() { return Projects; }
+        public Dictionary<string, Project> GetHiddenProjects() { return HiddenProjects; }
+        public void RemoveCorrectProject(string projectID)
+        {
+            if (Projects.ContainsKey(projectID))
+                Projects.Remove(projectID);
+            else
+                HiddenProjects.Remove(projectID);
+        }
+        public Dictionary<string, Project> GetAllProjects() { return Projects.Concat(HiddenProjects).ToDictionary(x => x.Key, x => x.Value); }
+
         private void ProjectRenamed(RenameProjectEventArgs args)
         {
             GetCorrectProject(args.ProjectID).Rename(args.ProjectName);
@@ -310,25 +408,7 @@ namespace DoYourTasks
         #endregion
 
         #region ProjectViewsGetters
-        /// <summary>
-        /// Get project name from the view object (ProjectView)
-        /// </summary>
-        /// <param name="projectID"></param>
-        /// <returns></returns>
-        public string GetProjectName(string projectID)
-        {
-            return Projectviews[projectID].GetProjectName();
-        }
 
-        /// <summary>
-        /// Get The Project object by its coresponding View object
-        /// </summary>
-        /// <param name="projctID"></param>
-        /// <returns></returns>
-        public Project GetProject(string projctID)
-        {
-            return GetCorrectProject(projctID);
-        }
         #endregion
 
         #region ProjectViewsModifiers
@@ -355,9 +435,27 @@ namespace DoYourTasks
         #region TaskviewsSetters
         public TaskView CreateNewTaskView(string taskName, string taskID, string projectID, bool isNew = true, int priority = 0)
         {
+            if (CurrentTheme == null)
+                CurrentTheme = utils.LightTheme;
+
+            TaskView tv = new TaskView(taskName, taskID, projectID, priority, CurrentTheme);
+            SubscribeTaskViewEvents(tv);
             Task task = null;
-            TaskView tv = new TaskView(taskName, taskID, projectID, priority);
-            tv.Paint += RoundCorners;
+            if (isNew)
+            {
+                task = GetNewTask(taskID, taskName, projectID);
+                GetCorrectProject(projectID).GetTasks().Add(taskID, task);
+                tv.SetDateCreated(task.DateCreated);
+                tv.isHidden = false;
+            }
+
+            AddTaskToDicts(task, tv, taskID);
+            UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(tv));
+            return tv;
+        }
+        private void SubscribeTaskViewEvents(TaskView tv)
+        {
+            //tv.Load += RoundCorners;
             tv.TaskCompleted += Tv_TaskCompleted;
             tv.TaskDeleted += Tv_TaskDeleted;
             tv.DueDateChanged += Tv_TaskDueDateChanged;
@@ -368,55 +466,17 @@ namespace DoYourTasks
             tv.MouseDown += Tv_MouseDown;
             tv.HideTask += Tv_HideTask;
             tv.AddTaskAttachment += Tv_AddTaskAttachment;
-            //create the coresponding Task
-            if (isNew)
-            {
-                task = new Task(taskID, taskName, projectID);
-                GetCorrectProject(projectID).GetTasks().Add(taskID, task);//Add task to coresponding project
-                tv.SetDateCreated(task.DateCreated);
-                tv.isHidden = false;
-            }
-
-            UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(tv));//update task view in form
-
-            AddTaskToDicts(task, tv, taskID);
-            return tv;
         }
-
-        public void RoundCorners(object sender, PaintEventArgs e)
+        private void AddTaskToDicts(Task task, TaskView taskView, string taskID)
         {
-            Control control = null;
-            string name = sender.GetType().Name;
-            if (name == "ProjectView")
-                control = (Control)(sender as ProjectView);
-            else if (name == "TaskView")
-                control = (Control)(sender as TaskView);
-            else if (name == "SubTaskView")
-                control = (sender as SubTaskView);
-            else if (name.StartsWith("Panel") || name.StartsWith("pnl"))
-                control = (Control)(sender as Panel);
-            else if (name.StartsWith("TextBox") || name.StartsWith("tb"))
-                control = (Control)(sender as TextBox);
-            else if (name.StartsWith("Form") || name.StartsWith("frm"))
-                control = (Control)(sender as Form);
-            else if (name.StartsWith("comboBox"))
-                control = (Control)(sender as ComboBox);
-            else
-                return;
-
-            if (control == null)
-                return;
-
-            GraphicsPath path = new GraphicsPath();
-            int radius = 20;
-            Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseFigure();
-            control.Region = new Region(path);
+            try
+            {
+                Taskviews.Add(taskID, taskView);
+            }
+            catch (Exception ex) { }
         }
+
+        #region TaskViewEvents
 
         private void Tv_AddTaskAttachment(TaskModifiedEventArgs args)
         {
@@ -434,134 +494,88 @@ namespace DoYourTasks
             c.DoDragDrop(c, DragDropEffects.Move);
         }
 
-        public void BackupDB()
-        {
-            string SourcePath = serializer.GetDBPath();
-
-            string desdtFileName = Path.GetFileName(serializer.GetDBPath());
-            string destPath = "K:\\ToDoBackup";
-            string originalDesdtFileName = desdtFileName;
-            try
-            {
-                if (!Directory.Exists("K:\\"))
-                    return;
-                if (!Directory.Exists(destPath))
-                    Directory.CreateDirectory(destPath);
-            }
-            catch
-            {
-                destPath = "H:\\ToDoBackup";
-                if (!Directory.Exists("H:\\"))
-                    return;
-                if (!Directory.Exists(destPath))
-                    Directory.CreateDirectory(destPath);
-            }
-            try
-            {
-                File.Copy(SourcePath, $"{destPath}\\{desdtFileName}", false); //do not overwrite
-            }
-            catch (IOException ioe)
-            {
-                int i = 1;
-                while (File.Exists($"{destPath}\\{desdtFileName}"))
-                {
-                    desdtFileName = originalDesdtFileName + $".{i.ToString()}";
-                    i++;
-                }
-
-                File.Copy(SourcePath, $"{destPath}\\{desdtFileName}", false);
-            }
-
-
-            // Delete files older than a month
-            string[] filePaths = Directory.GetFiles(Path.GetDirectoryName(destPath));
-            foreach (string filePath in filePaths)
-                if (File.GetCreationTime(filePath) < DateTime.Now.AddMonths(-1))
-                    File.Delete(filePath);
-        }
-
         private void Tv_PriorityChanged(PriorityChangedEventArgs args)
         {
             TaskView tv = args.TaskView;
             int priority = args.Priority;
-
-            string projeID = tv.GetParentProjectID();
+            string projectID = tv.GetParentProjectID();
             string taskID = tv.GetTaskID();
-            GetCorrectProject(tv.GetParentProjectID()).GetTasks()[tv.GetTaskID()].SetPriority(priority);
+
+            GetCorrectProject(projectID).GetAllTasks()[taskID].SetPriority(priority);
             PriorityChaned.Invoke(args);
         }
 
         private void Tv_AttachemntRemoved(AttachmentRemovedEventArgs arg)
         {
             Attachment attachment = arg.Attachment.Attachment;
-            Attachment atToRemove = null;
-            foreach (Attachment at in Projects[attachment.GetParentProjectID()].GetTasks()[attachment.GetParentTaskID()].GetAttachements())
-            {
-                if (at.GetAttachmentID() == attachment.GetAttachmentID())
-                {
-                    atToRemove = at;
-                    break;
-                }
-            }
+            string projectID = attachment.GetParentProjectID();
+            string taskID = attachment.GetParentTaskID();
+            Task task = GetCorrectProject(projectID).GetAllTasks()[taskID];
+
+            Attachment atToRemove = task.GetAttachements().FirstOrDefault(a => a.GetAttachmentID() == attachment.GetAttachmentID());
+
             if (atToRemove != null)
-                GetCorrectProject(attachment.GetParentProjectID()).GetTasks()[attachment.GetParentTaskID()].GetAttachements().Remove(atToRemove);
+                task.GetAttachements().Remove(atToRemove);
+
             Taskviews[attachment.GetParentTaskID()].ResizeAttachmentsFLP();
+
+            //Reset taskview -- delegate to main
         }
 
         private void Tv_TaskRenamed(TaskRenamedEventArgs args)
         {
-            TaskView task = args.TaskView;
-            GetCorrectProject(task.GetParentProjectID()).Tasks[task.GetTaskID()].Rename(task.GetName());
+            TaskView tv = args.TaskView;
+            GetCorrectProject(tv.GetParentProjectID()).Tasks[tv.GetTaskID()].Rename(tv.GetName());
             TaskRenamed.Invoke(new TaskRenamedEventArgs(args.TaskView));
-
         }
 
         private void Tv_TaskDeleted(TaskModifiedEventArgs args)
         {
-            GetCorrectProject(args.TV.GetParentProjectID()).RemoveTask(args.TV.GetTaskID());
-            Taskviews.Remove(args.TV.GetTaskID());
-            args.TV.Dispose();
+            string projectID = args.TV.GetParentProjectID();
+            string taskID = args.TV.GetTaskID();
+            GetCorrectProject(projectID).RemoveTask(taskID);
+            Taskviews.Remove(taskID);
             TaskDeleted.Invoke(args);
+            args.TV.Dispose();
         }
+
         private void Tv_TaskDueDateChanged(DueDateChangedEventArgs args)
         {
-            TaskDueDateChanged.Invoke(new DueDateChangedEventArgs(args.TaskView, args.DueDate));
+            string projectID = args.TaskView.GetParentProjectID();
+            string taskID = args.TaskView.GetTaskID();
+            string dueDate = args.TaskView.GetDueDate();
+            GetCorrectProject(projectID).GetTasks()[taskID].SetDueDate(dueDate);
         }
-
-
         private void Tv_TaskCompleted(TaskCompletedEventArgs args)
         {
-            List<Task> tasks = new List<Task>();
-            if (GetCorrectProject(args.TV.GetParentProjectID()).GetTasks().ContainsKey(args.TV.GetTaskID()))
+            // Retrieve project and task ID
+            Project project = GetCorrectProject(args.TV.GetParentProjectID());
+            string taskID = args.TV.GetTaskID();
+
+            // Check if task is in project or hidden tasks
+            if (project.GetTasks().ContainsKey(taskID))
             {
-                GetCorrectProject(args.TV.GetParentProjectID()).GetTasks()[args.TV.GetTaskID()].SetCompleted(args.TV.GetCheckedState());
-                tasks = GetCorrectProject(args.TV.GetParentProjectID()).GetTasks().Values.ToList();
+                project.GetTasks()[taskID].SetCompleted(args.TV.GetCheckedState());
+                project.GetTasks()[taskID].SetDateCompleted(DateTime.Now.ToString("dd/MM/yy"));
             }
-            else if (GetCorrectProject(args.TV.GetParentProjectID()).GetHiddenTasks().ContainsKey(args.TV.GetTaskID()))
+            else if (project.GetHiddenTasks().ContainsKey(taskID))
             {
-                GetCorrectProject(args.TV.GetParentProjectID()).GetHiddenTasks()[args.TV.GetTaskID()].SetCompleted(args.TV.GetCheckedState());
-                tasks = GetCorrectProject(args.TV.GetParentProjectID()).GetHiddenTasks().Values.ToList();
+                project.GetHiddenTasks()[taskID].SetCompleted(args.TV.GetCheckedState());
+                project.GetHiddenTasks()[taskID].SetDateCompleted(DateTime.Now.ToString(""));
             }
 
-            int completedTasks = 0;
-            foreach (var task in tasks)
-            {
-                if (task.IsCompleted)
-                    completedTasks++;
-            }
+            // Get list of all tasks and count completed tasks
+            List<Task> tasks = project.GetAllTasks().Values.ToList();
+            int completedTasks = tasks.Count(t => t.IsCompleted);
 
+            // Update project view label and invoke TaskCompleted event
             Projectviews[args.TV.GetParentProjectID()].SetTasksLabel($"Tasks: {completedTasks}/{tasks.Count}");
             TaskCompleted.Invoke(new TaskCompletedEventArgs(args.TV));
         }
 
-        private void AddTaskToDicts(Task task, TaskView taskView, string taskID)
-        {
-            try
-            {
-                Taskviews.Add(taskID, taskView);
-            }
-            catch (Exception ex) { }
-        }
+        #endregion TaskViewEvents
+
+
         #endregion
 
         #region TaskviewsGetters
@@ -577,6 +591,7 @@ namespace DoYourTasks
             Taskviews[taskID].Rename(newName);
             GetCorrectProject(Taskviews[taskID].GetParentProjectID()).GetTasks()[taskID].Rename(newName);
         }
+
         public void DeleteTask(string taskID)
         {
             Taskviews.Remove(taskID);
@@ -587,24 +602,25 @@ namespace DoYourTasks
         #endregion
 
         #region SubTaskView
-
-        #region SubTaskViewSetters
         public SubTaskView CreateSubTaskView(string projectID, string taskID, string subTaskID, string subTaskName, string createdAt, bool isNew = true)
         {
-            SubTask st = null;
-            SubTaskView stv = new SubTaskView(taskID, subTaskID, projectID, subTaskName, createdAt);
-            stv.SubTaskCompleted += Stv_SubTaskCompleted;
-            stv.SubTaskDeleted += Stv_SubTaskDeleted;
-            stv.Paint += RoundCorners;
+            SubTask subTask = null;
+            SubTaskView subTaskView = new SubTaskView(taskID, subTaskID, projectID, subTaskName, createdAt);
+            SubscribeSubTaskViewEvents(subTaskView);
 
             if (isNew)
-            {
-                st = new SubTask(subTaskName, taskID, projectID, subTaskID, createdAt);
-            }
+                subTask = GetNewSubTask(subTaskName, taskID, projectID, subTaskID, createdAt);
 
-            AddSubTaskToDicts(st, stv, projectID, taskID, subTaskID);
+            AddSubTaskToDicts(subTask, subTaskView, projectID, taskID, subTaskID);
             UpdateSubTaskViewCompleteCounter.Invoke(new UpdateSubTaskViewCompleteCounterEventArgs(projectID, taskID));
-            return stv;
+            return subTaskView;
+        }
+
+        private void SubscribeSubTaskViewEvents(SubTaskView stv)
+        {
+            stv.SubTaskCompleted += Stv_SubTaskCompleted;
+            stv.SubTaskDeleted += Stv_SubTaskDeleted;
+            //stv.Load += RoundCorners;
         }
 
         private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView, string projectID, string taskID, string subTaskID)
@@ -614,9 +630,18 @@ namespace DoYourTasks
             if (subTask != null)
                 GetCorrectProject(projectID).GetTasks()[taskID].AddSubTask(subTaskID, subTask);
         }
+
+
+        #region SubTaskViewSetters
+
         #endregion
 
         #region SubTaskViewGetters
+        public SubTask GetSubTask(string projectID, string taskID, string subTaskID)
+        {
+            return GetAllProjects()[projectID].GetAllTasks()[taskID].GetSubTasks()[subTaskID];
+        }
+
         public string GetSubTaskName(string id)
         {
             return SubTaskviews[id].GetName();
@@ -628,7 +653,7 @@ namespace DoYourTasks
         {
             try
             {
-                GetCorrectProject(args.STV.GetParentProjectID()).GetAllTasks()[args.STV.GetParentTaskID()].GetSubTasks()[args.STV.GetID()].SetCompleted(args.STV.IsCompleted);
+                GetCorrectProject(args.STV.GetParentProjectID()).GetAllTasks()[args.STV.GetParentTaskID()].GetSubTasks()[args.STV.GetSubTaskID()].SetCompleted(args.STV.IsCompleted);
                 UpdateSubTaskViewCompleteCounter.Invoke(new UpdateSubTaskViewCompleteCounterEventArgs(args.STV.GetParentProjectID(), args.STV.GetParentTaskID()));
             }
             catch (KeyNotFoundException) { return; }
@@ -640,19 +665,34 @@ namespace DoYourTasks
             try
             {
                 SubTaskviews.Remove(arg.STV.GetParentTaskID());
-                GetCorrectProject(arg.STV.GetParentProjectID()).GetAllTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetID());
+                GetCorrectProject(arg.STV.GetParentProjectID()).GetAllTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetSubTaskID());
                 SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(arg.STV));
                 arg.STV.Dispose();
             }
             catch (KeyNotFoundException) { return; }
         }
 
-        public SubTask GetSubTask(string projectID, string taskID, string subTaskID)
+        public Theme GetTheme()
         {
-            return GetAllProjects()[projectID].GetAllTasks()[taskID].GetSubTasks()[subTaskID];
+            if (settings != null)
+                return settings.SavedTheme;
+            return utils.LightTheme;
         }
+
+        public bool GetThemeMode(Theme theme)
+        {
+            List<Color> current = theme.GetThemeColors();
+            List<Color> Light = utils.LightTheme.GetThemeColors();
+            for (int i = 0; i < current.Count; i++)
+                if (current[i].ToArgb() != Light[i].ToArgb())
+                    return false;
+            return true;
+
+        }
+
         #endregion
 
         #endregion
+        #endregion Views
     }
 }

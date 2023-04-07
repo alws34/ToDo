@@ -1,18 +1,21 @@
-﻿using DoYourTasks.UserControls.CustomControls;
+﻿using DoYourTasks.Properties;
+using DoYourTasks.UserControls.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.UI.Xaml.Controls;
 
 namespace DoYourTasks.UserControls
 {
-    public partial class ProjectView : UserControl
+    public partial class ProjectView : System.Windows.Forms.UserControl
     {
         #region CustomEvents
         public event SetProjectViewEventHandler SetProjectView;
@@ -34,6 +37,7 @@ namespace DoYourTasks.UserControls
 
         #region Fields
         private bool isInEditMode = false;
+        private Timer isExitAnimating = new Timer() { Interval = 2500 };
         private enum ProjectPriorities
         {
             VeryLow,
@@ -49,9 +53,10 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Constructors
-        public ProjectView(string projectID, bool isNew = true)
+        public ProjectView(string projectID, Theme theme,  bool isNew = true)
         {
             InitializeComponent();
+
             Name = "ProjectView";
 
             SetIndicator(false);
@@ -60,42 +65,47 @@ namespace DoYourTasks.UserControls
             isInEditMode = isNew;
             IsHidden = false;
             if (!isNew)
-            {
                 HideTB();
-            }
+
+            isExitAnimating.Tick += IsExitAnimating_Tick; // exit button (gif) "animation" control
+
+            SetTheme(theme);
         }
         #endregion
 
         #region Getters
+
+        public string GetProjectPrioritySTR() { return lblProjPriority.Text; }
+
         public string GetProjectID() { return ProjectID; }
-        public CustomTextBox GetCurrentCustomTextBox()
-        {
-            return customTextBox.GetCurrentCustomTextBox();
-        }
 
-        public bool GetIsInEditMode()
-        {
-            return isInEditMode;
-        }
+        public CustomTextBox GetCurrentCustomTextBox() { return ctbProjectName.GetCurrentCustomTextBox(); }
 
-        public string GetBackGroundImage()
-        {
-            return ProjectBackGroundImagePath;
-        }
+        public bool GetIsInEditMode() { return isInEditMode; }
 
-        public bool GetIndicator()
-        {
-            return IsIndicating;
-        }
+        public string GetBackGroundImage() { return ProjectBackGroundImagePath; }
 
-        public string GetProjectName()
-        {
-            return customTextBox.Text;
-        }
+        public bool GetIndicator() { return IsIndicating; }
+
+        public string GetProjectName() { return ctbProjectName.Text; }
         #endregion
 
         #region Setters
+        public void SetTheme(Theme theme) {
+            BackColor = theme.BackColor;
+            ForeColor = theme.ForeColor;
 
+            btnEditListName.ForeColor = ForeColor;
+            lblTaskCount.ForeColor = ForeColor;
+
+            btnEditListName.BackColor = BackColor; 
+            btnEditListName.ForeColor = ForeColor;
+
+            ctbProjectName.BackColor = BackColor;
+            ctbProjectName.BorderColor= BackColor;
+            ctbProjectName.SetTBBackColor(BackColor);
+            ctbProjectName.SetTBForeColor(ForeColor);
+        }
         public void SetIndicator(bool mode)
         {
             IsIndicating = mode;
@@ -118,7 +128,6 @@ namespace DoYourTasks.UserControls
             }
 
         }
-
 
         public void SetPriority(int priority = 0, bool isNew = false)
         {
@@ -242,12 +251,10 @@ namespace DoYourTasks.UserControls
             IsHidden = isHidden;
         }
 
-
-
         public void SetIsInEditMode(bool mode)
         {
             isInEditMode = mode;
-            customTextBox.SetIsInEdit(mode);
+            ctbProjectName.SetIsInEdit(mode);
         }
 
         public void SetTasksLabel(string tasks)
@@ -263,11 +270,11 @@ namespace DoYourTasks.UserControls
 
         public void Rename(string text)
         {
-            customTextBox.Text = text;
-            customTextBox.SetText(text);
+            ctbProjectName.Text = text;
+            ctbProjectName.SetText(text);
             //customTextBox.Show();
             //customTextBox.Visible = true;
-            ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, customTextBox.GetText()));
+            ProjectViewRenamed.Invoke(new RenameProjectEventArgs(ProjectID, ctbProjectName.GetText()));
             HideTB();
         }
 
@@ -279,16 +286,34 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Events
+        private void IsExitAnimating_Tick(object sender, EventArgs e)
+        {
+            pbDeleteProject.Enabled = false;
+            pbDeleteProject.Image = Resources._29_cross_solid;
+        }
+
+        private void pbDeleteProject_MouseEnter(object sender, EventArgs e)
+        {
+            if (!pbDeleteProject.Enabled)
+                pbDeleteProject.Enabled = true;
+            isExitAnimating.Enabled = true;
+        }
+
+        private void pbDeleteProject_MouseLeave(object sender, EventArgs e)
+        {
+            this.pbDeleteProject.Enabled = false;
+        }
+
         private void EventSubscriber()
         {
             GotFocus += ProjectView_GotFocus;
             LostFocus += ProjectView_LostFocus;
-            customTextBox.gotHidden += CustomTextBox_gotHidden;
+            ctbProjectName.gotHidden += CustomTextBox_gotHidden;
         }
 
         private void CustomTextBox_gotHidden(bool isHidden, EventArgs arg)
         {
-            string text = customTextBox.GetText();
+            string text = ctbProjectName.GetText();
 
             if (!string.IsNullOrEmpty(text))
             {
@@ -317,10 +342,9 @@ namespace DoYourTasks.UserControls
             //customTextBox.ResetText();
             btnEditListName.Hide();
             Height = MinimumSize.Height;
-            customTextBox.Show();
+            ctbProjectName.Show();
             SetIsInEditMode(true);
         }
-        #endregion
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
@@ -331,65 +355,17 @@ namespace DoYourTasks.UserControls
                 return;
         }
 
-
-
-
         public void btnAddProjectAttachment_Click()
         {
             AddAttachment.Invoke();
         }
 
-        //private void SetHideButtonText(string text) { btnHideProject.Text = text; }
-
         public void btnHideProject_Click()
         {
             IsHidden = !IsHidden;
-
-            //if (GetIsHidden())
-            //SetHideButtonText("Show Project");
-            //else
-            //SetHideButtonText("Hide Project");
-
             HideProject.Invoke(new HideItemEventArgs(this));
         }
 
-        //private void comboBoxChangePriority_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    int priority = 0;
-
-        //    switch (comboBoxChangePriority.SelectedItem.ToString())
-        //    {
-        //        case "On Hold":
-        //            priority = (int)PriorityCodes.OnHold;
-        //            break;
-        //        case "Very Low":
-        //            priority = (int)PriorityCodes.VeryLow;
-        //            break;
-        //        case "Low":
-        //            priority = (int)PriorityCodes.Low;
-        //            break;
-        //        case "Medium":
-        //            priority = (int)PriorityCodes.Medium;
-        //            break;
-        //        case "High":
-        //            priority = (int)PriorityCodes.High;
-        //            break;
-        //        case "Urgent":
-        //            priority = (int)PriorityCodes.Urgent;
-        //            break;
-        //        case "Waiting":
-        //            priority = (int)PriorityCodes.Waiting;
-        //            break;
-        //        case "Done":
-        //            priority = (int)PriorityCodes.Done;
-        //            break;
-        //    }
-        //    SetPriority(priority);
-        //}
-
-        public string GetProjectPrioritySTR()
-        {
-            return lblProjPriority.Text;
-        }
+        #endregion Events
     }
 }

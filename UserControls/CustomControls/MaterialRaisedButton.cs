@@ -138,15 +138,15 @@ namespace  DoYourTasks.UserControls
                 new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
             //Round buttons edges
-            GraphicsPath path = new GraphicsPath();
-            int radius = 20;
-            Rectangle rect = new Rectangle(0, 0, Width, Height);
-            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
-            path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
-            path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
-            path.CloseFigure();
-            Region = new Region(path);
+            //GraphicsPath path = new GraphicsPath();
+            //int radius = 20;
+            //Rectangle rect = new Rectangle(0, 0, Width, Height);
+            //path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            //path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            //path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            //path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            //path.CloseFigure();
+            //Region = new Region(path);
         }
 
         private Size GetPreferredSize()

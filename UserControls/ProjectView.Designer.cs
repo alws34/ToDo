@@ -29,47 +29,81 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectView));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pnlIndicator = new System.Windows.Forms.Panel();
             this.lblTaskCount = new System.Windows.Forms.Label();
-            this.lblDrag = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pnlPB = new System.Windows.Forms.Panel();
+            this.pbDeleteProject = new System.Windows.Forms.PictureBox();
             this.lblProjPriority = new System.Windows.Forms.Label();
-            this.customTextBox = new DoYourTasks.UserControls.CustomControls.CustomTextBox();
-            this.btnDelete = new DoYourTasks.UserControls.CustomButtonV2();
+            this.lblDrag = new System.Windows.Forms.Label();
+            this.pnlIndicator = new System.Windows.Forms.Panel();
+            this.ctbProjectName = new DoYourTasks.UserControls.CustomControls.CustomTextBox();
             this.btnEditListName = new DoYourTasks.UserControls.CustomButtonV2();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pnlPB.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDeleteProject)).BeginInit();
             this.SuspendLayout();
+            // 
+            // lblTaskCount
+            // 
+            this.lblTaskCount.AutoSize = true;
+            this.lblTaskCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.lblTaskCount.ForeColor = System.Drawing.Color.Black;
+            this.lblTaskCount.Location = new System.Drawing.Point(3, 83);
+            this.lblTaskCount.Name = "lblTaskCount";
+            this.lblTaskCount.Size = new System.Drawing.Size(79, 16);
+            this.lblTaskCount.TabIndex = 8;
+            this.lblTaskCount.Tag = "Tasks: 0/0";
+            this.lblTaskCount.Text = "Tasks: 0/0";
+            this.lblTaskCount.Click += new System.EventHandler(this.ProjectView_GotFocus);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(15, 11);
+            this.pictureBox1.Location = new System.Drawing.Point(10, 8);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(30, 32);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.ProjectView_GotFocus);
             // 
-            // pnlIndicator
+            // pnlPB
             // 
-            this.pnlIndicator.BackColor = System.Drawing.Color.DarkSlateBlue;
-            this.pnlIndicator.Location = new System.Drawing.Point(0, 16);
-            this.pnlIndicator.Name = "pnlIndicator";
-            this.pnlIndicator.Size = new System.Drawing.Size(5, 22);
-            this.pnlIndicator.TabIndex = 3;
+            this.pnlPB.Controls.Add(this.pbDeleteProject);
+            this.pnlPB.Location = new System.Drawing.Point(226, 7);
+            this.pnlPB.Name = "pnlPB";
+            this.pnlPB.Size = new System.Drawing.Size(41, 33);
+            this.pnlPB.TabIndex = 18;
+            this.pnlPB.MouseEnter += new System.EventHandler(this.pbDeleteProject_MouseEnter);
             // 
-            // lblTaskCount
+            // pbDeleteProject
             // 
-            this.lblTaskCount.AutoSize = true;
-            this.lblTaskCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.lblTaskCount.Location = new System.Drawing.Point(3, 84);
-            this.lblTaskCount.Name = "lblTaskCount";
-            this.lblTaskCount.Size = new System.Drawing.Size(141, 30);
-            this.lblTaskCount.TabIndex = 8;
-            this.lblTaskCount.Tag = "Tasks: 0/0";
-            this.lblTaskCount.Text = "Tasks: 0/0";
-            this.lblTaskCount.Click += new System.EventHandler(this.ProjectView_GotFocus);
+            this.pbDeleteProject.Enabled = false;
+            this.pbDeleteProject.Image = global::DoYourTasks.Properties.Resources._29_cross_solid;
+            this.pbDeleteProject.Location = new System.Drawing.Point(4, 3);
+            this.pbDeleteProject.Name = "pbDeleteProject";
+            this.pbDeleteProject.Size = new System.Drawing.Size(34, 27);
+            this.pbDeleteProject.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbDeleteProject.TabIndex = 17;
+            this.pbDeleteProject.TabStop = false;
+            this.pbDeleteProject.Click += new System.EventHandler(this.btnDelete_Click);
+            this.pbDeleteProject.MouseLeave += new System.EventHandler(this.pbDeleteProject_MouseLeave);
+            // 
+            // lblProjPriority
+            // 
+            this.lblProjPriority.AutoEllipsis = true;
+            this.lblProjPriority.AutoSize = true;
+            this.lblProjPriority.BackColor = System.Drawing.Color.LimeGreen;
+            this.lblProjPriority.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold);
+            this.lblProjPriority.ForeColor = System.Drawing.Color.Black;
+            this.lblProjPriority.Location = new System.Drawing.Point(127, 57);
+            this.lblProjPriority.Margin = new System.Windows.Forms.Padding(0);
+            this.lblProjPriority.Name = "lblProjPriority";
+            this.lblProjPriority.Size = new System.Drawing.Size(47, 23);
+            this.lblProjPriority.TabIndex = 16;
+            this.lblProjPriority.Tag = "";
+            this.lblProjPriority.Text = "Low";
+            this.lblProjPriority.Click += new System.EventHandler(this.ProjectView_GotFocus);
             // 
             // lblDrag
             // 
@@ -77,63 +111,36 @@
             this.lblDrag.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblDrag.Enabled = false;
             this.lblDrag.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.lblDrag.Location = new System.Drawing.Point(127, 81);
+            this.lblDrag.ForeColor = System.Drawing.Color.Black;
+            this.lblDrag.Location = new System.Drawing.Point(127, 83);
             this.lblDrag.Name = "lblDrag";
-            this.lblDrag.Size = new System.Drawing.Size(265, 39);
+            this.lblDrag.Size = new System.Drawing.Size(140, 22);
             this.lblDrag.TabIndex = 11;
             this.lblDrag.Text = "Drag From Here";
             // 
-            // lblProjPriority
+            // pnlIndicator
             // 
-            this.lblProjPriority.AutoEllipsis = true;
-            this.lblProjPriority.AutoSize = true;
-            this.lblProjPriority.BackColor = System.Drawing.Color.LimeGreen;
-            this.lblProjPriority.Font = new System.Drawing.Font("Arial Black", 14F, System.Drawing.FontStyle.Bold);
-            this.lblProjPriority.ForeColor = System.Drawing.Color.Black;
-            this.lblProjPriority.Location = new System.Drawing.Point(127, 52);
-            this.lblProjPriority.Margin = new System.Windows.Forms.Padding(0);
-            this.lblProjPriority.Name = "lblProjPriority";
-            this.lblProjPriority.Size = new System.Drawing.Size(108, 54);
-            this.lblProjPriority.TabIndex = 16;
-            this.lblProjPriority.Tag = "";
-            this.lblProjPriority.Text = "Low";
-            this.lblProjPriority.Click += new System.EventHandler(this.ProjectView_GotFocus);
+            this.pnlIndicator.BackColor = System.Drawing.Color.SlateBlue;
+            this.pnlIndicator.Location = new System.Drawing.Point(0, 12);
+            this.pnlIndicator.Name = "pnlIndicator";
+            this.pnlIndicator.Size = new System.Drawing.Size(5, 22);
+            this.pnlIndicator.TabIndex = 3;
             // 
-            // customTextBox
+            // ctbProjectName
             // 
-            this.customTextBox.BackColor = System.Drawing.Color.LightGray;
-            this.customTextBox.BorderColor = System.Drawing.Color.LightGray;
-            this.customTextBox.BorderSize = 2;
-            this.customTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customTextBox.ForeColor = System.Drawing.Color.Black;
-            this.customTextBox.IsInEdit = false;
-            this.customTextBox.Location = new System.Drawing.Point(53, 11);
-            this.customTextBox.Margin = new System.Windows.Forms.Padding(5);
-            this.customTextBox.Name = "customTextBox";
-            this.customTextBox.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
-            this.customTextBox.Size = new System.Drawing.Size(194, 38);
-            this.customTextBox.TabIndex = 6;
-            this.customTextBox.UnderlinedStyle = false;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.Transparent;
-            this.btnDelete.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnDelete.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnDelete.BorderRadius = 0;
-            this.btnDelete.BorderSize = 0;
-            this.btnDelete.FlatAppearance.BorderSize = 0;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(247, 11);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(22, 29);
-            this.btnDelete.TabIndex = 7;
-            this.btnDelete.Text = "X";
-            this.btnDelete.TextColor = System.Drawing.Color.White;
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.ctbProjectName.BackColor = System.Drawing.Color.Transparent;
+            this.ctbProjectName.BorderColor = System.Drawing.Color.Transparent;
+            this.ctbProjectName.BorderSize = 2;
+            this.ctbProjectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctbProjectName.ForeColor = System.Drawing.Color.White;
+            this.ctbProjectName.IsInEdit = false;
+            this.ctbProjectName.Location = new System.Drawing.Point(44, 6);
+            this.ctbProjectName.Margin = new System.Windows.Forms.Padding(5);
+            this.ctbProjectName.Name = "ctbProjectName";
+            this.ctbProjectName.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
+            this.ctbProjectName.Size = new System.Drawing.Size(178, 34);
+            this.ctbProjectName.TabIndex = 6;
+            this.ctbProjectName.UnderlinedStyle = false;
             // 
             // btnEditListName
             // 
@@ -144,10 +151,11 @@
             this.btnEditListName.BorderSize = 0;
             this.btnEditListName.FlatAppearance.BorderSize = 0;
             this.btnEditListName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditListName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold);
             this.btnEditListName.ForeColor = System.Drawing.Color.Black;
-            this.btnEditListName.Location = new System.Drawing.Point(3, 50);
+            this.btnEditListName.Location = new System.Drawing.Point(0, 40);
             this.btnEditListName.Name = "btnEditListName";
-            this.btnEditListName.Size = new System.Drawing.Size(57, 22);
+            this.btnEditListName.Size = new System.Drawing.Size(60, 22);
             this.btnEditListName.TabIndex = 1;
             this.btnEditListName.Text = "Rename";
             this.btnEditListName.TextColor = System.Drawing.Color.Black;
@@ -156,39 +164,43 @@
             // 
             // ProjectView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightGray;
-            this.Controls.Add(this.lblProjPriority);
-            this.Controls.Add(this.lblDrag);
-            this.Controls.Add(this.lblTaskCount);
-            this.Controls.Add(this.customTextBox);
-            this.Controls.Add(this.btnDelete);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(248)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.ctbProjectName);
             this.Controls.Add(this.pnlIndicator);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.lblDrag);
             this.Controls.Add(this.btnEditListName);
+            this.Controls.Add(this.lblProjPriority);
+            this.Controls.Add(this.lblTaskCount);
+            this.Controls.Add(this.pnlPB);
+            this.Controls.Add(this.pictureBox1);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.ForeColor = System.Drawing.Color.Black;
-            this.MaximumSize = new System.Drawing.Size(270, 125);
-            this.MinimumSize = new System.Drawing.Size(270, 125);
+            this.ForeColor = System.Drawing.Color.White;
+            this.MaximumSize = new System.Drawing.Size(270, 105);
+            this.MinimumSize = new System.Drawing.Size(270, 105);
             this.Name = "ProjectView";
-            this.Size = new System.Drawing.Size(270, 125);
+            this.Size = new System.Drawing.Size(270, 105);
             this.Click += new System.EventHandler(this.ProjectView_GotFocus);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pnlPB.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbDeleteProject)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+
         private CustomButtonV2 btnEditListName;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel pnlIndicator;
-        private CustomControls.CustomTextBox customTextBox;
-        private CustomButtonV2 btnDelete;
         private System.Windows.Forms.Label lblTaskCount;
-        private System.Windows.Forms.Label lblDrag;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel pnlPB;
+        private System.Windows.Forms.PictureBox pbDeleteProject;
         private System.Windows.Forms.Label lblProjPriority;
+        private System.Windows.Forms.Label lblDrag;
+        private System.Windows.Forms.Panel pnlIndicator;
+        private CustomControls.CustomTextBox ctbProjectName;
     }
 }

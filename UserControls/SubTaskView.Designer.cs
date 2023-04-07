@@ -44,7 +44,7 @@
             this.label1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(130, 79);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(261, 39);
+            this.label1.Size = new System.Drawing.Size(132, 21);
             this.label1.TabIndex = 10;
             this.label1.Text = "Drag From Here";
             this.label1.Visible = false;
@@ -79,7 +79,7 @@
             this.customRadioButtonTaskName.MaximumSize = new System.Drawing.Size(217, 28);
             this.customRadioButtonTaskName.MinimumSize = new System.Drawing.Size(0, 23);
             this.customRadioButtonTaskName.Name = "customRadioButtonTaskName";
-            this.customRadioButtonTaskName.Size = new System.Drawing.Size(30, 26);
+            this.customRadioButtonTaskName.Size = new System.Drawing.Size(30, 23);
             this.customRadioButtonTaskName.TabIndex = 4;
             this.customRadioButtonTaskName.TabStop = true;
             this.customRadioButtonTaskName.UnCheckedColor = System.Drawing.Color.Gray;
@@ -137,13 +137,13 @@
             this.lblDateCreated.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblDateCreated.Location = new System.Drawing.Point(3, 48);
             this.lblDateCreated.Name = "lblDateCreated";
-            this.lblDateCreated.Size = new System.Drawing.Size(198, 37);
+            this.lblDateCreated.Size = new System.Drawing.Size(98, 19);
             this.lblDateCreated.TabIndex = 11;
             this.lblDateCreated.Text = "Created At: ";
             // 
             // SubTaskView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.Controls.Add(this.lblDateCreated);

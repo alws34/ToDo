@@ -16,7 +16,7 @@ namespace DoYourTasks
         public string Notes;
         public string DueDate;
         public DateTime DateCreated;
-        public DateTime DateCompleted;
+        public string DateCompleted;
         public int Priority;
         public bool IsStarred;
         public bool IsCompleted;
@@ -71,7 +71,7 @@ namespace DoYourTasks
         public void SetCompleted(bool mode) { IsCompleted = mode; }
         public void AddSubTask(string subtaskID, SubTask subtask) { SubTasks.Add(subtaskID, subtask); }
         public void SetDueDate(string dueTime) { DueDate = dueTime; }
-        public void SetDateCompleted(DateTime dateCompleted) { DateCompleted = dateCompleted; }
+        public void SetDateCompleted(string dateCompleted) { DateCompleted = dateCompleted; }
         public void AddNotes(string note) { Notes = note; }
         #endregion
 
@@ -84,13 +84,14 @@ namespace DoYourTasks
         public string GetNotes() { return Notes; }
         public string GetDueDate() { return DueDate; }
         public DateTime GetDateCreated() { return DateCreated; }
-        public DateTime GetDateCompleted() { return DateCompleted; }
+        public string GetDateCompleted() { return DateCompleted; }
         public Dictionary<string, SubTask> GetSubTasks() { return SubTasks; }
         public bool GetIsStarred() { return IsStarred; }
         public bool GetIsCompleted() { return IsCompleted; }
         public List<Attachment> GetAttachements() { return Attachments; }
         public int GetIndex() { return Index; }
         public bool GetIsHidden() { return IsHidden; }
+        public void SetCompletedOn(string dateCompleted) { DateCompleted = dateCompleted; }
         #endregion
     }
 }

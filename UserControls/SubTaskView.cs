@@ -15,22 +15,22 @@ namespace DoYourTasks.UserControls
         #region CustomEvents
         public event SubTaskCompletedEventHandler SubTaskCompleted;
         public event SubTaskDeletedEventHandler SubTaskDeleted;
-        #endregion
+        #endregion CustomEvents
 
         #region Properties
         public string SubTaskID { get; set; }
         public string ParentTaskID { get; set; }
         public string ParentProjectID { get; set; }
         public bool IsCompleted { get; set; }
-        #endregion
+        #endregion Properties
 
         #region Fields
         Color StartBackColor;
         ToolTip toolTip;
-        #endregion
+        #endregion Fields
 
         #region Constructors
-        public SubTaskView(string parent_id, string id,string parentProjectID, string subTaskName, string createdAt)
+        public SubTaskView(string parent_id, string id, string parentProjectID, string subTaskName, string createdAt)
         {
             InitializeComponent();
             ParentTaskID = parent_id;
@@ -43,9 +43,13 @@ namespace DoYourTasks.UserControls
             ForeColor = Color.White;
             StartBackColor = BackColor;
             toolTip = new ToolTip();
+
+            Utils utils = new Utils();
+            utils.RoundCorners(this, null);
+
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Getters
         public string GetName()
@@ -57,15 +61,23 @@ namespace DoYourTasks.UserControls
             return customRadioButtonTaskName.Checked;
         }
 
+        public string GetSubTaskID() { return SubTaskID; }
+
+        public string GetTaskID()
+        {
+            return GetParentTaskID();
+        }
+
         public string GetParentTaskID()
         {
             return ParentTaskID;
         }
+
         public string GetParentProjectID()
         {
             return ParentProjectID;
         }
-        #endregion
+        #endregion Getters
 
         #region Setters
         public void SetCheckedState(bool value)
@@ -102,7 +114,7 @@ namespace DoYourTasks.UserControls
             customRadioButtonTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
             customRadioButtonTaskName.BackColor = Color.Gainsboro;
             customRadioButtonTaskName.isSelected = true;
-            
+
             if (!ctbTaskName.GetIsInEdit())
                 ctbTaskName.BorderColor = Color.Gainsboro;
 
@@ -137,10 +149,11 @@ namespace DoYourTasks.UserControls
 
             BackColor = StartBackColor;
         }
+
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
         {
             IsCompleted = arg.CRB.Checked; // set the current state of the Radiobutton.
-           
+
             SetCheckedState(arg.CRB.Checked);
             SubTaskCompleted.Invoke(new SubTaskCompletedEventArgs(this));
         }
@@ -149,18 +162,6 @@ namespace DoYourTasks.UserControls
             SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(this));
             Dispose();
         }
-
-        private void customRadioButtonTaskName_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        public string GetID()
-        {
-            return SubTaskID;
-        }
-        #endregion
-
         private void btnEditTaskName_Click(object sender, EventArgs e)
         {
             ctbTaskName.SetIsInEdit(true);
@@ -172,10 +173,28 @@ namespace DoYourTasks.UserControls
             c.DoDragDrop(c, DragDropEffects.Move);
         }
 
-        public string GetTaskID()
+        public void SetTheme(Theme theme)
         {
-            return "";
-            //throw new NotImplementedException();
+            BackColor = theme.BackColor;
+            ForeColor = theme.ForeColor;
+
+            lblDateCreated.BackColor = BackColor;
+            lblDateCreated.ForeColor = ForeColor;
+
+            btnEditTaskName.BackColor = BackColor;
+            btnEditTaskName.ForeColor = ForeColor;
+
+            btnDelete.BackColor = BackColor;
+            btnDelete.ForeColor = ForeColor;
+
+            ctbTaskName.SetTBBackColor(BackColor);
+            ctbTaskName.SetTBForeColor(ForeColor);
+
+            customRadioButtonTaskName.BackColor = BackColor;
+            customRadioButtonTaskName.ForeColor = ForeColor;
         }
+
+
+        #endregion Events
     }
 }

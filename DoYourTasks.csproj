@@ -85,6 +85,7 @@
     <Compile Include="Animations\AnimationManager.cs" />
     <Compile Include="Animations\Animations.cs" />
     <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\Settings.cs" />
     <Compile Include="DataLayer\Serializer.cs" />
     <Compile Include="frmHiddenItems.cs">
       <SubType>Form</SubType>
@@ -203,6 +204,7 @@
     <Compile Include="Utils\IMaterialControl.cs" />
     <Compile Include="Utils\IViewAble.cs" />
     <Compile Include="Utils\MaterialSkinManager.cs" />
+    <Compile Include="Utils\Theme.cs" />
     <Compile Include="Utils\Utils.cs" />
     <EmbeddedResource Include="frmHiddenItems.resx">
       <DependentUpon>frmHiddenItems.cs</DependentUpon>
@@ -262,6 +264,15 @@
     <AdditionalFiles Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+    <Content Include="Resources\18-autorenew-solid.gif" />
+    <Content Include="Resources\29-cross-solid.gif" />
+    <Content Include="Resources\31-check-solid.gif" />
+    <Content Include="Resources\31-check-solid.png" />
+    <Content Include="Resources\39-trash-solid-black.gif" />
+    <Content Include="Resources\39-trash-solid-white.gif" />
+    <Content Include="Resources\44-folder-solid %281%29.gif" />
+    <Content Include="Resources\48-favorite-heart-solid.gif" />
+    <Content Include="Resources\50-file-solid.gif" />
     <Content Include="Resources\Background\Nature\01602sandringhambeach19.jpg" />
     <Content Include="Resources\Background\Nature\0j64OR3.jpg" />
     <Content Include="Resources\Background\Nature\15-beach-sea-photography.jpg" />
@@ -310,6 +321,7 @@
     <Content Include="Resources\Close.png" />
     <Content Include="Resources\Collapse Arrow_20px.png" />
     <Content Include="Resources\Expand Arrow_20px.png" />
+    <Content Include="Resources\Heart.png" />
     <Content Include="Resources\icons8-menu-16.png" />
     <Content Include="Resources\icons8-menu-30.png" />
     <Content Include="Resources\maximize.png" />

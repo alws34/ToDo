@@ -34,7 +34,7 @@ namespace DoYourTasks.UserControls
         private Color startBackgroundColor;
         private bool isCompleted = false;
         public bool isHidden { get; set; }
-
+        private Theme Theme { get; set; }
         private string taskID;
         private string parentProjectID;
         ToolTip toolTip = new ToolTip();
@@ -43,7 +43,7 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Constructors
-        public TaskView(string taskName, string id, string parentProjectID, int priority)
+        public TaskView(string taskName, string id, string parentProjectID, int priority, Theme theme)
         {
             InitializeComponent();
             SetBackColor();
@@ -67,6 +67,13 @@ namespace DoYourTasks.UserControls
             comboBoxChangePriority.Items.Add(PriorityCodes.Waiting.ToString());
             comboBoxChangePriority.Items.Add(PriorityCodes.Done.ToString());
             comboBoxChangePriority.Text = "Set Task Priority";
+
+            comboBoxChangePriority.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBoxChangePriority.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            //Utils utils = new Utils();
+            //utils.RoundCorners(this, null);
+            SetTheme(theme);
         }
 
         #endregion
@@ -115,9 +122,8 @@ namespace DoYourTasks.UserControls
 
         private void SetIsHidden(bool mode) { isHidden = mode; }
 
-        public void SetAttachments(List<Attachment> attachments)
+        public void LoadTaskViewAttachments(List<Attachment> attachments)
         {
-            bool toAdd = false;
             flpAttachments.Controls.Clear();
 
             foreach (Attachment attachment in attachments)
@@ -125,50 +131,18 @@ namespace DoYourTasks.UserControls
                 UCAttachmentView uav = new UCAttachmentView(attachment);
                 uav.AttachemntRemoved += AttachemntRemoved;
                 flpAttachments.Controls.Add(uav);
-                //uav.Width = flpAttachments.Width - 90;
-                //uav.MinimumSize = new Size(Width, 70);
-                //uav.Size = uav.MinimumSize;
             }
 
-            //if (flpAttachments.Controls.Count == 0)
-            //    toAdd = true;
-            //else
-            //{
-            //    foreach (Control control in flpAttachments.Controls)
-            //    {
-            //        UCAttachmentView uav = control as UCAttachmentView;
-            //        if (uav == null)
-            //            continue;
-            //        if (control.GetType().Name != "UCAttachmentView")
-            //            continue;  
-            //        if (uav.AttachmentID == av.AttachmentID)
-            //            continue;
-
-            //        toAdd = true;
-            //        break;
-            //    }
-            //}
-
-            //if (toAdd)
-            //{
-            //    av.AttachemntRemoved += Av_AttachemntRemoved;
-            //    flpAttachments.Controls.Add(av);
-            //    ResizeAttachmentsFLP();
-            //    pnlAttachments.Visible = true;
-            //}
-
-            SetAttachmentsVisible();
+            SetAttachmentsCountLbl();
             ResizeAttachmentsFLP();
-            //Parent.Refresh();
-
         }
 
-
-        public void SetAttachmentsVisible()
+        public void SetAttachmentsCountLbl()
         {
             lblAttachmentsCount.Text = flpAttachments.Controls.Count.ToString();
         }
-
+       
+        public void SetCompletedOn(string date) { lblCompletedOn.Text = date; }
 
         private void SetPriority(int priority)
         {
@@ -226,6 +200,7 @@ namespace DoYourTasks.UserControls
             if (PriorityChanged != null)
                 PriorityChanged.Invoke(new PriorityChangedEventArgs(this, currentPriority));
         }
+       
         public void SetDueDate(string Duedate)
         {
             lblDueDateVal.Show();
@@ -239,6 +214,7 @@ namespace DoYourTasks.UserControls
             lblCreatedAtVal.Visible = true;
 
         }
+       
         private void SetBackColor()
         {
             startBackgroundColor = customRadioButtonTaskName.BackColor;
@@ -283,6 +259,67 @@ namespace DoYourTasks.UserControls
             //throw new NotImplementedException();
         }
 
+        public void SetTheme(Theme theme)
+        {
+            Theme = theme;
+            BackColor = theme.BackColor;
+            ForeColor = theme.ForeColor;
+
+            lblPriority.BackColor = BackColor;
+            lblSubTasks.BackColor = BackColor;
+            lblAttachments.BackColor = BackColor;
+            lblDueDate.BackColor = BackColor;
+            lblCreatedAt.BackColor = BackColor;
+            lblDateCompleted.BackColor = BackColor;
+            lblCompletedSubTasks.BackColor = BackColor;
+            lblAttachmentsCount.BackColor = BackColor;
+            lblDueDateVal.BackColor = BackColor;
+            lblCreatedAtVal.BackColor = BackColor;
+            lblCompletedOn.BackColor = BackColor;
+            btnHideTask.BackColor = BackColor;
+            btnRemoveDueDate.BackColor = BackColor;
+            btnRemoveDueDate.BorderColor = BackColor;
+            lblSelectDueDate.BackColor = BackColor;
+            btnAddAttachment.BackColor = BackColor;
+            pnlColorIndicator.BackColor = BackColor;
+            ctbTaskName.BackColor = BackColor;
+            ctbTaskName.BorderColor = BackColor;
+            ctbTaskName.SetTBBackColor(BackColor);
+            customRadioButtonTaskName.BackColor = BackColor;
+            flpAttachments.BackColor = BackColor;
+            btnDelete.BackColor = BackColor;
+            btnEditTaskName.BackColor = BackColor;
+
+            ctbTaskName.ForeColor = ForeColor;
+            ctbTaskName.SetTBForeColor(ForeColor);
+            
+            
+            
+            btnHideTask.BorderColor = ForeColor;
+            btnRemoveDueDate.BorderColor = ForeColor;
+            btnAddAttachment.BorderColor = ForeColor;
+            btnEditTaskName.BorderColor = ForeColor;
+            btnEditTaskName.ForeColor = ForeColor;
+            btnDelete.ForeColor = ForeColor;
+            lblPriority.ForeColor = ForeColor;
+            lblSubTasks.ForeColor = ForeColor;
+            lblAttachments.ForeColor = ForeColor;
+            lblDueDate.ForeColor = ForeColor;
+            lblCreatedAt.ForeColor = ForeColor;
+            lblDateCompleted.ForeColor = ForeColor;
+            lblCompletedSubTasks.ForeColor = ForeColor;
+            lblAttachmentsCount.ForeColor = ForeColor;
+            lblDueDateVal.ForeColor = ForeColor;
+            lblCreatedAtVal.ForeColor = ForeColor;
+            lblCompletedOn.ForeColor = ForeColor;
+            btnHideTask.ForeColor = ForeColor;
+            btnRemoveDueDate.ForeColor = ForeColor;
+            lblSelectDueDate.ForeColor = ForeColor;
+            btnAddAttachment.ForeColor = ForeColor;
+            pnlColorIndicator.ForeColor = ForeColor;
+            customRadioButtonTaskName.ForeColor = ForeColor;
+            flpAttachments.ForeColor = ForeColor;
+        }
 
         public void ResizeAttachmentsFLP()
         {
@@ -298,11 +335,6 @@ namespace DoYourTasks.UserControls
             //Height -= 10;
             return;
 
-        }
-        public void ResetSize()
-        {
-            flpAttachments.Height = MinimumSize.Height;
-            Height = MinimumSize.Height;
         }
         #endregion
 
@@ -358,13 +390,14 @@ namespace DoYourTasks.UserControls
         private void TaskView_Click(object sender, EventArgs e)
         {
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(this));
-            SetAttachmentsVisible();
+            SetAttachmentsCountLbl();
         }
 
         public void UpdateCompletedSubTasks(int completedSubtasks, int totalSubtasks)
         {
             lblCompletedSubTasks.Text = $"{completedSubtasks}/{totalSubtasks}";
         }
+
         public void SetCompleted(bool mode = false)
         {
             isCompleted = mode;
@@ -373,45 +406,37 @@ namespace DoYourTasks.UserControls
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size, FontStyle.Strikeout);
                 SetPriority((int)PriorityCodes.Done);
+                lblCompletedOn.Text = DateTime.Now.ToString("dd/MM/yy");
             }
             else
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size);
+                lblCompletedOn.Text = "";
             }
         }
 
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
         {
-            Color backcolor = Color.DarkGray;
-            Color forecolor = Color.Black;
-            pnlColorIndicator.BackColor = backcolor;
-            customRadioButtonTaskName.BackColor = backcolor;
-            ctbTaskName.BackColor = backcolor;
-            btnDelete.BackColor = backcolor;
-            btnEditTaskName.BackColor = backcolor;
-
-            if (!ctbTaskName.GetIsInEdit())
-                ctbTaskName.BorderColor = backcolor;
-
-            ctbTaskName.SetTBBackColor(backcolor);
-            ctbTaskName.SetTBForeColor(forecolor);
-            btnEditTaskName.ForeColor = forecolor;
-            btnDelete.ForeColor = forecolor;
-            customRadioButtonTaskName.ForeColor = forecolor;
-            ctbTaskName.ForeColor = forecolor;
+            SetMouseOverTheme(Color.Gainsboro, Color.Black);
             toolTip.SetToolTip(this.ctbTaskName, ctbTaskName.GetText());
         }
 
         private void pnlColorIndicator_MouseLeave(object sender, EventArgs e)
         {
-            Color backcolor = Color.LightGray;
-            Color forecolor = Color.Black;
+            SetMouseOverTheme(Theme.BackColor, Theme.ForeColor);
+        }
+
+        private void SetMouseOverTheme(Color backcolor, Color forecolor)
+        {
             pnlColorIndicator.BackColor = backcolor;
-            customRadioButtonTaskName.BackColor = startBackgroundColor;
-            ctbTaskName.BackColor = startBackgroundColor;
+            customRadioButtonTaskName.BackColor = backcolor;
+            
+            ctbTaskName.BackColor = backcolor;
+
             if (!ctbTaskName.GetIsInEdit())
-                ctbTaskName.BorderColor = startBackgroundColor;
-            ctbTaskName.SetTBBackColor(startBackgroundColor);
+                ctbTaskName.BorderColor = backcolor;
+
+            ctbTaskName.SetTBBackColor(backcolor);
 
             btnDelete.BackColor = backcolor;
             btnEditTaskName.BackColor = backcolor;
@@ -422,7 +447,26 @@ namespace DoYourTasks.UserControls
 
         }
 
+        private void btnAddAttachment_Click(object sender, EventArgs e)
+        {
+            AddTaskAttachment.Invoke(new TaskModifiedEventArgs(this));
+        }
 
+        private void dateTimePicker1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string dueDate = TaskDueDatePicker.Value.ToString("dd/MM/yy HH:mm tt");
+                DueDateChanged.Invoke(new DueDateChangedEventArgs(this, dueDate));
+                SetDueDate(dueDate);
+            }
+        }
+
+        private void TaskDueDatePicker_MouseEnter(object sender, EventArgs e)
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(TaskDueDatePicker, "Press Enter to save");
+        }
 
         private void btnEditTaskName_Click(object sender, EventArgs e)
         {
@@ -435,7 +479,7 @@ namespace DoYourTasks.UserControls
 
         private void btnAddDueDate_Click(object sender, EventArgs e)
         {
-            string dueDate = dateTimePicker1.Value.ToString("dd/MM/yyyy HH:mm tt");
+            string dueDate = TaskDueDatePicker.Value.ToString("dd/MM/yyyy HH:mm tt");
             lblDueDateVal.Text = dueDate;
             DueDateChangedEventArgs args = new DueDateChangedEventArgs(this, dueDate);
             DueDateChanged.Invoke(args);
@@ -469,17 +513,11 @@ namespace DoYourTasks.UserControls
             HideTask.Invoke(new HideItemEventArgs(this));
         }
 
-
-
-
-
+        public int GetAttachmentsCount()
+        {
+            return flpAttachments.Controls.Count;
+        }
 
         #endregion
-
-
-        private void btnAddAttachment_Click(object sender, EventArgs e)
-        {
-            AddTaskAttachment.Invoke(new TaskModifiedEventArgs(this));
-        }
     }
 }

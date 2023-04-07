@@ -97,37 +97,13 @@ namespace DoYourTasks.UserControls.CustomControls
         {
             IsInEdit = isInEdit;
             if (IsInEdit)
-            {
                 BorderColor = Color.MediumSlateBlue;
-            }
             else
-            {
                 BorderColor = BackColor;
-            }
-
         }
-
-        public void SetTBBackColor(Color c) { textBox.BackColor = c; }
-        public void SetTBForeColor(Color c) { textBox.ForeColor = c; }
-
-        public void SetText(string text)
-        {
-            textBox.Text = text;
-        }
-
-        public void SetTextBoxColor(Color backColor, Color textColor)
-        {
-            //textBox.BackColor = backColor;
-            textBox.ForeColor = textColor;
-        }
-
-        public void SetTextBoxState()
-        {
-            if (textBox.Enabled)
-                textBox.Enabled = false;
-            else
-                textBox.Enabled = true;
-        }
+        public void SetTBBackColor(Color color) { textBox.BackColor = color; }
+        public void SetTBForeColor(Color color) { textBox.ForeColor = color; }
+        public void SetText(string text) { textBox.Text = text; }
         #endregion
 
         #region Events
@@ -181,7 +157,7 @@ namespace DoYourTasks.UserControls.CustomControls
 
         private void textBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter )//&& !string.IsNullOrWhiteSpace(textBox.Text))
+            if (e.KeyCode == Keys.Enter)//&& !string.IsNullOrWhiteSpace(textBox.Text))
             {
                 //Hide();
                 Parent.Select();

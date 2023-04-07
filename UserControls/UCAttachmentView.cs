@@ -19,6 +19,7 @@ namespace DoYourTasks.UserControls
         public event AttachmentRemovedEventHandler AttachemntRemoved;
         public Attachment Attachment { get; set; }
         public string AttachmentID { get; set; }
+        public UCAttachmentView() { }
         public UCAttachmentView(Attachment attachment)
         {
             InitializeComponent();
@@ -34,6 +35,10 @@ namespace DoYourTasks.UserControls
             if (string.IsNullOrEmpty(attachment.GetAddedOn()))
                 attachment.SetAddedOn(DateTime.Now.ToString("dd/MM/yy"));
             lblAddedOn.Text = $"{lblAddedOn.Tag} {attachment.GetAddedOn()}";
+
+            Utils utils = new Utils();
+            utils.RoundCorners(this, null);
+
         }
 
         private void lblAttachemtnName_MouseEnter(object sender, EventArgs e)
@@ -76,6 +81,21 @@ namespace DoYourTasks.UserControls
             string path = Path.GetDirectoryName(lblAttachemtnName.Tag.ToString());
             string arg = "/C explorer \"" + path + "\"";
             RunProccess(arg);
+        }
+
+        public void SetTheme(Theme theme)
+        {
+            BackColor = theme.BackColor;
+            ForeColor = theme.ForeColor;
+
+            lblAddedOn.ForeColor = ForeColor;
+            lblAttachemtnName.ForeColor = ForeColor;
+            lblAttachmentType.ForeColor = ForeColor;
+
+            btnDelete.ForeColor = ForeColor;
+            btnOpenAttachment.ForeColor = ForeColor;
+            btnOpenDir.ForeColor = ForeColor;
+                
         }
     }
 }

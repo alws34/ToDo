@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 namespace DoYourTasks
 {
     public class Utils
-    {       
+    {
         #region Constructors
         public Utils() { }
 
@@ -47,5 +49,48 @@ namespace DoYourTasks
             return string.Concat(text);
         }
         #endregion
+
+        #region Themes
+        public Theme DarkTheme = new Theme(Color.FromArgb(255, 255, 255, 255), Color.FromArgb(24, 22, 43), Color.FromArgb(35, 30, 59));
+        public Theme LightTheme = new Theme(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(209, 209, 209), Color.FromArgb(254, 254, 254));
+        #endregion Themes
+
+
+        #region Modifiers
+        public void RoundCorners(object sender, EventArgs e)
+        {
+            //System.Windows.Forms.Control control = sender as System.Windows.Forms.Control;
+            //if (control == null)
+            //    return;
+
+            //GraphicsPath path = new GraphicsPath();
+            //int radius = 20;
+            //Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
+            //path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            //path.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+            //path.AddArc(rect.X + rect.Width - radius, rect.Y + rect.Height - radius, radius, radius, 0, 90);
+            //path.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+            //path.CloseFigure();
+            //control.Region = new Region(path);
+        }
+
+        public List<Color> GetColorPallet(bool mode)
+        {
+            List<Color> themeLST = new List<Color>();
+            if (mode)//Light
+            {
+                themeLST.Add(Color.White);
+                themeLST.Add(Color.Black);
+                themeLST.Add(Color.Black);
+            }
+            else//Dark
+            {
+                themeLST.Add(Color.FromArgb(24, 22, 43));//Dark Back
+                themeLST.Add(Color.FromArgb(35, 30, 59));//Lighter BackGround
+                themeLST.Add(Color.White);//Fore Color
+            }
+            return themeLST;
+        }
+        #endregion Modifiers
     }
 }

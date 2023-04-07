@@ -60,7 +60,7 @@ namespace DoYourTasks.UserControls
             this.btnOpenAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenAttachment.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnOpenAttachment.ForeColor = System.Drawing.Color.White;
-            this.btnOpenAttachment.Location = new System.Drawing.Point(252, 1);
+            this.btnOpenAttachment.Location = new System.Drawing.Point(244, 7);
             this.btnOpenAttachment.Name = "btnOpenAttachment";
             this.btnOpenAttachment.Size = new System.Drawing.Size(87, 24);
             this.btnOpenAttachment.TabIndex = 11;
@@ -113,7 +113,7 @@ namespace DoYourTasks.UserControls
             this.btnOpenDir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenDir.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnOpenDir.ForeColor = System.Drawing.Color.White;
-            this.btnOpenDir.Location = new System.Drawing.Point(228, 24);
+            this.btnOpenDir.Location = new System.Drawing.Point(224, 41);
             this.btnOpenDir.Name = "btnOpenDir";
             this.btnOpenDir.Size = new System.Drawing.Size(124, 24);
             this.btnOpenDir.TabIndex = 14;

@@ -1,12 +1,24 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 
 namespace DoYourTasks
 {
+    /// <summary>
+    /// Place in this class all objects you want to save
+    /// </summary>
+    public class SaveObject
+    {
+        public Settings Settings { get; set; }
+        public Dictionary<string, Project> Project { get; set; }
+       
+        
+        public SaveObject() { }
+    }
+
     public class Serializer
     {
         public Serializer() { }
@@ -23,6 +35,7 @@ namespace DoYourTasks
             JsonSerializer jsonSerializer = new JsonSerializer()
             {
                 Formatting = Formatting.Indented,
+                MissingMemberHandling = MissingMemberHandling.Ignore
             };
 
             using (StreamWriter sw = new StreamWriter(filepath, toAppend))
