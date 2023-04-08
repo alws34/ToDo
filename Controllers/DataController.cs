@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Media.Media3D;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.UI.Xaml.Media;
+using System.Collections.Concurrent;
 
 namespace DoYourTasks
 {
@@ -21,6 +22,7 @@ namespace DoYourTasks
         #region CustomEvents
         #region GeneralEvents
         public event HideItemEventHandler HideItem;
+        public event SendNotificationEventHandler SendNotification;
         #endregion GeneralEvents
 
         #region Project
@@ -52,12 +54,12 @@ namespace DoYourTasks
         #endregion CustomEvents
 
         #region Fields
-        public Dictionary<string, ProjectView> Projectviews;
-        public Dictionary<string, TaskView> Taskviews;
-        public Dictionary<string, SubTaskView> SubTaskviews;
+        public ConcurrentDictionary<string, ProjectView> Projectviews;
+        public ConcurrentDictionary<string, TaskView> Taskviews;
+        public ConcurrentDictionary<string, SubTaskView> SubTaskviews;
 
-        public Dictionary<string, Project> Projects;
-        public Dictionary<string, Project> HiddenProjects;
+        public ConcurrentDictionary<string, Project> Projects;
+        public ConcurrentDictionary<string, Project> HiddenProjects;
 
         public Theme CurrentTheme { get; set; }
         public Settings settings { get; set; }
@@ -70,12 +72,12 @@ namespace DoYourTasks
         #region Constructors
         public DataController()
         {
-            Projects = new Dictionary<string, Project>();
-            HiddenProjects = new Dictionary<string, Project>();
+            Projects = new ConcurrentDictionary<string, Project>();
+            HiddenProjects = new ConcurrentDictionary<string, Project>();
 
-            Projectviews = new Dictionary<string, ProjectView>();
-            Taskviews = new Dictionary<string, TaskView>();
-            SubTaskviews = new Dictionary<string, SubTaskView>();
+            Projectviews = new ConcurrentDictionary<string, ProjectView>();
+            Taskviews = new ConcurrentDictionary<string, TaskView>();
+            SubTaskviews = new ConcurrentDictionary<string, SubTaskView>();
 
             utils = new Utils();
             serializer = new Serializer();
@@ -89,13 +91,6 @@ namespace DoYourTasks
         #endregion Constructors
 
         #region Utils
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (!SaveToFile(toAppend: false))
-                return;
-        }
-
-
 
         #endregion Utils
 
@@ -117,22 +112,24 @@ namespace DoYourTasks
 
             if (Projects == null)
             {
-                Projects = new Dictionary<string, Project>();
+                Projects = new ConcurrentDictionary<string, Project>();
+                SendNotification.Invoke(new SendNotificationEventArgs("Empty DB", "DB was empty.\nStarting from scratch", Utils.NotificationType.Info));
                 return;
             }
 
+            Project p = null;
             foreach (Project project in Projects.Values)
             {
+                p = project;
                 if (project.GetIsHidden())
                 {
-                    HiddenProjects.Add(project.GetProjectID(), project);
-                    Projects.Remove(project.GetProjectID());
+                    HiddenProjects.TryAdd(project.GetProjectID(), project);
+                    Projects.TryRemove(project.GetProjectID(), out p);
                     continue;
                 }
 
                 ProjectView pv = CreateNewProjectView(project.GetProjectID(), false, project.GetIsHidden());
                 pv.Rename(project.GetProjectName());
-
                 List<Task> tasks = new List<Task>();
                 tasks.AddRange(project.GetTasks().Values);
                 tasks.AddRange(project.GetHiddenTasks().Values);
@@ -200,13 +197,17 @@ namespace DoYourTasks
         {
             // Check if any ProjectView is in edit mode
             if (!isAutoSave && Projectviews.Values.Any(pv => pv.GetIsInEditMode()))
+            {
+                SendNotification.Invoke(new SendNotificationEventArgs("Edit Mode", "Edit Mode Detected.\nCant Save", Utils.NotificationType.Warning));
                 return false;
-
+            }
             // Combine Projects and HiddenProjects dictionaries
-            Dictionary<string, Project> saveAllProjects = Projects.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            //ConcurrentDictionary<string, Project> saveAllProjects = Projects.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            ConcurrentDictionary<string, Project> saveAllProjects = new ConcurrentDictionary<string, Project>(Projects);
+
             foreach (var project in HiddenProjects)
                 if (!saveAllProjects.ContainsKey(project.Key))
-                    saveAllProjects.Add(project.Key, project.Value);
+                    saveAllProjects.TryAdd(project.Key, project.Value);
 
             // Serialize and save all projects
             SaveObject saveObject = new SaveObject()
@@ -216,6 +217,7 @@ namespace DoYourTasks
             };
 
             serializer.JsonSerialize_(saveObject, false);
+
             return true;
         }
 
@@ -372,16 +374,23 @@ namespace DoYourTasks
             else return null;
         }
 
-        public Dictionary<string, Project> GetProjects() { return Projects; }
-        public Dictionary<string, Project> GetHiddenProjects() { return HiddenProjects; }
+        public ConcurrentDictionary<string, Project> GetProjects() { return Projects; }
+
+        public ConcurrentDictionary<string, Project> GetHiddenProjects() { return HiddenProjects; }
+
         public void RemoveCorrectProject(string projectID)
         {
+            Project p = Projects[projectID];
             if (Projects.ContainsKey(projectID))
-                Projects.Remove(projectID);
+                Projects.TryRemove(projectID, out p);
             else
-                HiddenProjects.Remove(projectID);
+                HiddenProjects.TryRemove(projectID, out p);
         }
-        public Dictionary<string, Project> GetAllProjects() { return Projects.Concat(HiddenProjects).ToDictionary(x => x.Key, x => x.Value); }
+
+        public ConcurrentDictionary<string, Project> GetAllProjects()
+        {
+            return new ConcurrentDictionary<string, Project>(Projects.Concat(HiddenProjects));
+        }
 
         private void ProjectRenamed(RenameProjectEventArgs args)
         {
@@ -400,10 +409,10 @@ namespace DoYourTasks
 
         private void AddProjectsToDicts(Project project, ProjectView projectView, string projectID)
         {
-            Projectviews.Add(projectID, projectView);
+            Projectviews.TryAdd(projectID, projectView);
 
             if (project != null)
-                Projects.Add(projectID, project);
+                Projects.TryAdd(projectID, project);
         }
         #endregion
 
@@ -419,12 +428,14 @@ namespace DoYourTasks
         }
         public void DeleteProjectView(string projectID)
         {
-            Projectviews.Remove(projectID);
+            Project p = Projects[projectID];
+            ProjectView pv = Projectviews[projectID];
+            Projectviews.TryRemove(projectID, out pv);
 
             if (Projects.ContainsKey(projectID))
-                Projects.Remove(projectID);
+                Projects.TryRemove(projectID, out p);
             else
-                HiddenProjects.Remove(projectID);
+                HiddenProjects.TryRemove(projectID, out p);
         }
         #endregion
 
@@ -444,11 +455,13 @@ namespace DoYourTasks
             if (isNew)
             {
                 task = GetNewTask(taskID, taskName, projectID);
-                GetCorrectProject(projectID).GetTasks().Add(taskID, task);
+                GetCorrectProject(projectID).GetTasks().TryAdd(taskID, task);
                 tv.SetDateCreated(task.DateCreated);
                 tv.isHidden = false;
             }
-
+            if (tv.GetCheckedState()) {
+                tv.SetPBStatus(Utils.NotificationType.Success);
+            }
             AddTaskToDicts(task, tv, taskID);
             UpdateTaskView.Invoke(new UpdateCurrentTaskViewEventArgs(tv));
             return tv;
@@ -471,7 +484,7 @@ namespace DoYourTasks
         {
             try
             {
-                Taskviews.Add(taskID, taskView);
+                Taskviews.TryAdd(taskID, taskView);
             }
             catch (Exception ex) { }
         }
@@ -533,8 +546,10 @@ namespace DoYourTasks
         {
             string projectID = args.TV.GetParentProjectID();
             string taskID = args.TV.GetTaskID();
+            TaskView tv = Taskviews[taskID];
+
             GetCorrectProject(projectID).RemoveTask(taskID);
-            Taskviews.Remove(taskID);
+            Taskviews.TryRemove(taskID, out tv);
             TaskDeleted.Invoke(args);
             args.TV.Dispose();
         }
@@ -568,7 +583,7 @@ namespace DoYourTasks
             List<Task> tasks = project.GetAllTasks().Values.ToList();
             int completedTasks = tasks.Count(t => t.IsCompleted);
 
-            // Update project view label and invoke TaskCompleted event
+            // Update project view label and BeginInvoke TaskCompleted event
             Projectviews[args.TV.GetParentProjectID()].SetTasksLabel($"Tasks: {completedTasks}/{tasks.Count}");
             TaskCompleted.Invoke(new TaskCompletedEventArgs(args.TV));
         }
@@ -594,8 +609,10 @@ namespace DoYourTasks
 
         public void DeleteTask(string taskID)
         {
-            Taskviews.Remove(taskID);
-            GetCorrectProject(Taskviews[taskID].GetParentProjectID()).GetTasks().Remove(taskID);
+            TaskView tv = null;
+            Task t = null;
+            Taskviews.TryRemove(taskID, out tv);
+            GetCorrectProject(Taskviews[taskID].GetParentProjectID()).GetTasks().TryRemove(taskID, out t);
         }
         #endregion
 
@@ -625,7 +642,7 @@ namespace DoYourTasks
 
         private void AddSubTaskToDicts(SubTask subTask, SubTaskView subTaskView, string projectID, string taskID, string subTaskID)
         {
-            SubTaskviews.Add(subTaskView.SubTaskID, subTaskView);
+            SubTaskviews.TryAdd(subTaskView.SubTaskID, subTaskView);
 
             if (subTask != null)
                 GetCorrectProject(projectID).GetTasks()[taskID].AddSubTask(subTaskID, subTask);
@@ -664,7 +681,8 @@ namespace DoYourTasks
         {
             try
             {
-                SubTaskviews.Remove(arg.STV.GetParentTaskID());
+                SubTaskView stv = null;
+                SubTaskviews.TryRemove(arg.STV.GetParentTaskID(), out stv);
                 GetCorrectProject(arg.STV.GetParentProjectID()).GetAllTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetSubTaskID());
                 SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(arg.STV));
                 arg.STV.Dispose();
@@ -678,18 +696,6 @@ namespace DoYourTasks
                 return settings.SavedTheme;
             return utils.LightTheme;
         }
-
-        public bool GetThemeMode(Theme theme)
-        {
-            List<Color> current = theme.GetThemeColors();
-            List<Color> Light = utils.LightTheme.GetThemeColors();
-            for (int i = 0; i < current.Count; i++)
-                if (current[i].ToArgb() != Light[i].ToArgb())
-                    return false;
-            return true;
-
-        }
-
         #endregion
 
         #endregion

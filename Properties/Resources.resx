@@ -196,6 +196,12 @@
   <data name="Collapse_Arrow_20px1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Collapse Arrow_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Error_light_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Error_light_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Error_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Error_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Expand_Arrow_20px1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Expand Arrow_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -210,6 +216,15 @@
   </data>
   <data name="icons8_menu_401" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-menu-40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_Light_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info_Light_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_png1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="maximize1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\maximize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -229,17 +244,41 @@
   <data name="Normal1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="question_Light_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question_Light_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Roboto_Medium_ttf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Roboto-Medium.ttf.old;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Roboto_Regular_ttf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Roboto-Regular.ttf.old;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="success_Light_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\success_Light_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="success_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\success_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="todo_list_962" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\todo-list-96.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="todo_list_963" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\todo-list-96.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="warning_Light_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\warning_Light_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="warning_png" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\warning_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="warning_png1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\warning_png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_18_autorenew_outline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\18-autorenew-outline.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="_18_autorenew_solid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\18-autorenew-solid.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -60,6 +60,7 @@ namespace DoYourTasks.UserControls
             this.MouseEnter += CustomRadioButton_MouseEnter;
             this.MouseLeave += CustomRadioButton_MouseLeave;
             this.Click += CustomRadioButton_Click;
+            //this.Paint += OnPaint;
             BackColor = Color.Transparent;
             ForeColor = Color.White;
         }

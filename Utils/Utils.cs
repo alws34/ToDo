@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using DoYourTasks.Properties;
 
 namespace DoYourTasks
 {
@@ -51,10 +52,65 @@ namespace DoYourTasks
         #endregion
 
         #region Themes
-        public Theme DarkTheme = new Theme(Color.FromArgb(255, 255, 255, 255), Color.FromArgb(24, 22, 43), Color.FromArgb(35, 30, 59));
+        public Theme DarkTheme = new Theme(Color.FromArgb(255, 255, 255, 255), Color.FromArgb(24, 22, 43), Color.FromArgb(35, 30, 59));//dark
         public Theme LightTheme = new Theme(Color.FromArgb(0, 0, 0, 0), Color.FromArgb(209, 209, 209), Color.FromArgb(254, 254, 254));
         #endregion Themes
 
+        #region Notification
+        public enum NotificationType
+        {
+            Error,
+            Success,
+            Info,
+            Warning,
+            Question,
+            None
+        }
+        public bool GetThemeMode(Theme theme)
+        {
+            List<Color> current = theme.GetThemeColors();
+            List<Color> Light = LightTheme.GetThemeColors();
+            for (int i = 0; i < current.Count; i++)
+                if (current[i].ToArgb() != Light[i].ToArgb())
+                    return false;
+            return true;
+
+        }
+        public Image GetNotificationImages(NotificationType type, Theme theme)
+        {
+            bool ThemeMode = GetThemeMode(theme);
+
+            switch (type)
+            {
+                case NotificationType.Error:
+                    if (ThemeMode)
+                        return Resources.Error_light_png;
+                    return Resources.Error_png;
+                    break;
+                case NotificationType.Success:
+                    if (ThemeMode)
+                        return Resources.success_Light_png;
+                    return Resources.success_png;
+                    break;
+                case NotificationType.Info:
+                    if (ThemeMode)
+                        return Resources.info_Light_png;
+                    return Resources.info_png;
+                    break;
+                case NotificationType.Warning:
+                    if (ThemeMode)
+                        return Resources.warning_Light_png;
+                    return Resources.warning_png;
+                    break;
+                case NotificationType.Question:
+                    if (ThemeMode)
+                        return Resources.question_Light_png;
+                    return Resources.question_png;
+                    break;
+            }
+            return null;
+        }
+        #endregion Notifications
 
         #region Modifiers
         public void RoundCorners(object sender, EventArgs e)

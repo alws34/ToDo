@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace DoYourTasks
         public string ProjectNotes;
         public bool IsHidden;
         public List<Attachment> ProjectAttachments = new List<Attachment>();
-        public Dictionary<string, Task> Tasks = new Dictionary<string, Task>();
-        public Dictionary<string, Task> HiddenTasks = new Dictionary<string, Task>();
+        public ConcurrentDictionary<string, Task> Tasks = new ConcurrentDictionary<string, Task>();
+        public ConcurrentDictionary<string, Task> HiddenTasks = new ConcurrentDictionary<string, Task>();
         #endregion
 
         #region Constructors
@@ -38,16 +39,20 @@ namespace DoYourTasks
         public void SetIndex(int index) { Index = index; }
         public void SetProjectNotes(string note) { ProjectNotes = note; }
         public void SetPriority(int priority) { Priority = priority; }
-        public void AddTask(Task task) { Tasks.Add(task.GetTaskID(), task); }
+        public void AddTask(Task task) { Tasks.TryAdd(task.GetTaskID(), task); }
         public void AddHiddenTask(Task task)
         {
             try
             {
-                HiddenTasks.Add(task.GetTaskID(), task);
+                HiddenTasks.TryAdd(task.GetTaskID(), task);
             }
             catch (Exception) { }
         }
-        public void RemoveTask(string taskID) { Tasks.Remove(taskID); }
+        public void RemoveTask(string taskID)
+        {
+            Task t = null;
+            Tasks.TryRemove(taskID, out t);
+        }
         public void AddSubTask(string taskID, SubTask subTask) { Tasks[taskID].AddSubTask(subTask.GetSubTaskID(), subTask); }
         public void Rename(string newName) { ProjectName = newName; }
         public void SetImagePath(string path) { BackGroundImagePath = path; }
@@ -63,18 +68,28 @@ namespace DoYourTasks
         public string GetProjectNotes() { return ProjectNotes; }
         public string GetProjectName() { return ProjectName; }
         public DateTime GetDateCreated() { return DateCreated; }
-        public Dictionary<string, Task> GetTasks()
+        public ConcurrentDictionary<string, Task> GetTasks()
         {
             if (GetIsHidden())
                 return GetHiddenTasks();
             return Tasks;
         }
-        public Dictionary<string, Task> GetHiddenTasks() { return HiddenTasks; }
+        public ConcurrentDictionary<string, Task> GetHiddenTasks() { return HiddenTasks; }
 
-        public Dictionary<string, Task> GetAllTasks()
+        public ConcurrentDictionary<string, Task> GetAllTasks()
         {
-            return Tasks.Concat(HiddenTasks).ToDictionary(x => x.Key, x => x.Value);
+            var allTasks = new ConcurrentDictionary<string, Task>();
+            foreach (var task in Tasks)
+            {
+                allTasks.TryAdd(task.Key, task.Value);
+            }
+            foreach (var task in HiddenTasks)
+            {
+                allTasks.TryAdd(task.Key, task.Value);
+            }
+            return allTasks;
         }
+
         #endregion
     }
 }

@@ -284,6 +284,7 @@
     <AdditionalFiles Include="ReadMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+    <None Include="Resources\18-autorenew-outline.gif" />
     <Content Include="Resources\18-autorenew-solid.gif" />
     <Content Include="Resources\29-cross-solid.gif" />
     <Content Include="Resources\31-check-solid.gif" />
@@ -342,18 +343,28 @@
     <Content Include="Resources\calendarWhite.png" />
     <Content Include="Resources\Close.png" />
     <Content Include="Resources\Collapse Arrow_20px.png" />
+    <None Include="Resources\Error_png.png" />
+    <None Include="Resources\Error_light_png.png" />
     <Content Include="Resources\Expand Arrow_20px.png" />
     <Content Include="Resources\Heart.png" />
     <Content Include="Resources\icons8-menu-16.png" />
     <Content Include="Resources\icons8-menu-30.png" />
+    <None Include="Resources\info_png.png" />
+    <None Include="Resources\info_Light_png.png" />
     <Content Include="Resources\maximize.png" />
     <Content Include="Resources\maximize2.png" />
     <Content Include="Resources\maximize3.png" />
     <Content Include="Resources\Minimize.png" />
     <Content Include="Resources\Minimize1.png" />
     <Content Include="Resources\Normal.png" />
+    <None Include="Resources\question_png.png" />
+    <None Include="Resources\success_png.png" />
+    <None Include="Resources\success_Light_png.png" />
+    <None Include="Resources\question_Light_png.png" />
     <Content Include="Resources\todo-list-96.ico" />
     <Content Include="Resources\todo-list-96.png" />
+    <None Include="Resources\warning_png.png" />
+    <None Include="Resources\warning_Light_png.png" />
     <Content Include="todo-list-96.ico" />
   </ItemGroup>
   <ItemGroup>

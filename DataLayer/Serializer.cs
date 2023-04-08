@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 
@@ -13,9 +14,7 @@ namespace DoYourTasks
     public class SaveObject
     {
         public Settings Settings { get; set; }
-        public Dictionary<string, Project> Project { get; set; }
-       
-        
+        public ConcurrentDictionary<string, Project> Project { get; set; }
         public SaveObject() { }
     }
 

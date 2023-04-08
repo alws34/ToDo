@@ -36,7 +36,6 @@ namespace DoYourTasks
 
     #endregion
 
-
     #region Utils
     public delegate void SetPlaceHolderEventHandler(SetPlaceHolderEventArgs arg);
     public class SetPlaceHolderEventArgs : EventArgs
@@ -235,6 +234,24 @@ namespace DoYourTasks
     }
     #endregion
 
+    #region Notifications
+    public delegate void NotificationDeletedEventHandler();
+
+    public delegate void SendNotificationEventHandler(SendNotificationEventArgs args);
+    public class SendNotificationEventArgs : EventArgs
+    {
+        public string Title { get; set; }
+        public string Message { get; set; }
+        public Utils.NotificationType NotificationType { get; set; }
+        public SendNotificationEventArgs(string title, string message, Utils.NotificationType notificationType)
+        {
+            Title = title;
+            Message = message;
+            NotificationType = notificationType;
+        }
+    }
+    #endregion Notifications
+
     public enum PriorityCodes
     {
         VeryLow,
@@ -246,5 +263,4 @@ namespace DoYourTasks
         Waiting,
         Done
     };
-
 }

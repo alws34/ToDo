@@ -1,25 +1,15 @@
 ﻿using DoYourTasks.UserControls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Xaml;
-using System.Security.Cryptography;
 using System.IO;
-
-using DoYourTasks.UserControls.CustomControls;
-using System.Drawing.Drawing2D;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
-using Windows.UI.Xaml.Media;
+using System.Threading.Tasks;
 using LinearGradientBrush = System.Drawing.Drawing2D.LinearGradientBrush;
 using DoYourTasks.Properties;
+using System.Collections.Concurrent;
 
 namespace DoYourTasks
 {
@@ -63,11 +53,14 @@ namespace DoYourTasks
         #endregion
         Theme currentTheme = null;
         int lx, ly, sw, sh;
+        int notificationCounter;
         bool isOptionsCollapsed = true;
         bool toBackup = false;
         Timer optionsMenuTimer;
         Timer AutoSaveTimer;
         Timer pnlSaveTimer;
+        Timer DueDateCheckTimer;
+        Timer ImageAnimationTimer;
         #endregion
 
         #region Constructors
@@ -79,11 +72,18 @@ namespace DoYourTasks
 
             ChangeTheme += FrmMain_ChangeTheme;
 
-            AutoSaveTimer = new Timer() { Interval = 60000 };//60 seconds
-            pnlSaveTimer = new Timer() { Interval = 2000 };
-            AutoSaveTimer.Start();//auto save every {AutoSaveTimer} seconds
 
+            pnlSaveTimer = new Timer() { Interval = 2000 };
+            ImageAnimationTimer = new Timer() { Interval = 4000 };
+            ImageAnimationTimer.Tick += ImageAnimationTimer_Tick;
+            DueDateCheckTimer = new Timer() { Interval = 1000 };
+            DueDateCheckTimer.Tick += DueDateCheckTimer_Tick;
+            DueDateCheckTimer.Start();
+
+            AutoSaveTimer = new Timer() { Interval = 60000 };//60 seconds
             AutoSaveTimer.Tick += AutoSaveTimer_Tick;
+            AutoSaveTimer.Start();
+
             pnlSaveTimer.Tick += PnlSaveTimer_Tick;
 
             tbAddTask.GotFocus += TbAddTask_GotFocus;
@@ -145,7 +145,75 @@ namespace DoYourTasks
 
             currentTheme = dataController.GetTheme();
 
-            FrmMain_ChangeTheme(new ChangeThemeEventArgs(dataController.GetThemeMode(currentTheme)));
+            FrmMain_ChangeTheme(new ChangeThemeEventArgs(utils.GetThemeMode(currentTheme)));
+        }
+
+        private void ImageAnimationTimer_Tick(object sender, EventArgs e)
+        {
+            ImageAnimationTimer.Stop();
+        }
+
+        /// <summary>
+        /// This method will reset any given picturebox
+        /// </summary>
+        /// <param name="pb"></param>
+        private void ResetPictureBox(PictureBox pb)
+        {
+            System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(() =>
+            {
+                while (ImageAnimationTimer.Enabled) { }
+                if (pb.InvokeRequired)
+                {
+                    pb.Invoke(new Action(() =>
+                    {
+                        pb.Enabled = false;
+                        pb.Image = pb.Image;
+                    }));
+                }
+                else
+                {
+                    pb.Enabled = false;
+                    pb.Image = pb.Image;
+                }
+            });
+            ImageAnimationTimer.Start();
+            task.Start();
+        }
+
+
+        private void DueDateCheckTimer_Tick(object sender, EventArgs e)
+        {
+            if (dataController == null)
+                return;
+            foreach (Project project in dataController.Projects.Values.ToList())
+            {
+                foreach (Task task in project.GetAllTasks().Values.ToList())
+                {
+                    string dueDateString = task.GetDueDate();
+                    DateTime dueDate;
+                    bool ConvertSuccess = DateTime.TryParse(dueDateString, out dueDate);
+                    if (dueDate == null || !ConvertSuccess)
+                        continue;
+
+                    DateTime tomorrow = DateTime.Today.AddDays(1);
+                    DateTime nextWeek = DateTime.Today.AddDays(7);
+                    string timeFrame = "";
+                    if (dueDate.Date == tomorrow.Date)
+                        timeFrame = "Tomorrow";
+                    if (dueDate.AddDays(7) == nextWeek)
+                        timeFrame = "Next Week";
+
+                    if ((timeFrame != "" && !dataController.Taskviews[task.GetTaskID()].GetDidNotify()))
+                    {
+                        if (dataController.Projects[task.GetParentProjectID()].GetAllTasks()[task.GetTaskID()].GetIsCompleted())
+                            return;
+                        Utils.NotificationType type = Utils.NotificationType.Warning;
+                        dataController.Taskviews[task.GetTaskID()].SetPBStatus(type);
+                        SendNotification(new SendNotificationEventArgs("", $"Due Date is Arriving {timeFrame}\nFor Task: {task.GetTaskName()} In Project: {project.GetProjectName()}", type));
+                    }
+
+                }
+            }
         }
 
         private void FrmMain_ChangeTheme(ChangeThemeEventArgs args)
@@ -154,13 +222,15 @@ namespace DoYourTasks
             {
                 currentTheme = utils.LightTheme;
                 pbNotification.Image = Resources._46_notification_bell_outlineWhite;
-            } 
+                pbSaveAnimation.Image = Resources._18_autorenew_outline;
+            }
             else
             {
                 currentTheme = utils.DarkTheme;
                 pbNotification.Image = Resources._46_notification_bell_outline;
+                pbSaveAnimation.Image = Resources._18_autorenew_solid;
             }
-                
+
 
             TogglebtnTheme.Checked = args.Mode;
 
@@ -170,45 +240,56 @@ namespace DoYourTasks
             dataController.CurrentTheme = currentTheme;
             dataController.settings.SavedTheme = currentTheme;
 
+
+            //pnlTop.BackColor = BackColor;
+            //pnlTop.ForeColor = ForeColor;
+            //pnlMainLeft.BackColor = currentTheme.SecondBackColor;
+
             pnlMain.ForeColor = ForeColor;
             pnlMain.BackColor = BackColor;
 
             pnlOptions.BackColor = BackColor;
             pnlOptions.ForeColor = ForeColor;
 
+            tbAddTask.BackColor = BackColor;
+            tbAddTask.ForeColor = ForeColor;
+
             tbAddSubTask.BackColor = BackColor;
             tbAddSubTask.ForeColor = ForeColor;
-
-            //tbAddSubTask.BackColor = BackColor;
-            //tbAddSubTask.ForeColor = ForeColor;
 
             tbNotes.BackColor = BackColor;
             tbNotes.ForeColor = ForeColor;
 
-            lblNotificationCounter.ForeColor = BackColor;            
+            lblNotificationCounter.ForeColor = BackColor;
+
+            btnAddProjectAttachment.ForeColor = ForeColor;
+            btnHideProject.ForeColor = ForeColor;
+
+            lblUrgentTaskCount.ForeColor = ForeColor;
+            lblHighTaskCount.ForeColor = ForeColor;
+            lblLowTaskCount.ForeColor = ForeColor;
+            lblVeryLowTaskCount.ForeColor = ForeColor;
+            lblWaitingTaskCount.ForeColor = ForeColor;
+            lblMediumTaskCount.ForeColor = ForeColor;
+            lblDoneTaskCount.ForeColor = ForeColor;
+            lblDontProceedTaskCount.ForeColor = ForeColor;
 
             foreach (ProjectView pv in flpProjects.Controls)
             {
                 pv.SetTheme(currentTheme);
-                pv.SetImages(dataController.GetThemeMode(currentTheme));
+                pv.SetImages(utils.GetThemeMode(currentTheme));
             }
             foreach (UCAttachmentView ucav in flpProjectAttachments.Controls)
-            {
                 ucav.SetTheme(currentTheme);
-            }
             foreach (TaskView tv in flpTasks.Controls)
-            {
                 tv.SetTheme(currentTheme);
-            }
             foreach (SubTaskView stv in flpSubTasks.Controls)
-            {
                 stv.SetTheme(currentTheme);
-            }
-
         }
 
         private void DataControllerEventSubscriber()
         {
+
             dataController.SetProjectView += LoadProjectView;
             dataController.ProjectViewMouseDown += ProjectView_MouseDown;
             dataController.ProjectViewDeleted += DeleteProject;
@@ -223,6 +304,12 @@ namespace DoYourTasks
             dataController.HideItem += DataController_LoadViewsToScreen;
             dataController.AddNewProjectAttachment += AddProjectAttachment;
             dataController.AddTaskAttachment += btnAddAttachment_Click;
+            dataController.SendNotification += SendNotification;
+        }
+
+        private void SendNotification(SendNotificationEventArgs args)
+        {
+            AddNotification(args.Title, args.Message, args.NotificationType);
         }
 
         private void AddPriorityItemsToComboBox(ComboBox comboBox)
@@ -239,7 +326,7 @@ namespace DoYourTasks
             comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
-        
+
 
         /// <summary>
         /// Load items and Hidden items to their appropriate place
@@ -269,8 +356,9 @@ namespace DoYourTasks
                         project.SetIsHidden(true);
                         try
                         {
-                            dataController.GetHiddenProjects().Add(projectID, project);
-                            dataController.GetProjects().Remove(projectID);
+                            Project p = null;
+                            dataController.GetHiddenProjects().TryAdd(projectID, project);
+                            dataController.GetProjects().TryRemove(projectID, out p);
                         }
                         catch (Exception)
                         {
@@ -285,8 +373,9 @@ namespace DoYourTasks
                         project.SetIsHidden(false);
                         try
                         {
-                            dataController.GetProjects().Add(project.GetProjectID(), project);
-                            dataController.GetHiddenProjects().Remove(project.GetProjectID());
+                            Project p = null;
+                            dataController.GetProjects().TryAdd(project.GetProjectID(), project);
+                            dataController.GetHiddenProjects().TryRemove(project.GetProjectID(), out p);
                         }
                         catch (Exception)
                         {
@@ -303,7 +392,8 @@ namespace DoYourTasks
                     TaskView tv = control as TaskView;
                     projectID = tv.GetParentProjectID();
                     string taskID = tv.GetTaskID();
-                    Task task = dataController.GetCorrectProject(projectID).GetTasks()[taskID];
+                    Task task = dataController.GetCorrectProject(projectID).GetAllTasks()[taskID];
+                    Task t = null;
                     if (tv.GetIsHidden())
                     {
                         frmHiddenTasks.AddControl(control);
@@ -311,7 +401,7 @@ namespace DoYourTasks
                         task.SetIsHidden(true);
 
                         dataController.GetCorrectProject(task.GetParentProjectID()).AddHiddenTask(task);
-                        dataController.GetCorrectProject(task.GetParentProjectID()).GetTasks().Remove(task.GetTaskID());
+                        dataController.GetCorrectProject(task.GetParentProjectID()).GetTasks().TryRemove(task.GetTaskID(), out t);
                     }
                     else
                     {
@@ -320,7 +410,7 @@ namespace DoYourTasks
                         task.SetIsHidden(false);
 
                         dataController.GetCorrectProject(task.GetParentProjectID()).AddTask(task);
-                        dataController.GetCorrectProject(task.GetParentProjectID()).GetHiddenTasks().Remove(task.GetTaskID());
+                        dataController.GetCorrectProject(task.GetParentProjectID()).GetHiddenTasks().TryRemove(task.GetTaskID(), out t);
 
                     }
 
@@ -339,7 +429,7 @@ namespace DoYourTasks
             TaskView tv = args.TV;
             if (currentProjectView != null)
             {
-                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
+                ConcurrentDictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
                 UpdatePriorityLabels(taskLst);
             }
             CalculateCompletedTasks();
@@ -350,7 +440,7 @@ namespace DoYourTasks
             string projectID = args.TaskView.GetParentProjectID();
             if (currentProjectView != null)
             {
-                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
+                ConcurrentDictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
                 UpdatePriorityLabels(taskLst);
             }
         }
@@ -375,10 +465,12 @@ namespace DoYourTasks
             {
                 flpTasks.Controls.SetChildIndex(args.TV, flpTasks.Controls.Count - 1);//move to buttom
                 task.SetIndex(flpTasks.Controls.GetChildIndex(args.TV));
+                currentTaskView.SetPBStatus(Utils.NotificationType.Success);
             }
             else
             {
                 flpTasks.Controls.SetChildIndex(args.TV, task.GetIndex());
+                currentTaskView.SetPBStatus(Utils.NotificationType.None);
             }
 
 
@@ -396,7 +488,7 @@ namespace DoYourTasks
                     flpTasks.Controls.SetChildIndex(tv, task.GetIndex());//move to top
                 }
             }
-            Dictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
+            ConcurrentDictionary<string, Task> taskLst = dataController.GetCorrectProject(currentProjectView.ProjectID).GetAllTasks();
             UpdatePriorityLabels(taskLst);
 
             //low = 0;
@@ -404,7 +496,7 @@ namespace DoYourTasks
             //high = 0;
         }
 
-        private void UpdatePriorityLabels(Dictionary<string, Task> taskLst)
+        private void UpdatePriorityLabels(ConcurrentDictionary<string, Task> taskLst)
         {
             int veryLow = 0;
             int low = 0;
@@ -576,7 +668,7 @@ namespace DoYourTasks
                 catch (Exception) { continue; }
 
 
-                Dictionary<string, Task> taskLst = dataController.GetCorrectProject(projectID).GetAllTasks();
+                ConcurrentDictionary<string, Task> taskLst = dataController.GetCorrectProject(projectID).GetAllTasks();
                 UpdatePriorityLabels(taskLst);
 
             }
@@ -758,6 +850,7 @@ namespace DoYourTasks
             foreach (var tv in dataController.Taskviews)
             {
                 taskView = tv.Value;
+                taskView.SetTheme(currentTheme);
                 taskView.Width = flpTasks.Width - 6;
 
                 string parentProjectID = taskView.GetParentProjectID();
@@ -797,6 +890,7 @@ namespace DoYourTasks
 
                 int index = dataController.GetCorrectProject(projectID).GetTasks()[taskID].GetIndex();
 
+                //Move completed tasks to bottom
                 if (taskView.GetCheckedState())
                     index = flpTasks.Controls.Count - 1;
 
@@ -944,7 +1038,7 @@ namespace DoYourTasks
                 currentTaskView.SetTheme(dataController.settings.SavedTheme);
             }
 
-           
+
 
             currentTaskView = arg.TaskView;
 
@@ -1017,10 +1111,10 @@ namespace DoYourTasks
 
             if (!tbAddSubTask.Enabled)
                 tbAddSubTask.Enabled = true;
-            if(currentTaskView!=null)
-                tbNotes.Visible=true;
+            if (currentTaskView != null)
+                tbNotes.Visible = true;
             else
-                tbNotes.Visible=false;
+                tbNotes.Visible = false;
 
             CalculateCompletedTasks();
 
@@ -1107,6 +1201,7 @@ namespace DoYourTasks
             string id;
             foreach (var stv in dataController.SubTaskviews)
             {
+                stv.Value.SetTheme(currentTheme);
                 if (stv.Value.GetParentTaskID() == taskViewID)
                 {
                     id = stv.Key;
@@ -1192,13 +1287,15 @@ namespace DoYourTasks
             {
                 foreach (ProjectView pv in dataController.Projectviews.Values.ToList())
                 {
-                    int idx = dataController.GetCorrectProject(pv.ProjectID).GetIndex();
                     try
                     {
+                        Project project = dataController.GetCorrectProject(pv.ProjectID);
+                        if (project == null)
+                            continue;
+                        int idx = project.GetIndex();
                         dataController.GetCorrectProject(pv.ProjectID).SetIndex(flpProjects.Controls.GetChildIndex(pv));
                     }
                     catch (Exception) { }
-
                 }
             }
             catch (KeyNotFoundException) { }
@@ -1441,6 +1538,7 @@ namespace DoYourTasks
                     {
                         case "tbAddSubTask":
                             SubTaskView stv = dataController.CreateSubTaskView(currentProjectView.ProjectID, currentTaskView.GetTaskID(), utils.GetUniqueID(), taskName, DateTime.Now.ToString("dd/MM/yy HH:mm tt"));
+                            stv.SetTheme(currentTheme);
                             currentSubTaskView = stv;
                             AddSubTaskViewToFlp(stv);
                             tb.Text = "";
@@ -1448,6 +1546,7 @@ namespace DoYourTasks
                         case "tbAddTask"://Completely New Task \ TaskView
                             TaskView tv = dataController.CreateNewTaskView(taskName, utils.GetUniqueID(), currentProjectView.ProjectID);
                             tv.Rename(taskName);
+                            tv.SetTheme(currentTheme);
                             currentTaskView = tv;
                             AddTaskViewToFlp(tv);
                             tbAddSubTask.Enabled = true;
@@ -1576,7 +1675,13 @@ namespace DoYourTasks
             //graphics.FillRectangle(b, gradient_rectangle);
         }
 
-        #endregion
+        private void ToggleTheme_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangeTheme.Invoke(new ChangeThemeEventArgs(TogglebtnTheme.Checked));
+        }
+
+        #endregion Events
+
 
         #region ScreenBehaviour
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -1584,9 +1689,20 @@ namespace DoYourTasks
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
         private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
 
-        private void TogglebtnTheme_CheckedChanged(object sender, EventArgs e)
+        private void AddNotification(string title, string message, Utils.NotificationType type)
         {
-            ChangeTheme.Invoke(new ChangeThemeEventArgs(TogglebtnTheme.Checked));
+            NotificationView nv = new NotificationView(title, message, type);
+            nv.NotificationDeleted += Nv_NotificationDeleted;
+            flpNotifications.Controls.Add(nv);
+
+            pbNotification.Enabled = true;
+            ResetPictureBox(pbNotification);
+            lblNotificationCounter.Text = $"{++notificationCounter}";
+        }
+
+        private void Nv_NotificationDeleted()
+        {
+            lblNotificationCounter.Text = $"{--notificationCounter}";
         }
 
         private void pbNotification_MouseEnter(object sender, EventArgs e)
@@ -1594,8 +1710,6 @@ namespace DoYourTasks
             pnlNotifications.Visible = true;
             while (pnlNotifications.Height < pnlNotifications.MaximumSize.Height)
             {
-                NotificationView nv = new NotificationView();
-                flpNotifications.Controls.Add(nv);
                 pnlNotifications.Height += 35;
                 pnlNotifications.Refresh();
             }
@@ -1603,12 +1717,15 @@ namespace DoYourTasks
 
         private void pbNotification_MouseLeave(object sender, EventArgs e)
         {
-            while (pnlNotifications.Height > pnlNotifications.MinimumSize.Height)
+            if (pnlNotifications.Visible)
             {
-                pnlNotifications.Height -= 35;
-                pnlNotifications.Refresh();
+                while (pnlNotifications.Height > pnlNotifications.MinimumSize.Height)
+                {
+                    pnlNotifications.Height -= 35;
+                    pnlNotifications.Refresh();
+                }
+                pnlNotifications.Visible = false;
             }
-            pnlNotifications.Visible = false;
         }
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)

@@ -22,10 +22,12 @@ namespace DoYourTasks.UserControls
         public string ParentTaskID { get; set; }
         public string ParentProjectID { get; set; }
         public bool IsCompleted { get; set; }
+        private Theme Theme { get; set; }
         #endregion Properties
 
         #region Fields
         Color StartBackColor;
+        Color StartForeColor;
         ToolTip toolTip;
         #endregion Fields
 
@@ -42,11 +44,11 @@ namespace DoYourTasks.UserControls
             lblDateCreated.Text += createdAt;
             ForeColor = Color.White;
             StartBackColor = BackColor;
+            StartForeColor = ForeColor;
             toolTip = new ToolTip();
 
-            Utils utils = new Utils();
-            utils.RoundCorners(this, null);
-
+            ctbTaskName.BackColor = Color.Transparent;
+            ctbTaskName.SetTBBackColor(StartBackColor);
         }
 
         #endregion Constructors
@@ -93,13 +95,8 @@ namespace DoYourTasks.UserControls
         }
         public void Rename(string newName)
         {
-            //customRadioButtonTaskName.Rename(newName);
             ctbTaskName.SetText(newName);
-            //var textsize = TextRenderer.MeasureText(ctbTaskName.Text, ctbTaskName.Font);
-            //ctbTaskName.Left = 0;
-            //ctbTaskName.Width = textsize.Width;
             ctbTaskName.Visible = true;
-
         }
         public void Delete()
         {
@@ -123,9 +120,16 @@ namespace DoYourTasks.UserControls
 
             ctbTaskName.ForeColor = Color.Black;
             ctbTaskName.BackColor = Color.Gainsboro;
+            ctbTaskName.BorderColor = Color.Gainsboro;
+      
+            btnDelete.BackColor = Color.Gainsboro; ;
+            btnDelete.ForeColor = Color.Black;
 
-            //ctbTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
-            //ctbTaskName.BackColor = Color.Gainsboro;
+            btnEditTaskName.ForeColor = Color.Black; ;
+            btnEditTaskName.BackColor = Color.Gainsboro;
+
+            lblDateCreated.ForeColor = Color.Gainsboro; ;
+            lblDateCreated.BackColor = Color.Gainsboro;
 
             BackColor = Color.Gainsboro;
             toolTip.SetToolTip(this.ctbTaskName, this.ctbTaskName.Text);
@@ -133,21 +137,22 @@ namespace DoYourTasks.UserControls
 
         private void customRadioButtonTaskName_MouseLeave(object sender, EventArgs e)
         {
-            customRadioButtonTaskName.ForeColor = Color.White;
-            customRadioButtonTaskName.BackColor = StartBackColor;
-            customRadioButtonTaskName.isSelected = false;
+            //customRadioButtonTaskName.ForeColor = StartForeColor;
+            //customRadioButtonTaskName.BackColor = StartBackColor;
+            //customRadioButtonTaskName.isSelected = false;
 
-            ctbTaskName.SetTBBackColor(StartBackColor);
-            ctbTaskName.SetTBForeColor(Color.White);
-            ctbTaskName.BackColor = StartBackColor;
-            ctbTaskName.ForeColor = Color.White;
+            //ctbTaskName.SetTBBackColor(StartBackColor);
+            //ctbTaskName.SetTBForeColor(StartForeColor);
+            //ctbTaskName.BackColor = StartBackColor;
+            //ctbTaskName.ForeColor = StartBackColor;
 
 
-            if (!ctbTaskName.GetIsInEdit())
-                ctbTaskName.BorderColor = StartBackColor;
-            ctbTaskName.SetTBBackColor(StartBackColor);
+            //if (!ctbTaskName.GetIsInEdit())
+            //    ctbTaskName.BorderColor = StartBackColor;
+            //ctbTaskName.SetTBBackColor(StartBackColor);
 
-            BackColor = StartBackColor;
+            //BackColor = StartBackColor;
+            SetTheme(Theme);
         }
 
         private void CustomRadioButtonTaskName_checkedChanged(CustomCBcheckedChangedEventArgs arg)
@@ -157,11 +162,13 @@ namespace DoYourTasks.UserControls
             SetCheckedState(arg.CRB.Checked);
             SubTaskCompleted.Invoke(new SubTaskCompletedEventArgs(this));
         }
+       
         private void btnDelete_Click(object sender, EventArgs e)
         {
             SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(this));
             Dispose();
         }
+       
         private void btnEditTaskName_Click(object sender, EventArgs e)
         {
             ctbTaskName.SetIsInEdit(true);
@@ -175,8 +182,12 @@ namespace DoYourTasks.UserControls
 
         public void SetTheme(Theme theme)
         {
+            Theme = theme;
             BackColor = theme.BackColor;
             ForeColor = theme.ForeColor;
+            
+            StartBackColor = BackColor;
+            StartForeColor = ForeColor;
 
             lblDateCreated.BackColor = BackColor;
             lblDateCreated.ForeColor = ForeColor;
@@ -187,14 +198,21 @@ namespace DoYourTasks.UserControls
             btnDelete.BackColor = BackColor;
             btnDelete.ForeColor = ForeColor;
 
+            ctbTaskName.BackColor = BackColor;
+            ctbTaskName.ForeColor = ForeColor;
+            ctbTaskName.BorderColor = BackColor;
             ctbTaskName.SetTBBackColor(BackColor);
             ctbTaskName.SetTBForeColor(ForeColor);
 
             customRadioButtonTaskName.BackColor = BackColor;
             customRadioButtonTaskName.ForeColor = ForeColor;
+
+            btnEditTaskName.ForeColor= ForeColor;
+            btnEditTaskName.BackColor= BackColor;
+
+            lblDateCreated.ForeColor= ForeColor;
+            lblDateCreated.BackColor= BackColor;
         }
-
-
         #endregion Events
     }
 }

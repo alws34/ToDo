@@ -40,6 +40,7 @@ namespace DoYourTasks.UserControls
         ToolTip toolTip = new ToolTip();
         int currentPriority = (int)PriorityCodes.Low;
         int nextPriority = (int)PriorityCodes.Medium;
+        Utils.NotificationType notificationType = Utils.NotificationType.None;
         #endregion
 
         #region Constructors
@@ -79,6 +80,12 @@ namespace DoYourTasks.UserControls
         #endregion
 
         #region Getters
+        public bool GetDidNotify()
+        {
+            return pbStatus.Enabled;
+        }
+
+
         public string GetDueDate()
         {
             if (!string.IsNullOrWhiteSpace(lblDueDateVal.Text))
@@ -114,11 +121,28 @@ namespace DoYourTasks.UserControls
             return isHidden;
         }
 
+        public Utils.NotificationType GetNotificationType() {
 
+            return notificationType;
+        }
         #endregion
 
         #region Setters
 
+        public void SetPBStatus(Utils.NotificationType type)
+        {
+            Utils u = new Utils();
+            notificationType = type;
+            if (type == Utils.NotificationType.None)
+            {
+                pbStatus.Image = null;
+                return;
+            }
+
+            pbStatus.Image = u.GetNotificationImages(type, Theme);
+            if (!pbStatus.Enabled)
+                pbStatus.Enabled = true;
+        }
 
         private void SetIsHidden(bool mode) { isHidden = mode; }
 
@@ -141,7 +165,7 @@ namespace DoYourTasks.UserControls
         {
             lblAttachmentsCount.Text = flpAttachments.Controls.Count.ToString();
         }
-       
+
         public void SetCompletedOn(string date) { lblCompletedOn.Text = date; }
 
         private void SetPriority(int priority)
@@ -200,12 +224,12 @@ namespace DoYourTasks.UserControls
             if (PriorityChanged != null)
                 PriorityChanged.Invoke(new PriorityChangedEventArgs(this, currentPriority));
         }
-       
+
         public void SetDueDate(string Duedate)
         {
             lblDueDateVal.Show();
             lblDueDateVal.Text = $"{Duedate}";
-            //DueDateChanged.Invoke(new DueDateChangedEventArgs(null));
+            //DueDateChanged.BeginInvoke(new DueDateChangedEventArgs(null));
         }
 
         public void SetDateCreated(DateTime dateTime)
@@ -214,7 +238,7 @@ namespace DoYourTasks.UserControls
             lblCreatedAtVal.Visible = true;
 
         }
-       
+
         private void SetBackColor()
         {
             startBackgroundColor = customRadioButtonTaskName.BackColor;
@@ -292,9 +316,9 @@ namespace DoYourTasks.UserControls
 
             ctbTaskName.ForeColor = ForeColor;
             ctbTaskName.SetTBForeColor(ForeColor);
-            
-            
-            
+
+
+
             btnHideTask.BorderColor = ForeColor;
             btnRemoveDueDate.BorderColor = ForeColor;
             btnAddAttachment.BorderColor = ForeColor;
@@ -319,6 +343,9 @@ namespace DoYourTasks.UserControls
             pnlColorIndicator.ForeColor = ForeColor;
             customRadioButtonTaskName.ForeColor = ForeColor;
             flpAttachments.ForeColor = ForeColor;
+
+
+            SetPBStatus(GetNotificationType());
         }
 
         public void ResizeAttachmentsFLP()
@@ -407,18 +434,19 @@ namespace DoYourTasks.UserControls
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size, FontStyle.Strikeout);
                 SetPriority((int)PriorityCodes.Done);
                 lblCompletedOn.Text = DateTime.Now.ToString("dd/MM/yy");
+                SetPBStatus(Utils.NotificationType.Success);
             }
             else
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size);
                 lblCompletedOn.Text = "";
+                SetPBStatus(Utils.NotificationType.None);
             }
         }
 
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
         {
-            SetMouseOverTheme(Color.Gainsboro, Color.Black);
-            toolTip.SetToolTip(this.ctbTaskName, ctbTaskName.GetText());
+            SetMouseOverTheme(Color.Gray, Color.Black);
         }
 
         private void pnlColorIndicator_MouseLeave(object sender, EventArgs e)
@@ -430,13 +458,14 @@ namespace DoYourTasks.UserControls
         {
             pnlColorIndicator.BackColor = backcolor;
             customRadioButtonTaskName.BackColor = backcolor;
-            
+            ctbTaskName.SetTBBackColor(backcolor);
             ctbTaskName.BackColor = backcolor;
 
             if (!ctbTaskName.GetIsInEdit())
                 ctbTaskName.BorderColor = backcolor;
 
-            ctbTaskName.SetTBBackColor(backcolor);
+            if(isCompleted)
+                customRadioButtonTaskName.isSelected = true;
 
             btnDelete.BackColor = backcolor;
             btnEditTaskName.BackColor = backcolor;

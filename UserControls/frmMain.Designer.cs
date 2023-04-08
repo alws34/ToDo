@@ -34,10 +34,9 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.lblNotificationCounter = new System.Windows.Forms.Label();
             this.pbNotification = new System.Windows.Forms.PictureBox();
-            this.TogglebtnTheme = new CustomControls.RJControls.RJToggleButton();
             this.pnlSave = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pbSaveAnimation = new System.Windows.Forms.PictureBox();
+            this.lblSavedSuccessfully = new System.Windows.Forms.Label();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.btnNormal = new System.Windows.Forms.Button();
             this.btnMinimizar = new System.Windows.Forms.Button();
@@ -46,14 +45,11 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlNotifications = new System.Windows.Forms.Panel();
             this.flpNotifications = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.pnlMainLeft = new System.Windows.Forms.Panel();
             this.flpProjects = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnAddNewList = new DoYourTasks.UserControls.MaterialRaisedButton();
             this.pnlStats = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.comboBoxChangePriority = new System.Windows.Forms.ComboBox();
-            this.btnAddProjectAttachment = new DoYourTasks.UserControls.CustomButtonV2();
-            this.btnHideProject = new DoYourTasks.UserControls.CustomButtonV2();
             this.tlpTaskPrioritiesStats = new System.Windows.Forms.TableLayoutPanel();
             this.lblVeryLow = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -77,20 +73,15 @@
             this.lblCreationDate = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pnlTasksHeader = new System.Windows.Forms.Panel();
-            this.btnShowHiddenProjects = new DoYourTasks.UserControls.MaterialRaisedButton();
             this.comboBoxFilterTaskPriority = new System.Windows.Forms.ComboBox();
             this.comboBoxFilterProjectPriority = new System.Windows.Forms.ComboBox();
-            this.btnSave = new DoYourTasks.UserControls.MaterialRaisedButton();
             this.flpProjectAttachments = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblProjectNotes = new System.Windows.Forms.Label();
             this.tbProjectNotes = new System.Windows.Forms.TextBox();
-            this.btnShowHiddenTasks = new DoYourTasks.UserControls.MaterialRaisedButton();
-            this.btnOptionsMenu = new DoYourTasks.UserControls.MaterialRaisedButton();
             this.pnlOptions = new System.Windows.Forms.Panel();
             this.lblSubtasksCommit = new System.Windows.Forms.Label();
             this.tbCommitMsg = new System.Windows.Forms.TextBox();
-            this.btnSetBackGroundImage = new DoYourTasks.UserControls.MaterialRaisedButton();
             this.lblProjName = new System.Windows.Forms.Label();
             this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -99,15 +90,24 @@
             this.tbNotes = new System.Windows.Forms.TextBox();
             this.flpSubTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.Notification = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btnAddNewList = new DoYourTasks.UserControls.MaterialRaisedButton();
+            this.btnAddProjectAttachment = new DoYourTasks.UserControls.CustomButtonV2();
+            this.btnHideProject = new DoYourTasks.UserControls.CustomButtonV2();
+            this.btnShowHiddenProjects = new DoYourTasks.UserControls.MaterialRaisedButton();
+            this.btnSave = new DoYourTasks.UserControls.MaterialRaisedButton();
+            this.btnShowHiddenTasks = new DoYourTasks.UserControls.MaterialRaisedButton();
+            this.btnOptionsMenu = new DoYourTasks.UserControls.MaterialRaisedButton();
+            this.btnSetBackGroundImage = new DoYourTasks.UserControls.MaterialRaisedButton();
+            this.TogglebtnTheme = new CustomControls.RJControls.RJToggleButton();
             this.pnlTop.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbNotification)).BeginInit();
             this.pnlSave.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSaveAnimation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlMain.SuspendLayout();
             this.pnlNotifications.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.pnlMainLeft.SuspendLayout();
             this.pnlStats.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tlpTaskPrioritiesStats.SuspendLayout();
@@ -122,7 +122,7 @@
             // 
             // pnlTop
             // 
-            this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(95)))), ((int)(((byte)(122)))));
+            this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(110)))), ((int)(((byte)(123)))));
             this.pnlTop.Controls.Add(this.panel5);
             this.pnlTop.Controls.Add(this.TogglebtnTheme);
             this.pnlTop.Controls.Add(this.pnlSave);
@@ -132,9 +132,11 @@
             this.pnlTop.Controls.Add(this.btnCerrar);
             this.pnlTop.Controls.Add(this.btnMaximizar);
             this.pnlTop.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.pnlTop.Location = new System.Drawing.Point(2, -1);
+            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.MaximumSize = new System.Drawing.Size(1070, 40);
+            this.pnlTop.MinimumSize = new System.Drawing.Size(1070, 40);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1065, 41);
+            this.pnlTop.Size = new System.Drawing.Size(1070, 40);
             this.pnlTop.TabIndex = 11;
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
             // 
@@ -143,7 +145,7 @@
             this.panel5.BackColor = System.Drawing.Color.Transparent;
             this.panel5.Controls.Add(this.lblNotificationCounter);
             this.panel5.Controls.Add(this.pbNotification);
-            this.panel5.Location = new System.Drawing.Point(867, -5);
+            this.panel5.Location = new System.Drawing.Point(867, -12);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(55, 50);
             this.panel5.TabIndex = 16;
@@ -155,7 +157,7 @@
             this.lblNotificationCounter.BackColor = System.Drawing.Color.Transparent;
             this.lblNotificationCounter.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblNotificationCounter.ForeColor = System.Drawing.Color.Black;
-            this.lblNotificationCounter.Location = new System.Drawing.Point(35, 4);
+            this.lblNotificationCounter.Location = new System.Drawing.Point(33, 12);
             this.lblNotificationCounter.Name = "lblNotificationCounter";
             this.lblNotificationCounter.Size = new System.Drawing.Size(18, 19);
             this.lblNotificationCounter.TabIndex = 13;
@@ -172,53 +174,37 @@
             this.pbNotification.TabIndex = 12;
             this.pbNotification.TabStop = false;
             // 
-            // TogglebtnTheme
-            // 
-            this.TogglebtnTheme.AutoSize = true;
-            this.TogglebtnTheme.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(198)))), ((int)(((byte)(199)))));
-            this.TogglebtnTheme.Location = new System.Drawing.Point(797, 8);
-            this.TogglebtnTheme.MinimumSize = new System.Drawing.Size(45, 22);
-            this.TogglebtnTheme.Name = "TogglebtnTheme";
-            this.TogglebtnTheme.OffBackColor = System.Drawing.Color.Gray;
-            this.TogglebtnTheme.OffToggleColor = System.Drawing.Color.Gainsboro;
-            this.TogglebtnTheme.OnBackColor = System.Drawing.Color.MediumSlateBlue;
-            this.TogglebtnTheme.OnToggleColor = System.Drawing.Color.WhiteSmoke;
-            this.TogglebtnTheme.Size = new System.Drawing.Size(45, 22);
-            this.TogglebtnTheme.TabIndex = 10;
-            this.TogglebtnTheme.UseVisualStyleBackColor = false;
-            this.TogglebtnTheme.CheckedChanged += new System.EventHandler(this.TogglebtnTheme_CheckedChanged);
-            // 
             // pnlSave
             // 
             this.pnlSave.BackColor = System.Drawing.Color.Transparent;
-            this.pnlSave.Controls.Add(this.pictureBox1);
-            this.pnlSave.Controls.Add(this.label1);
+            this.pnlSave.Controls.Add(this.pbSaveAnimation);
+            this.pnlSave.Controls.Add(this.lblSavedSuccessfully);
             this.pnlSave.Location = new System.Drawing.Point(45, 5);
             this.pnlSave.Name = "pnlSave";
             this.pnlSave.Size = new System.Drawing.Size(215, 30);
             this.pnlSave.TabIndex = 9;
             this.pnlSave.Visible = false;
             // 
-            // pictureBox1
+            // pbSaveAnimation
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(170, -3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(45, 37);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.pbSaveAnimation.Image = ((System.Drawing.Image)(resources.GetObject("pbSaveAnimation.Image")));
+            this.pbSaveAnimation.Location = new System.Drawing.Point(170, -3);
+            this.pbSaveAnimation.Name = "pbSaveAnimation";
+            this.pbSaveAnimation.Size = new System.Drawing.Size(45, 37);
+            this.pbSaveAnimation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbSaveAnimation.TabIndex = 1;
+            this.pbSaveAnimation.TabStop = false;
             // 
-            // label1
+            // lblSavedSuccessfully
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.Location = new System.Drawing.Point(0, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Saved Successfully";
+            this.lblSavedSuccessfully.AutoSize = true;
+            this.lblSavedSuccessfully.BackColor = System.Drawing.Color.Transparent;
+            this.lblSavedSuccessfully.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.lblSavedSuccessfully.Location = new System.Drawing.Point(0, 5);
+            this.lblSavedSuccessfully.Name = "lblSavedSuccessfully";
+            this.lblSavedSuccessfully.Size = new System.Drawing.Size(164, 20);
+            this.lblSavedSuccessfully.TabIndex = 0;
+            this.lblSavedSuccessfully.Text = "Saved Successfully";
             // 
             // pbLogo
             // 
@@ -240,7 +226,7 @@
             this.btnNormal.FlatAppearance.BorderSize = 0;
             this.btnNormal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNormal.Image = ((System.Drawing.Image)(resources.GetObject("btnNormal.Image")));
-            this.btnNormal.Location = new System.Drawing.Point(975, 1);
+            this.btnNormal.Location = new System.Drawing.Point(980, 1);
             this.btnNormal.Name = "btnNormal";
             this.btnNormal.Size = new System.Drawing.Size(43, 34);
             this.btnNormal.TabIndex = 6;
@@ -255,7 +241,7 @@
             this.btnMinimizar.FlatAppearance.BorderSize = 0;
             this.btnMinimizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMinimizar.Image = ((System.Drawing.Image)(resources.GetObject("btnMinimizar.Image")));
-            this.btnMinimizar.Location = new System.Drawing.Point(926, 1);
+            this.btnMinimizar.Location = new System.Drawing.Point(931, 1);
             this.btnMinimizar.Name = "btnMinimizar";
             this.btnMinimizar.Size = new System.Drawing.Size(43, 34);
             this.btnMinimizar.TabIndex = 5;
@@ -269,7 +255,7 @@
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Image = ((System.Drawing.Image)(resources.GetObject("btnCerrar.Image")));
-            this.btnCerrar.Location = new System.Drawing.Point(1019, 3);
+            this.btnCerrar.Location = new System.Drawing.Point(1024, 3);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(39, 30);
             this.btnCerrar.TabIndex = 4;
@@ -283,7 +269,7 @@
             this.btnMaximizar.FlatAppearance.BorderSize = 0;
             this.btnMaximizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMaximizar.Image = ((System.Drawing.Image)(resources.GetObject("btnMaximizar.Image")));
-            this.btnMaximizar.Location = new System.Drawing.Point(975, 1);
+            this.btnMaximizar.Location = new System.Drawing.Point(980, 1);
             this.btnMaximizar.Name = "btnMaximizar";
             this.btnMaximizar.Size = new System.Drawing.Size(43, 36);
             this.btnMaximizar.TabIndex = 7;
@@ -292,12 +278,10 @@
             // 
             // pnlMain
             // 
-            this.pnlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMain.Controls.Add(this.pnlNotifications);
-            this.pnlMain.Controls.Add(this.panel4);
+            this.pnlMain.Controls.Add(this.pnlMainLeft);
             this.pnlMain.Controls.Add(this.tbAddTask);
             this.pnlMain.Controls.Add(this.lblCredits);
             this.pnlMain.Controls.Add(this.pnlCreationDate);
@@ -318,10 +302,10 @@
             this.pnlNotifications.AutoScroll = true;
             this.pnlNotifications.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.pnlNotifications.Controls.Add(this.flpNotifications);
-            this.pnlNotifications.Location = new System.Drawing.Point(769, 2);
-            this.pnlNotifications.MaximumSize = new System.Drawing.Size(290, 350);
+            this.pnlNotifications.Location = new System.Drawing.Point(724, -3);
+            this.pnlNotifications.MaximumSize = new System.Drawing.Size(300, 350);
             this.pnlNotifications.Name = "pnlNotifications";
-            this.pnlNotifications.Size = new System.Drawing.Size(290, 10);
+            this.pnlNotifications.Size = new System.Drawing.Size(300, 350);
             this.pnlNotifications.TabIndex = 12;
             this.pnlNotifications.Visible = false;
             this.pnlNotifications.MouseLeave += new System.EventHandler(this.pbNotification_MouseLeave);
@@ -331,49 +315,30 @@
             this.flpNotifications.AutoScroll = true;
             this.flpNotifications.Location = new System.Drawing.Point(3, 3);
             this.flpNotifications.Name = "flpNotifications";
-            this.flpNotifications.Size = new System.Drawing.Size(283, 344);
+            this.flpNotifications.Size = new System.Drawing.Size(294, 344);
             this.flpNotifications.TabIndex = 0;
             // 
-            // panel4
+            // pnlMainLeft
             // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(95)))), ((int)(((byte)(122)))));
-            this.panel4.Controls.Add(this.flpProjects);
-            this.panel4.Controls.Add(this.btnAddNewList);
-            this.panel4.Controls.Add(this.pnlStats);
-            this.panel4.Location = new System.Drawing.Point(3, 4);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(302, 747);
-            this.panel4.TabIndex = 16;
+            this.pnlMainLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(67)))), ((int)(((byte)(135)))));
+            this.pnlMainLeft.Controls.Add(this.flpProjects);
+            this.pnlMainLeft.Controls.Add(this.btnAddNewList);
+            this.pnlMainLeft.Controls.Add(this.pnlStats);
+            this.pnlMainLeft.Location = new System.Drawing.Point(-1, 0);
+            this.pnlMainLeft.Name = "pnlMainLeft";
+            this.pnlMainLeft.Size = new System.Drawing.Size(302, 755);
+            this.pnlMainLeft.TabIndex = 16;
             // 
             // flpProjects
             // 
             this.flpProjects.AllowDrop = true;
             this.flpProjects.AutoScroll = true;
             this.flpProjects.BackColor = System.Drawing.Color.Transparent;
-            this.flpProjects.Location = new System.Drawing.Point(3, 3);
+            this.flpProjects.Location = new System.Drawing.Point(0, 3);
             this.flpProjects.Name = "flpProjects";
             this.flpProjects.Size = new System.Drawing.Size(299, 491);
             this.flpProjects.TabIndex = 12;
             this.flpProjects.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.flpProjects_ControlAdded);
-            // 
-            // btnAddNewList
-            // 
-            this.btnAddNewList.AutoSize = true;
-            this.btnAddNewList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAddNewList.Depth = 0;
-            this.btnAddNewList.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddNewList.Icon = null;
-            this.btnAddNewList.Location = new System.Drawing.Point(3, 687);
-            this.btnAddNewList.MaximumSize = new System.Drawing.Size(295, 55);
-            this.btnAddNewList.MinimumSize = new System.Drawing.Size(295, 55);
-            this.btnAddNewList.MouseState = DoYourTasks.MouseState.HOVER;
-            this.btnAddNewList.Name = "btnAddNewList";
-            this.btnAddNewList.Primary = true;
-            this.btnAddNewList.Size = new System.Drawing.Size(295, 55);
-            this.btnAddNewList.TabIndex = 11;
-            this.btnAddNewList.Text = "Add New Project";
-            this.btnAddNewList.UseVisualStyleBackColor = true;
-            this.btnAddNewList.Click += new System.EventHandler(this.btnNewList_Click);
             // 
             // pnlStats
             // 
@@ -402,46 +367,6 @@
             this.comboBoxChangePriority.Size = new System.Drawing.Size(137, 23);
             this.comboBoxChangePriority.TabIndex = 21;
             this.comboBoxChangePriority.SelectedIndexChanged += new System.EventHandler(this.comboBoxProjectPriority_SelectedIndexChanged);
-            // 
-            // btnAddProjectAttachment
-            // 
-            this.btnAddProjectAttachment.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddProjectAttachment.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnAddProjectAttachment.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnAddProjectAttachment.BorderRadius = 0;
-            this.btnAddProjectAttachment.BorderSize = 0;
-            this.btnAddProjectAttachment.FlatAppearance.BorderSize = 0;
-            this.btnAddProjectAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddProjectAttachment.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddProjectAttachment.ForeColor = System.Drawing.Color.White;
-            this.btnAddProjectAttachment.Location = new System.Drawing.Point(3, 32);
-            this.btnAddProjectAttachment.Name = "btnAddProjectAttachment";
-            this.btnAddProjectAttachment.Size = new System.Drawing.Size(137, 29);
-            this.btnAddProjectAttachment.TabIndex = 19;
-            this.btnAddProjectAttachment.Text = "Add  Attachment";
-            this.btnAddProjectAttachment.TextColor = System.Drawing.Color.White;
-            this.btnAddProjectAttachment.UseVisualStyleBackColor = false;
-            this.btnAddProjectAttachment.Click += new System.EventHandler(this.btnAddProjectAttachment_Click);
-            // 
-            // btnHideProject
-            // 
-            this.btnHideProject.BackColor = System.Drawing.Color.Transparent;
-            this.btnHideProject.BackgroundColor = System.Drawing.Color.Transparent;
-            this.btnHideProject.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.btnHideProject.BorderRadius = 0;
-            this.btnHideProject.BorderSize = 0;
-            this.btnHideProject.FlatAppearance.BorderSize = 0;
-            this.btnHideProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHideProject.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.btnHideProject.ForeColor = System.Drawing.Color.White;
-            this.btnHideProject.Location = new System.Drawing.Point(3, 67);
-            this.btnHideProject.Name = "btnHideProject";
-            this.btnHideProject.Size = new System.Drawing.Size(137, 29);
-            this.btnHideProject.TabIndex = 20;
-            this.btnHideProject.Text = "Hide Project";
-            this.btnHideProject.TextColor = System.Drawing.Color.White;
-            this.btnHideProject.UseVisualStyleBackColor = false;
-            this.btnHideProject.Click += new System.EventHandler(this.btnHideProject_Click);
             // 
             // tlpTaskPrioritiesStats
             // 
@@ -702,14 +627,14 @@
             // 
             // tbAddTask
             // 
-            this.tbAddTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(95)))), ((int)(((byte)(122)))));
-            this.tbAddTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.tbAddTask.Location = new System.Drawing.Point(309, 696);
-            this.tbAddTask.MaximumSize = new System.Drawing.Size(450, 55);
-            this.tbAddTask.MinimumSize = new System.Drawing.Size(450, 55);
+            this.tbAddTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(67)))), ((int)(((byte)(135)))));
+            this.tbAddTask.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold);
+            this.tbAddTask.Location = new System.Drawing.Point(304, 695);
+            this.tbAddTask.MaximumSize = new System.Drawing.Size(457, 55);
+            this.tbAddTask.MinimumSize = new System.Drawing.Size(457, 55);
             this.tbAddTask.Multiline = true;
             this.tbAddTask.Name = "tbAddTask";
-            this.tbAddTask.Size = new System.Drawing.Size(450, 55);
+            this.tbAddTask.Size = new System.Drawing.Size(457, 55);
             this.tbAddTask.TabIndex = 14;
             this.tbAddTask.Tag = "Add new task";
             this.tbAddTask.Text = "Add new task";
@@ -755,9 +680,9 @@
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.Controls.Add(this.pnlTasksHeader);
             this.panel2.Controls.Add(this.flpTasks);
-            this.panel2.Location = new System.Drawing.Point(309, 5);
+            this.panel2.Location = new System.Drawing.Point(302, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(450, 686);
+            this.panel2.Size = new System.Drawing.Size(455, 686);
             this.panel2.TabIndex = 8;
             // 
             // pnlTasksHeader
@@ -780,22 +705,6 @@
             this.pnlTasksHeader.Size = new System.Drawing.Size(445, 90);
             this.pnlTasksHeader.TabIndex = 0;
             // 
-            // btnShowHiddenProjects
-            // 
-            this.btnShowHiddenProjects.AutoSize = true;
-            this.btnShowHiddenProjects.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnShowHiddenProjects.Depth = 0;
-            this.btnShowHiddenProjects.Icon = null;
-            this.btnShowHiddenProjects.Location = new System.Drawing.Point(121, 47);
-            this.btnShowHiddenProjects.MouseState = DoYourTasks.MouseState.HOVER;
-            this.btnShowHiddenProjects.Name = "btnShowHiddenProjects";
-            this.btnShowHiddenProjects.Primary = true;
-            this.btnShowHiddenProjects.Size = new System.Drawing.Size(197, 36);
-            this.btnShowHiddenProjects.TabIndex = 10;
-            this.btnShowHiddenProjects.Text = "Show Hidden Projects";
-            this.btnShowHiddenProjects.UseVisualStyleBackColor = true;
-            this.btnShowHiddenProjects.Click += new System.EventHandler(this.btnShowHiddenProjects_Click);
-            // 
             // comboBoxFilterTaskPriority
             // 
             this.comboBoxFilterTaskPriority.FormattingEnabled = true;
@@ -817,22 +726,6 @@
             this.comboBoxFilterProjectPriority.Tag = "Project Priority";
             this.comboBoxFilterProjectPriority.Text = "Project Priority";
             this.comboBoxFilterProjectPriority.SelectedIndexChanged += new System.EventHandler(this.comboBoxFilterProjectPriority_SelectedIndexChanged);
-            // 
-            // btnSave
-            // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSave.Depth = 0;
-            this.btnSave.Icon = null;
-            this.btnSave.Location = new System.Drawing.Point(379, 3);
-            this.btnSave.MouseState = DoYourTasks.MouseState.HOVER;
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Primary = true;
-            this.btnSave.Size = new System.Drawing.Size(58, 36);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // flpProjectAttachments
             // 
@@ -878,40 +771,6 @@
             this.tbProjectNotes.Enter += new System.EventHandler(this.tbProjectNotes_Enter);
             this.tbProjectNotes.Leave += new System.EventHandler(this.TbAddTask_LostFocus);
             // 
-            // btnShowHiddenTasks
-            // 
-            this.btnShowHiddenTasks.AutoSize = true;
-            this.btnShowHiddenTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnShowHiddenTasks.Depth = 0;
-            this.btnShowHiddenTasks.Icon = null;
-            this.btnShowHiddenTasks.Location = new System.Drawing.Point(4, 108);
-            this.btnShowHiddenTasks.MouseState = DoYourTasks.MouseState.HOVER;
-            this.btnShowHiddenTasks.Name = "btnShowHiddenTasks";
-            this.btnShowHiddenTasks.Primary = true;
-            this.btnShowHiddenTasks.Size = new System.Drawing.Size(169, 36);
-            this.btnShowHiddenTasks.TabIndex = 11;
-            this.btnShowHiddenTasks.Text = "Show Hidden Tasks";
-            this.btnShowHiddenTasks.UseVisualStyleBackColor = true;
-            this.btnShowHiddenTasks.Click += new System.EventHandler(this.btnShowHiddenTasks_Click);
-            // 
-            // btnOptionsMenu
-            // 
-            this.btnOptionsMenu.AutoSize = true;
-            this.btnOptionsMenu.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnOptionsMenu.BackColor = System.Drawing.Color.Transparent;
-            this.btnOptionsMenu.Depth = 0;
-            this.btnOptionsMenu.Icon = global::DoYourTasks.Properties.Resources.icons8_menu_30;
-            this.btnOptionsMenu.ImageKey = "(none)";
-            this.btnOptionsMenu.Location = new System.Drawing.Point(8, 47);
-            this.btnOptionsMenu.MouseState = DoYourTasks.MouseState.HOVER;
-            this.btnOptionsMenu.Name = "btnOptionsMenu";
-            this.btnOptionsMenu.Primary = true;
-            this.btnOptionsMenu.Size = new System.Drawing.Size(113, 36);
-            this.btnOptionsMenu.TabIndex = 7;
-            this.btnOptionsMenu.Text = "Project\r\nOptions";
-            this.btnOptionsMenu.UseVisualStyleBackColor = false;
-            this.btnOptionsMenu.Click += new System.EventHandler(this.btnOptionsMenu_Click);
-            // 
             // pnlOptions
             // 
             this.pnlOptions.BackColor = System.Drawing.Color.Transparent;
@@ -943,23 +802,6 @@
             this.tbCommitMsg.Size = new System.Drawing.Size(186, 297);
             this.tbCommitMsg.TabIndex = 8;
             // 
-            // btnSetBackGroundImage
-            // 
-            this.btnSetBackGroundImage.AutoSize = true;
-            this.btnSetBackGroundImage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnSetBackGroundImage.Depth = 0;
-            this.btnSetBackGroundImage.Icon = null;
-            this.btnSetBackGroundImage.Location = new System.Drawing.Point(3, 0);
-            this.btnSetBackGroundImage.MouseState = DoYourTasks.MouseState.HOVER;
-            this.btnSetBackGroundImage.Name = "btnSetBackGroundImage";
-            this.btnSetBackGroundImage.Primary = true;
-            this.btnSetBackGroundImage.Size = new System.Drawing.Size(132, 36);
-            this.btnSetBackGroundImage.TabIndex = 7;
-            this.btnSetBackGroundImage.Text = "Choose Theme";
-            this.btnSetBackGroundImage.UseVisualStyleBackColor = true;
-            this.btnSetBackGroundImage.Visible = false;
-            this.btnSetBackGroundImage.Click += new System.EventHandler(this.btnSetBackGroundImage_Click);
-            // 
             // lblProjName
             // 
             this.lblProjName.AutoEllipsis = true;
@@ -978,13 +820,14 @@
             // 
             this.flpTasks.AllowDrop = true;
             this.flpTasks.AutoScroll = true;
+            this.flpTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flpTasks.BackColor = System.Drawing.Color.Transparent;
             this.flpTasks.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flpTasks.Location = new System.Drawing.Point(0, 98);
-            this.flpTasks.MaximumSize = new System.Drawing.Size(450, 605);
-            this.flpTasks.MinimumSize = new System.Drawing.Size(450, 255);
+            this.flpTasks.MaximumSize = new System.Drawing.Size(457, 605);
+            this.flpTasks.MinimumSize = new System.Drawing.Size(457, 255);
             this.flpTasks.Name = "flpTasks";
-            this.flpTasks.Size = new System.Drawing.Size(450, 588);
+            this.flpTasks.Size = new System.Drawing.Size(457, 588);
             this.flpTasks.TabIndex = 15;
             // 
             // panel3
@@ -1012,7 +855,7 @@
             // 
             // tbAddSubTask
             // 
-            this.tbAddSubTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(95)))), ((int)(((byte)(122)))));
+            this.tbAddSubTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(67)))), ((int)(((byte)(135)))));
             this.tbAddSubTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.tbAddSubTask.Location = new System.Drawing.Point(3, 3);
             this.tbAddSubTask.MaximumSize = new System.Drawing.Size(296, 55);
@@ -1061,6 +904,164 @@
             this.Notification.Text = "notifyIcon1";
             this.Notification.Visible = true;
             // 
+            // btnAddNewList
+            // 
+            this.btnAddNewList.AutoSize = true;
+            this.btnAddNewList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAddNewList.Depth = 0;
+            this.btnAddNewList.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddNewList.Icon = null;
+            this.btnAddNewList.Location = new System.Drawing.Point(2, 696);
+            this.btnAddNewList.MaximumSize = new System.Drawing.Size(295, 55);
+            this.btnAddNewList.MinimumSize = new System.Drawing.Size(295, 55);
+            this.btnAddNewList.MouseState = DoYourTasks.MouseState.HOVER;
+            this.btnAddNewList.Name = "btnAddNewList";
+            this.btnAddNewList.Primary = true;
+            this.btnAddNewList.Size = new System.Drawing.Size(295, 55);
+            this.btnAddNewList.TabIndex = 11;
+            this.btnAddNewList.Text = "Add New Project";
+            this.btnAddNewList.UseVisualStyleBackColor = true;
+            this.btnAddNewList.Click += new System.EventHandler(this.btnNewList_Click);
+            // 
+            // btnAddProjectAttachment
+            // 
+            this.btnAddProjectAttachment.BackColor = System.Drawing.Color.Transparent;
+            this.btnAddProjectAttachment.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnAddProjectAttachment.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.btnAddProjectAttachment.BorderRadius = 0;
+            this.btnAddProjectAttachment.BorderSize = 0;
+            this.btnAddProjectAttachment.FlatAppearance.BorderSize = 0;
+            this.btnAddProjectAttachment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddProjectAttachment.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddProjectAttachment.ForeColor = System.Drawing.Color.White;
+            this.btnAddProjectAttachment.Location = new System.Drawing.Point(3, 32);
+            this.btnAddProjectAttachment.Name = "btnAddProjectAttachment";
+            this.btnAddProjectAttachment.Size = new System.Drawing.Size(137, 29);
+            this.btnAddProjectAttachment.TabIndex = 19;
+            this.btnAddProjectAttachment.Text = "Add  Attachment";
+            this.btnAddProjectAttachment.TextColor = System.Drawing.Color.White;
+            this.btnAddProjectAttachment.UseVisualStyleBackColor = false;
+            this.btnAddProjectAttachment.Click += new System.EventHandler(this.btnAddProjectAttachment_Click);
+            // 
+            // btnHideProject
+            // 
+            this.btnHideProject.BackColor = System.Drawing.Color.Transparent;
+            this.btnHideProject.BackgroundColor = System.Drawing.Color.Transparent;
+            this.btnHideProject.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.btnHideProject.BorderRadius = 0;
+            this.btnHideProject.BorderSize = 0;
+            this.btnHideProject.FlatAppearance.BorderSize = 0;
+            this.btnHideProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHideProject.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnHideProject.ForeColor = System.Drawing.Color.White;
+            this.btnHideProject.Location = new System.Drawing.Point(3, 67);
+            this.btnHideProject.Name = "btnHideProject";
+            this.btnHideProject.Size = new System.Drawing.Size(137, 29);
+            this.btnHideProject.TabIndex = 20;
+            this.btnHideProject.Text = "Hide Project";
+            this.btnHideProject.TextColor = System.Drawing.Color.White;
+            this.btnHideProject.UseVisualStyleBackColor = false;
+            this.btnHideProject.Click += new System.EventHandler(this.btnHideProject_Click);
+            // 
+            // btnShowHiddenProjects
+            // 
+            this.btnShowHiddenProjects.AutoSize = true;
+            this.btnShowHiddenProjects.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnShowHiddenProjects.Depth = 0;
+            this.btnShowHiddenProjects.Icon = null;
+            this.btnShowHiddenProjects.Location = new System.Drawing.Point(121, 50);
+            this.btnShowHiddenProjects.MouseState = DoYourTasks.MouseState.HOVER;
+            this.btnShowHiddenProjects.Name = "btnShowHiddenProjects";
+            this.btnShowHiddenProjects.Primary = true;
+            this.btnShowHiddenProjects.Size = new System.Drawing.Size(197, 36);
+            this.btnShowHiddenProjects.TabIndex = 10;
+            this.btnShowHiddenProjects.Text = "Show Hidden Projects";
+            this.btnShowHiddenProjects.UseVisualStyleBackColor = true;
+            this.btnShowHiddenProjects.Click += new System.EventHandler(this.btnShowHiddenProjects_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSave.Depth = 0;
+            this.btnSave.Icon = null;
+            this.btnSave.Location = new System.Drawing.Point(379, 3);
+            this.btnSave.MouseState = DoYourTasks.MouseState.HOVER;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Primary = true;
+            this.btnSave.Size = new System.Drawing.Size(58, 36);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnShowHiddenTasks
+            // 
+            this.btnShowHiddenTasks.AutoSize = true;
+            this.btnShowHiddenTasks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnShowHiddenTasks.Depth = 0;
+            this.btnShowHiddenTasks.Icon = null;
+            this.btnShowHiddenTasks.Location = new System.Drawing.Point(4, 108);
+            this.btnShowHiddenTasks.MouseState = DoYourTasks.MouseState.HOVER;
+            this.btnShowHiddenTasks.Name = "btnShowHiddenTasks";
+            this.btnShowHiddenTasks.Primary = true;
+            this.btnShowHiddenTasks.Size = new System.Drawing.Size(169, 36);
+            this.btnShowHiddenTasks.TabIndex = 11;
+            this.btnShowHiddenTasks.Text = "Show Hidden Tasks";
+            this.btnShowHiddenTasks.UseVisualStyleBackColor = true;
+            this.btnShowHiddenTasks.Click += new System.EventHandler(this.btnShowHiddenTasks_Click);
+            // 
+            // btnOptionsMenu
+            // 
+            this.btnOptionsMenu.AutoSize = true;
+            this.btnOptionsMenu.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnOptionsMenu.BackColor = System.Drawing.Color.Transparent;
+            this.btnOptionsMenu.Depth = 0;
+            this.btnOptionsMenu.Icon = global::DoYourTasks.Properties.Resources.icons8_menu_30;
+            this.btnOptionsMenu.ImageKey = "(none)";
+            this.btnOptionsMenu.Location = new System.Drawing.Point(4, 50);
+            this.btnOptionsMenu.MouseState = DoYourTasks.MouseState.HOVER;
+            this.btnOptionsMenu.Name = "btnOptionsMenu";
+            this.btnOptionsMenu.Primary = true;
+            this.btnOptionsMenu.Size = new System.Drawing.Size(113, 36);
+            this.btnOptionsMenu.TabIndex = 7;
+            this.btnOptionsMenu.Text = "Project\r\nOptions";
+            this.btnOptionsMenu.UseVisualStyleBackColor = false;
+            this.btnOptionsMenu.Click += new System.EventHandler(this.btnOptionsMenu_Click);
+            // 
+            // btnSetBackGroundImage
+            // 
+            this.btnSetBackGroundImage.AutoSize = true;
+            this.btnSetBackGroundImage.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSetBackGroundImage.Depth = 0;
+            this.btnSetBackGroundImage.Icon = null;
+            this.btnSetBackGroundImage.Location = new System.Drawing.Point(3, 0);
+            this.btnSetBackGroundImage.MouseState = DoYourTasks.MouseState.HOVER;
+            this.btnSetBackGroundImage.Name = "btnSetBackGroundImage";
+            this.btnSetBackGroundImage.Primary = true;
+            this.btnSetBackGroundImage.Size = new System.Drawing.Size(132, 36);
+            this.btnSetBackGroundImage.TabIndex = 7;
+            this.btnSetBackGroundImage.Text = "Choose Theme";
+            this.btnSetBackGroundImage.UseVisualStyleBackColor = true;
+            this.btnSetBackGroundImage.Visible = false;
+            this.btnSetBackGroundImage.Click += new System.EventHandler(this.btnSetBackGroundImage_Click);
+            // 
+            // TogglebtnTheme
+            // 
+            this.TogglebtnTheme.AutoSize = true;
+            this.TogglebtnTheme.BackColor = System.Drawing.Color.Transparent;
+            this.TogglebtnTheme.Location = new System.Drawing.Point(803, 9);
+            this.TogglebtnTheme.MinimumSize = new System.Drawing.Size(45, 22);
+            this.TogglebtnTheme.Name = "TogglebtnTheme";
+            this.TogglebtnTheme.OffBackColor = System.Drawing.Color.Gray;
+            this.TogglebtnTheme.OffToggleColor = System.Drawing.Color.Gainsboro;
+            this.TogglebtnTheme.OnBackColor = System.Drawing.Color.MediumSlateBlue;
+            this.TogglebtnTheme.OnToggleColor = System.Drawing.Color.WhiteSmoke;
+            this.TogglebtnTheme.Size = new System.Drawing.Size(45, 22);
+            this.TogglebtnTheme.TabIndex = 10;
+            this.TogglebtnTheme.UseVisualStyleBackColor = false;
+            this.TogglebtnTheme.CheckedChanged += new System.EventHandler(this.ToggleTheme_CheckedChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1082,13 +1083,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbNotification)).EndInit();
             this.pnlSave.ResumeLayout(false);
             this.pnlSave.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSaveAnimation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
             this.pnlNotifications.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
+            this.pnlMainLeft.ResumeLayout(false);
+            this.pnlMainLeft.PerformLayout();
             this.pnlStats.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tlpTaskPrioritiesStats.ResumeLayout(false);
@@ -1141,7 +1142,7 @@
         private System.Windows.Forms.TextBox tbAddSubTask;
         private System.Windows.Forms.TextBox tbNotes;
         private System.Windows.Forms.Panel pnlSave;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblSavedSuccessfully;
         private System.Windows.Forms.Label lblSubtasksCommit;
         private UserControls.MaterialRaisedButton btnShowHiddenProjects;
         private UserControls.MaterialRaisedButton btnShowHiddenTasks;
@@ -1173,10 +1174,10 @@
         private System.Windows.Forms.ComboBox comboBoxChangePriority;
         private UserControls.CustomButtonV2 btnAddProjectAttachment;
         private UserControls.CustomButtonV2 btnHideProject;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel pnlMainLeft;
         private CustomControls.RJControls.RJToggleButton TogglebtnTheme;
         private System.Windows.Forms.NotifyIcon Notification;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbSaveAnimation;
         private System.Windows.Forms.Panel pnlNotifications;
         private System.Windows.Forms.FlowLayoutPanel flpNotifications;
         private System.Windows.Forms.Panel panel5;
