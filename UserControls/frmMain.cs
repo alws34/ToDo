@@ -926,6 +926,8 @@ namespace DoYourTasks
             foreach (ProjectView pv in dataController.Projectviews.Values.ToList())
             {
                 Project project = dataController.GetCorrectProject(pv.GetProjectID());
+                if(project == null)
+                    continue;
                 string projectID = project.GetProjectID();
                 int projectPriority = project.GetPriority();
 
@@ -990,12 +992,14 @@ namespace DoYourTasks
             int res;
             int.TryParse(currentTaskView.Tag.ToString(), out res);
 
+            //Resize until reaching the median height (res)
             while (taskView.Size.Height < res)//currentTaskView.MaximumSize.Height)
             {
                 taskView.Height += 35;
                 taskView.Refresh();
             }
 
+            //keep resizing for each attachment, until reaching the maximum height
             for (int i = 0; i < taskView.GetAttachmentsCount(); i++)
             {
                 taskView.Height += 90;
@@ -1004,7 +1008,6 @@ namespace DoYourTasks
                     taskView.Size = taskView.MaximumSize;
                     break;
                 }
-                    
             }
 
             taskView.Refresh();
@@ -1015,18 +1018,12 @@ namespace DoYourTasks
         {
             if (currentTaskView != null)
             {
-                //currentTaskView.ResetSize();
                 currentTaskView.Size = currentTaskView.MinimumSize;
-
                 currentTaskView.SetTheme(dataController.settings.SavedTheme);
-
             }
-
-
 
             currentTaskView = arg.TaskView;
             ResizeTaskView(currentTaskView);
-
 
             try
             {
@@ -1103,9 +1100,6 @@ namespace DoYourTasks
                 var taskLst = project.GetAllTasks();
                 UpdatePriorityLabels(taskLst);
             }
-
-            // flpSubTasks.Refresh();
-
         }
 
         private void AddTaskViewToFlp(TaskView taskView)
@@ -1443,8 +1437,8 @@ namespace DoYourTasks
 
             foreach (ProjectView pv in dataController.Projectviews.Values.ToList())
             {
-                if (pv.GetProjectID() != currentProjectView.GetProjectID())
-                    continue;
+                //if (pv.GetProjectID() != currentProjectView.GetProjectID())
+                //    continue;
 
                 string prioritySTR = pv.GetProjectPrioritySTR();
 

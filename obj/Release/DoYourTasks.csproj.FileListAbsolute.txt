@@ -145,3 +145,31 @@ C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTas
 C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.exe
 C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.pdb
 C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\bin\Release\Newtonsoft.Json.xml
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\ReadMe.txt
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\DoYourTasks.exe.config
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\DoYourTasks.exe
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\DoYourTasks.pdb
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\Control.Draggable.dll
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\Newtonsoft.Json.dll
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\Windows.winmd
+C:\Users\alws34\source\repos\ToDoMockup\bin\Release\Newtonsoft.Json.xml
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.AssemblyReference.cache
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.exe.config
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.ResolveComReference.cache
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.frmHiddenItems.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.Properties.Resources.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.frmMain.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.UserControls.NotificationCounter.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.NotificationView.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.UserControls.ProjectView.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.UserControls.SubTaskView.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.UserControls.TaskView.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.UserControls.UCAttachmentView.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.GenerateResource.cache
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.CoreCompileInputs.cache
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.CopyComplete
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.exe
+C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.pdb

@@ -14,7 +14,7 @@ namespace DoYourTasks
         public string ProjectID;
         public string ProjectName;
         public int Index = -1;
-        public int Priority = 5;
+        public int Priority = 1;
         public DateTime DateCreated;
         public string BackGroundImagePath;
         public string ProjectNotes;

@@ -278,12 +278,15 @@ namespace DoYourTasks
             ProjectView pv = new ProjectView(projectID, CurrentTheme, isNew);
             if (isNew)
             {
-                pv.SetIsInEditMode(true);
                 project = new Project(projectID, isHidden);
+                pv.SetPriority(project.GetPriority());
+                pv.SetTheme(CurrentTheme);
+                pv.SetIsInEditMode(true);
             }
 
             pv.Name = "ProjectView";
             SubscribeProejctViewEvents(pv);
+            
 
             AddProjectsToDicts(project, pv, projectID);
             pv.SetPriority(GetCorrectProject(projectID).GetPriority(), !isNew);

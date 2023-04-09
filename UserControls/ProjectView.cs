@@ -251,7 +251,8 @@ namespace DoYourTasks.UserControls
                     }
                     break;
             }//switch
-            ChangePriority.Invoke(new ChangePriorityEventArgs(this, "project", priority));
+            if (ChangePriority != null)
+                ChangePriority.Invoke(new ChangePriorityEventArgs(this, "project", priority));
         }
 
         public bool GetIsHidden()
