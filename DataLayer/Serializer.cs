@@ -46,22 +46,40 @@ namespace DoYourTasks
         {
             if (!File.Exists(filepath))
                 return null;
+            ConcurrentDictionary<string, Project> projects = null;
 
             JObject obj = null;
-            JsonSerializer jsonSerializer = new JsonSerializer();
+
+            JsonSerializer jsonSerializer = new JsonSerializer()
+            {
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
             using (StreamReader sr = new StreamReader(filepath))
             using (JsonReader jsonReader = new JsonTextReader(sr))
                 obj = jsonSerializer.Deserialize(jsonReader) as JObject;
+
             try
             {
                 if (obj == null)
                     return null;
 
-                return obj.ToObject(type);
+                SaveObject sobj = (SaveObject)obj.ToObject(type);
+
+                if (sobj.Project == null && sobj.Settings == null)//Handle old database structure
+                {
+                    projects = obj.ToObject<ConcurrentDictionary<string, Project>>();
+                    sobj = new SaveObject();
+                    sobj.Project = projects;
+                    sobj.Settings = new Settings();
+                    Utils u = new Utils();
+                    sobj.Settings.SavedTheme = u.LightTheme;
+                }
+                return sobj;
             }
             catch (Exception) { return null; }
         }
-
         private void EvaluatePath(string path)
         {
 

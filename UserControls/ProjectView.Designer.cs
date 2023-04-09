@@ -70,7 +70,7 @@
             // pnlPB
             // 
             this.pnlPB.Controls.Add(this.pbDeleteProject);
-            this.pnlPB.Location = new System.Drawing.Point(226, 7);
+            this.pnlPB.Location = new System.Drawing.Point(245, 4);
             this.pnlPB.Name = "pnlPB";
             this.pnlPB.Size = new System.Drawing.Size(41, 33);
             this.pnlPB.TabIndex = 18;
@@ -96,7 +96,7 @@
             this.lblProjPriority.BackColor = System.Drawing.Color.LimeGreen;
             this.lblProjPriority.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold);
             this.lblProjPriority.ForeColor = System.Drawing.Color.Black;
-            this.lblProjPriority.Location = new System.Drawing.Point(127, 57);
+            this.lblProjPriority.Location = new System.Drawing.Point(150, 57);
             this.lblProjPriority.Margin = new System.Windows.Forms.Padding(0);
             this.lblProjPriority.Name = "lblProjPriority";
             this.lblProjPriority.Size = new System.Drawing.Size(47, 23);
@@ -112,7 +112,7 @@
             this.lblDrag.Enabled = false;
             this.lblDrag.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.lblDrag.ForeColor = System.Drawing.Color.Black;
-            this.lblDrag.Location = new System.Drawing.Point(127, 83);
+            this.lblDrag.Location = new System.Drawing.Point(150, 83);
             this.lblDrag.Name = "lblDrag";
             this.lblDrag.Size = new System.Drawing.Size(140, 22);
             this.lblDrag.TabIndex = 11;
@@ -178,10 +178,10 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.ForeColor = System.Drawing.Color.White;
-            this.MaximumSize = new System.Drawing.Size(270, 105);
-            this.MinimumSize = new System.Drawing.Size(270, 105);
+            this.MaximumSize = new System.Drawing.Size(290, 105);
+            this.MinimumSize = new System.Drawing.Size(290, 105);
             this.Name = "ProjectView";
-            this.Size = new System.Drawing.Size(270, 105);
+            this.Size = new System.Drawing.Size(290, 105);
             this.Click += new System.EventHandler(this.ProjectView_GotFocus);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlPB.ResumeLayout(false);

@@ -268,6 +268,7 @@
     </Compile>
     <None Include="Resources\Roboto-Medium.ttf.old" />
     <None Include="Resources\Roboto-Regular.ttf.old" />
+    <None Include="WindowsFormsCalendar.csproj" />
     <!-- <Compile Include="Resources\Roboto-Medium.ttf" />
     <Compile Include="Resources\Roboto-Regular.ttf" /> -->
   </ItemGroup>
@@ -341,6 +342,8 @@
     <Content Include="Resources\Background\Nature\[winranx.com] Winranx Collection of Windows Spotlight lock screen wallpapers %28212%29.jpg" />
     <Content Include="Resources\calendarDark.png" />
     <Content Include="Resources\calendarWhite.png" />
+    <None Include="Resources\clock_Dark.png" />
+    <None Include="Resources\clock_Light.png" />
     <Content Include="Resources\Close.png" />
     <Content Include="Resources\Collapse Arrow_20px.png" />
     <None Include="Resources\Error_png.png" />
@@ -378,6 +381,17 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="CTVLib">
+      <Guid>{CD6C7865-5864-11D0-ABF0-0020AF6B0B7A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

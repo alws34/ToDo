@@ -67,11 +67,13 @@ namespace DoYourTasks.UserControls
 
         private void CustomRadioButton_Click(object sender, EventArgs e)
         {
-            if (isChecked) {
-                Checked = false;
+            if (isChecked)
+            {
                 isChecked = false;
+                Checked = false;
             }
-            else {
+            else
+            {
                 isChecked = true;
                 Checked = true;
             }
@@ -108,7 +110,7 @@ namespace DoYourTasks.UserControls
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
-            base.OnPaint(pevent);
+           //base.OnPaint(pevent);
             Graphics graphics = pevent.Graphics;
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             float rbBorderSize = 18F;
@@ -139,18 +141,19 @@ namespace DoYourTasks.UserControls
             using (SolidBrush brushText = new SolidBrush(this.ForeColor))
             {
                 graphics.Clear(this.BackColor);//draw surface 
-                if (this.Checked || isSelected)
+                if (this.Checked || this.isSelected)
                 {
                     graphics.DrawEllipse(penBorder, rectRbBorder);//circle border
-                    graphics.FillEllipse(brushText, rectRbCheck);//circle Radio Checked
+                    graphics.FillEllipse(brushRbCheck, rectRbCheck);//circle Radio Checked
                 }
-                else
+                if(!Checked)
                 {
                     penBorder.Color = unCheckedColor;
                     graphics.DrawEllipse(penBorder, rectRbBorder);//circle border
+                    graphics.FillEllipse(new SolidBrush(BackColor), rectRbCheck);//circle Radio Checked
                 }
                 graphics.DrawString(this.Text, this.Font, brushText, rbBorderSize + 8,
-                    (this.Height - TextRenderer.MeasureText(this.Text, this.Font).Height - labelPosOffset));//Y=Center
+                    (this.Height - TextRenderer.MeasureText(this.Text, this.Font).Height ) / 2);//Y=Center
             }
         }
 

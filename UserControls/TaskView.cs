@@ -58,7 +58,6 @@ namespace DoYourTasks.UserControls
             SetPriority(priority);
             //lblTaskName.Location = new Point(40, 3);
 
-
             comboBoxChangePriority.Items.Add(PriorityCodes.VeryLow.ToString());
             comboBoxChangePriority.Items.Add(PriorityCodes.Low.ToString());
             comboBoxChangePriority.Items.Add(PriorityCodes.Medium.ToString());
@@ -317,8 +316,6 @@ namespace DoYourTasks.UserControls
             ctbTaskName.ForeColor = ForeColor;
             ctbTaskName.SetTBForeColor(ForeColor);
 
-
-
             btnHideTask.BorderColor = ForeColor;
             btnRemoveDueDate.BorderColor = ForeColor;
             btnAddAttachment.BorderColor = ForeColor;
@@ -343,7 +340,6 @@ namespace DoYourTasks.UserControls
             pnlColorIndicator.ForeColor = ForeColor;
             customRadioButtonTaskName.ForeColor = ForeColor;
             flpAttachments.ForeColor = ForeColor;
-
 
             SetPBStatus(GetNotificationType());
         }
@@ -432,6 +428,7 @@ namespace DoYourTasks.UserControls
             if (mode)
             {
                 ctbTaskName.GetCurrentCustomTextBox().Font = new Font(ctbTaskName.Font.FontFamily, ctbTaskName.Font.Size, FontStyle.Strikeout);
+                ctbTaskName.GetCurrentCustomTextBox().Refresh();
                 SetPriority((int)PriorityCodes.Done);
                 lblCompletedOn.Text = DateTime.Now.ToString("dd/MM/yy");
                 SetPBStatus(Utils.NotificationType.Success);
@@ -442,6 +439,7 @@ namespace DoYourTasks.UserControls
                 lblCompletedOn.Text = "";
                 SetPBStatus(Utils.NotificationType.None);
             }
+            //customRadioButtonTaskName.Refresh();
         }
 
         private void pnlColorIndicator_MouseEnter(object sender, EventArgs e)
@@ -473,7 +471,6 @@ namespace DoYourTasks.UserControls
             ctbTaskName.SetTBForeColor(forecolor);
             btnEditTaskName.ForeColor = forecolor;
             btnDelete.ForeColor = forecolor;
-
         }
 
         private void btnAddAttachment_Click(object sender, EventArgs e)

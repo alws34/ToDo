@@ -30,7 +30,6 @@ namespace DoYourTasks
 
         #endregion CustomEvents
 
-
         #region Fields
 
         #region Views
@@ -71,7 +70,6 @@ namespace DoYourTasks
             DoubleBuffered = true;
 
             ChangeTheme += FrmMain_ChangeTheme;
-
 
             pnlSaveTimer = new Timer() { Interval = 2000 };
             ImageAnimationTimer = new Timer() { Interval = 4000 };
@@ -195,6 +193,12 @@ namespace DoYourTasks
                     if (dueDate == null || !ConvertSuccess)
                         continue;
 
+                    //if (dataController.Projects[task.GetParentProjectID()].GetAllTasks()[task.GetTaskID()].GetIsCompleted())
+                    //{
+                    //    dataController.Taskviews[task.GetTaskID()].SetPBStatus(Utils.NotificationType.Success);
+                    //    continue;
+                    //}
+
                     DateTime tomorrow = DateTime.Today.AddDays(1);
                     DateTime nextWeek = DateTime.Today.AddDays(7);
                     string timeFrame = "";
@@ -203,10 +207,11 @@ namespace DoYourTasks
                     if (dueDate.AddDays(7) == nextWeek)
                         timeFrame = "Next Week";
 
+
+
                     if ((timeFrame != "" && !dataController.Taskviews[task.GetTaskID()].GetDidNotify()))
                     {
-                        if (dataController.Projects[task.GetParentProjectID()].GetAllTasks()[task.GetTaskID()].GetIsCompleted())
-                            return;
+
                         Utils.NotificationType type = Utils.NotificationType.Warning;
                         dataController.Taskviews[task.GetTaskID()].SetPBStatus(type);
                         SendNotification(new SendNotificationEventArgs("", $"Due Date is Arriving {timeFrame}\nFor Task: {task.GetTaskName()} In Project: {project.GetProjectName()}", type));
@@ -231,11 +236,16 @@ namespace DoYourTasks
                 pbSaveAnimation.Image = Resources._18_autorenew_solid;
             }
 
-
             TogglebtnTheme.Checked = args.Mode;
 
             BackColor = currentTheme.SecondBackColor;
             ForeColor = currentTheme.ForeColor;
+
+            pnlNotifications.BackColor = BackColor;
+            pnlNotifications.ForeColor = BackColor;
+
+            foreach (NotificationView nv in flpNotifications.Controls)
+                nv.ForeColor = ForeColor;
 
             dataController.CurrentTheme = currentTheme;
             dataController.settings.SavedTheme = currentTheme;
@@ -243,8 +253,9 @@ namespace DoYourTasks
 
             //pnlTop.BackColor = BackColor;
             //pnlTop.ForeColor = ForeColor;
-            //pnlMainLeft.BackColor = currentTheme.SecondBackColor;
+            pnlMainLeft.BackColor = currentTheme.BackColor;
 
+            flpProjects.BackColor = BackColor;
             pnlMain.ForeColor = ForeColor;
             pnlMain.BackColor = BackColor;
 
@@ -450,30 +461,29 @@ namespace DoYourTasks
             Task task = null;
             if (args == null)
                 return;
+            TaskView taskView = args.TV;
+            Project project = dataController.GetCorrectProject(taskView.GetParentProjectID());
+            string taskID = taskView.GetTaskID();
 
-            if (dataController.GetCorrectProject(args.TV.GetParentProjectID()).GetTasks().ContainsKey(args.TV.GetTaskID()))
-                task = dataController.GetCorrectProject(args.TV.GetParentProjectID()).GetTasks()[args.TV.GetTaskID()];
-            else if (dataController.GetCorrectProject(args.TV.GetParentProjectID()).GetHiddenTasks().ContainsKey(args.TV.GetTaskID()))
-                task = dataController.GetCorrectProject(args.TV.GetParentProjectID()).GetHiddenTasks()[args.TV.GetTaskID()];
+            if (project.GetTasks().ContainsKey(taskID))
+                task = project.GetTasks()[taskID];
+            else if (project.GetHiddenTasks().ContainsKey(taskID))
+                task = project.GetHiddenTasks()[taskID];
             else
                 return;
 
-            if (!flpTasks.Controls.Contains(args.TV))
+            if (!flpTasks.Controls.Contains(taskView))
                 return;
 
             if (task.GetIsCompleted())
             {
-                flpTasks.Controls.SetChildIndex(args.TV, flpTasks.Controls.Count - 1);//move to buttom
-                task.SetIndex(flpTasks.Controls.GetChildIndex(args.TV));
-                currentTaskView.SetPBStatus(Utils.NotificationType.Success);
+                flpTasks.Controls.SetChildIndex(taskView, flpTasks.Controls.Count - 1);//move to buttom
+                task.SetIndex(flpTasks.Controls.GetChildIndex(taskView));
             }
             else
             {
-                flpTasks.Controls.SetChildIndex(args.TV, task.GetIndex());
-                currentTaskView.SetPBStatus(Utils.NotificationType.None);
+                flpTasks.Controls.SetChildIndex(taskView, task.GetIndex());
             }
-
-
 
             foreach (TaskView tv in flpTasks.Controls)
             {
@@ -498,88 +508,31 @@ namespace DoYourTasks
 
         private void UpdatePriorityLabels(ConcurrentDictionary<string, Task> taskLst)
         {
-            int veryLow = 0;
-            int low = 0;
-            int med = 0;
-            int high = 0;
-            int urgent = 0;
-            int onHold = 0;
-            int Waiting = 0;
-            int done = 0;
-            //Dictionary<string, Task> tasklst = dataController.GetCorrectProject(currentProjectView.GetProjectID()).GetAllTasks();
-            foreach (var task in taskLst)
+            // Initialize counters to zero
+            int[] counters = new int[8];
+
+            // Count tasks by priority
+            foreach (Task task in taskLst.Values)
             {
-                switch (task.Value.GetPriority())
-                {
-                    case 0:
-                        veryLow++;
-                        break;
-                    case 1:
-                        low++;
-                        break;
-                    case 2:
-                        med++;
-                        break;
-                    case 3:
-                        high++;
-                        break;
-                    case 4:
-                        urgent++;
-                        break;
-                    case 5:
-                        onHold++;
-                        break;
-                    case 6:
-                        Waiting++;
-                        break;
-                    case 7:
-                        done++;
-                        break;
-                }
+                int priority = task.GetPriority();
+                if (priority >= 0 && priority < counters.Length)
+                    counters[priority]++;
             }
-            SetCounters((int)PriorityCodes.VeryLow, veryLow);
-            SetCounters((int)PriorityCodes.Low, low);
-            SetCounters((int)PriorityCodes.Medium, med);
-            SetCounters((int)PriorityCodes.High, high);
-            SetCounters((int)PriorityCodes.Urgent, urgent);
-            SetCounters((int)PriorityCodes.OnHold, onHold);
-            SetCounters((int)PriorityCodes.Waiting, Waiting);
-            SetCounters((int)PriorityCodes.Done, done);
+
+            // Update UI counters
+            for (int counter = 0; counter < counters.Length; counter++)
+                SetCounters(counter, counters[counter]);
         }
 
         public void SetCounters(int lblNum, int num)
         {
-            Label currentLabel = null;
-            switch (lblNum)
-            {
-                case (int)PriorityCodes.VeryLow:
-                    currentLabel = lblVeryLowTaskCount;
-                    break;
-                case (int)PriorityCodes.Low:
-                    currentLabel = lblLowTaskCount;
-                    break;
-                case (int)PriorityCodes.Medium:
-                    currentLabel = lblMediumTaskCount;
-                    break;
-                case (int)PriorityCodes.High:
-                    currentLabel = lblHighTaskCount;
-                    break;
-                case (int)PriorityCodes.Urgent:
-                    currentLabel = lblUrgentTaskCount;
-                    break;
-                case (int)PriorityCodes.OnHold:
-                    currentLabel = lblDontProceedTaskCount;
-                    break;
-                case (int)PriorityCodes.Waiting:
-                    currentLabel = lblWaitingTaskCount;
-                    break;
-                case (int)PriorityCodes.Done:
-                    currentLabel = lblDoneTaskCount;
-                    break;
-            }
-            if (currentLabel != null)
-                currentLabel.Text = num.ToString();
+            Label[] labels = { lblVeryLowTaskCount, lblLowTaskCount, lblMediumTaskCount, lblHighTaskCount,
+                       lblUrgentTaskCount, lblDontProceedTaskCount, lblWaitingTaskCount, lblDoneTaskCount };
+
+            if (lblNum >= 0 && lblNum < labels.Length)
+                labels[lblNum].Text = num.ToString();
         }
+
 
         private void btnProjPriority_Click(object sender, EventArgs e)
         {
@@ -649,14 +602,15 @@ namespace DoYourTasks
         {
             dataController.LoadFromDB(path);
 
-            if (dataController.settings != null)
+            if (dataController.settings?.SavedTheme != null)
                 currentTheme = dataController.settings.SavedTheme;
 
             SetProjectViewsOnScreen(true);
 
-            foreach (ProjectView pv in dataController.Projectviews.Values.ToList())
+            foreach (ProjectView pv in dataController.Projectviews.Values)
             {
                 string projectID = pv.ProjectID;
+
                 try
                 {
                     int idx = dataController.GetCorrectProject(projectID).GetIndex();
@@ -665,14 +619,15 @@ namespace DoYourTasks
                     else
                         dataController.GetCorrectProject(projectID).SetIndex(flpProjects.Controls.GetChildIndex(pv));
                 }
-                catch (Exception) { continue; }
+                catch
+                {
+                    continue;
+                }
 
-
-                ConcurrentDictionary<string, Task> taskLst = dataController.GetCorrectProject(projectID).GetAllTasks();
-                UpdatePriorityLabels(taskLst);
-
+                UpdatePriorityLabels(dataController.GetCorrectProject(projectID).GetAllTasks());
             }
         }
+
         private void BackupDB()
         {
             try
@@ -1028,6 +983,34 @@ namespace DoYourTasks
             }
         }
 
+        private void ResizeTaskView(TaskView taskView)
+        {
+            taskView.Size = taskView.MinimumSize;
+
+            int res;
+            int.TryParse(currentTaskView.Tag.ToString(), out res);
+
+            while (taskView.Size.Height < res)//currentTaskView.MaximumSize.Height)
+            {
+                taskView.Height += 35;
+                taskView.Refresh();
+            }
+
+            for (int i = 0; i < taskView.GetAttachmentsCount(); i++)
+            {
+                taskView.Height += 90;
+                taskView.Refresh();
+                if (taskView.Size.Height >= taskView.MaximumSize.Height) {
+                    taskView.Size = taskView.MaximumSize;
+                    break;
+                }
+                    
+            }
+
+            taskView.Refresh();
+            flpTasks.Refresh();
+        }
+
         private void UpdateCurrentTaskView(UpdateCurrentTaskViewEventArgs arg)
         {
             if (currentTaskView != null)
@@ -1036,23 +1019,14 @@ namespace DoYourTasks
                 currentTaskView.Size = currentTaskView.MinimumSize;
 
                 currentTaskView.SetTheme(dataController.settings.SavedTheme);
+
             }
 
 
 
             currentTaskView = arg.TaskView;
+            ResizeTaskView(currentTaskView);
 
-            while (currentTaskView.Size.Height < currentTaskView.MaximumSize.Height)//int.Parse(currentTaskView.Tag.ToString()))
-            { //currentTaskView.MaximumSize.Height){
-                currentTaskView.Height += 35;
-                currentTaskView.Refresh();
-            }
-
-            //int attacmentscount = currentTaskView.GetAttachmentsCount();
-            //for (int i = 0; i < attacmentscount; i++)
-            //    currentTaskView.Height += 80;
-
-            //currentTaskView.Refresh();
 
             try
             {
@@ -1727,6 +1701,13 @@ namespace DoYourTasks
                 pnlNotifications.Visible = false;
             }
         }
+
+        private void pbTimeManager_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
 
         private void pnlTop_MouseDown(object sender, MouseEventArgs e)
         {

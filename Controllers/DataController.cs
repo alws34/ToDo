@@ -61,6 +61,7 @@ namespace DoYourTasks
         public ConcurrentDictionary<string, Project> Projects;
         public ConcurrentDictionary<string, Project> HiddenProjects;
 
+
         public Theme CurrentTheme { get; set; }
         public Settings settings { get; set; }
 
@@ -109,7 +110,7 @@ namespace DoYourTasks
                 CurrentTheme = settings.SavedTheme;
             else
                 settings = new Settings();
-
+            
             if (Projects == null)
             {
                 Projects = new ConcurrentDictionary<string, Project>();
@@ -459,7 +460,8 @@ namespace DoYourTasks
                 tv.SetDateCreated(task.DateCreated);
                 tv.isHidden = false;
             }
-            if (tv.GetCheckedState()) {
+            if (tv.GetCheckedState())
+            {
                 tv.SetPBStatus(Utils.NotificationType.Success);
             }
             AddTaskToDicts(task, tv, taskID);
@@ -564,28 +566,27 @@ namespace DoYourTasks
         private void Tv_TaskCompleted(TaskCompletedEventArgs args)
         {
             // Retrieve project and task ID
-            Project project = GetCorrectProject(args.TV.GetParentProjectID());
-            string taskID = args.TV.GetTaskID();
+            TaskView taskview = args.TV;
+            Project project = GetCorrectProject(taskview.GetParentProjectID());
+            string taskID = taskview.GetTaskID();
 
             // Check if task is in project or hidden tasks
-            if (project.GetTasks().ContainsKey(taskID))
-            {
-                project.GetTasks()[taskID].SetCompleted(args.TV.GetCheckedState());
-                project.GetTasks()[taskID].SetDateCompleted(DateTime.Now.ToString("dd/MM/yy"));
-            }
-            else if (project.GetHiddenTasks().ContainsKey(taskID))
-            {
-                project.GetHiddenTasks()[taskID].SetCompleted(args.TV.GetCheckedState());
-                project.GetHiddenTasks()[taskID].SetDateCompleted(DateTime.Now.ToString(""));
-            }
+            if (!project.GetAllTasks().ContainsKey(taskID))
+                return;
 
+            project.GetTasks()[taskID].SetCompleted(taskview.GetCheckedState());
+            project.GetTasks()[taskID].SetDateCompleted("");
+            if (taskview.GetCheckedState())
+                project.GetTasks()[taskID].SetDateCompleted(DateTime.Now.ToString("dd/MM/yy"));
+            taskview.SetCheckedState(taskview.GetCheckedState());
+            taskview.Refresh();
             // Get list of all tasks and count completed tasks
             List<Task> tasks = project.GetAllTasks().Values.ToList();
             int completedTasks = tasks.Count(t => t.IsCompleted);
 
             // Update project view label and BeginInvoke TaskCompleted event
-            Projectviews[args.TV.GetParentProjectID()].SetTasksLabel($"Tasks: {completedTasks}/{tasks.Count}");
-            TaskCompleted.Invoke(new TaskCompletedEventArgs(args.TV));
+            Projectviews[project.GetProjectID()].SetTasksLabel($"Tasks: {completedTasks}/{tasks.Count}");
+            TaskCompleted.Invoke(new TaskCompletedEventArgs(taskview));
         }
 
         #endregion TaskViewEvents
@@ -622,7 +623,7 @@ namespace DoYourTasks
         public SubTaskView CreateSubTaskView(string projectID, string taskID, string subTaskID, string subTaskName, string createdAt, bool isNew = true)
         {
             SubTask subTask = null;
-            SubTaskView subTaskView = new SubTaskView(taskID, subTaskID, projectID, subTaskName, createdAt);
+            SubTaskView subTaskView = new SubTaskView(taskID, subTaskID, projectID, subTaskName, createdAt, CurrentTheme);
             SubscribeSubTaskViewEvents(subTaskView);
 
             if (isNew)

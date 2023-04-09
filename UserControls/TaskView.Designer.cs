@@ -531,7 +531,7 @@
             this.MinimumSize = new System.Drawing.Size(430, 111);
             this.Name = "TaskView";
             this.Size = new System.Drawing.Size(430, 111);
-            this.Tag = "248";
+            this.Tag = "250";
             this.Click += new System.EventHandler(this.TaskView_Click);
             this.pnlColorIndicator.ResumeLayout(false);
             this.pnlColorIndicator.PerformLayout();

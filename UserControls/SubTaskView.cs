@@ -32,7 +32,7 @@ namespace DoYourTasks.UserControls
         #endregion Fields
 
         #region Constructors
-        public SubTaskView(string parent_id, string id, string parentProjectID, string subTaskName, string createdAt)
+        public SubTaskView(string parent_id, string id, string parentProjectID, string subTaskName, string createdAt, Theme theme)
         {
             InitializeComponent();
             ParentTaskID = parent_id;
@@ -46,7 +46,7 @@ namespace DoYourTasks.UserControls
             StartBackColor = BackColor;
             StartForeColor = ForeColor;
             toolTip = new ToolTip();
-
+            Theme = theme;
             ctbTaskName.BackColor = Color.Transparent;
             ctbTaskName.SetTBBackColor(StartBackColor);
         }
@@ -108,7 +108,7 @@ namespace DoYourTasks.UserControls
 
         private void customRadioButtonTaskName_MouseEnter(object sender, EventArgs e)
         {
-            customRadioButtonTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
+            //customRadioButtonTaskName.ForeColor = customRadioButtonTaskName.CheckedColor;
             customRadioButtonTaskName.BackColor = Color.Gainsboro;
             customRadioButtonTaskName.isSelected = true;
 

@@ -187,3 +187,4 @@ C:\Users\alws34\source\repos\ToDoMockup\bin\Debug\Newtonsoft.Json.xml
 C:\Users\alws34\source\repos\ToDoMockup\obj\Debug\DoYourTasks.csproj.CopyComplete
 C:\Users\alws34\source\repos\ToDoMockup\obj\Debug\DoYourTasks.UserControls.NotificationCounter.resources
 C:\Users\alws34\source\repos\ToDoMockup\obj\Debug\DoYourTasks.NotificationView.resources
+C:\Users\alws34\source\repos\ToDoMockup\obj\Debug\DoYourTasks.csproj.ResolveComReference.cache
