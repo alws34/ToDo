@@ -173,3 +173,7 @@ C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.CoreCompi
 C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.csproj.CopyComplete
 C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.exe
 C:\Users\alws34\source\repos\ToDoMockup\obj\Release\DoYourTasks.pdb
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\Interop.CTVLib.dll
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.csproj.ResolveComReference.cache
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.UserControls.NotificationCounter.resources
+C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Release\DoYourTasks.NotificationView.resources

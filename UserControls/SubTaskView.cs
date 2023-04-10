@@ -166,7 +166,6 @@ namespace DoYourTasks.UserControls
         private void btnDelete_Click(object sender, EventArgs e)
         {
             SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(this));
-            Dispose();
         }
        
         private void btnEditTaskName_Click(object sender, EventArgs e)

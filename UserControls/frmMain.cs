@@ -1166,19 +1166,22 @@ namespace DoYourTasks
         private void SetSubTaskViewsOnScreen(string taskViewID)
         {
             flpSubTasks.Controls.Clear();
-            string id;
+            string id,projectID,taskID,subtaskID;
             foreach (var stv in dataController.SubTaskviews)
             {
                 stv.Value.SetTheme(currentTheme);
+                projectID = stv.Value.GetParentProjectID();
+                taskID = stv.Value.GetParentTaskID();
+                subtaskID = stv.Value.GetSubTaskID();
                 if (stv.Value.GetParentTaskID() == taskViewID)
                 {
                     id = stv.Key;
                     flpSubTasks.Controls.Add(dataController.SubTaskviews[id]);
                     SubTask st = null;
-                    if (dataController.GetCorrectProject(stv.Value.GetParentProjectID()).GetTasks().ContainsKey(stv.Value.GetParentTaskID()))
-                        st = dataController.GetCorrectProject(stv.Value.GetParentProjectID()).GetTasks()[stv.Value.GetParentTaskID()].GetSubTasks()[stv.Value.GetSubTaskID()];
+                    if (dataController.GetCorrectProject(stv.Value.GetParentProjectID()).GetTasks().ContainsKey(taskID))
+                        st = dataController.GetCorrectProject(projectID).GetTasks()[taskID].GetSubTasks()[subtaskID];
                     else
-                        st = dataController.GetCorrectProject(stv.Value.GetParentProjectID()).GetHiddenTasks()[stv.Value.GetParentTaskID()].GetSubTasks()[stv.Value.GetSubTaskID()];
+                        st = dataController.GetCorrectProject(projectID).GetHiddenTasks()[taskID].GetSubTasks()[subtaskID];
 
                     flpSubTasks.Controls.SetChildIndex(stv.Value, st.GetIndex());
                 }

@@ -110,7 +110,7 @@ namespace DoYourTasks
                 CurrentTheme = settings.SavedTheme;
             else
                 settings = new Settings();
-            
+
             if (Projects == null)
             {
                 Projects = new ConcurrentDictionary<string, Project>();
@@ -286,7 +286,7 @@ namespace DoYourTasks
 
             pv.Name = "ProjectView";
             SubscribeProejctViewEvents(pv);
-            
+
 
             AddProjectsToDicts(project, pv, projectID);
             pv.SetPriority(GetCorrectProject(projectID).GetPriority(), !isNew);
@@ -686,7 +686,16 @@ namespace DoYourTasks
             try
             {
                 SubTaskView stv = null;
-                SubTaskviews.TryRemove(arg.STV.GetParentTaskID(), out stv);
+                int retries = 0;
+                while (!SubTaskviews.TryRemove(arg.STV.GetSubTaskID(), out stv))
+                {
+                    if (retries == 10)
+                    {
+                        SendNotification.Invoke(new SendNotificationEventArgs("Error", "Could not delete subtask!", Utils.NotificationType.Error));
+                        return;
+                    }
+                    retries++;
+                }
                 GetCorrectProject(arg.STV.GetParentProjectID()).GetAllTasks()[arg.STV.GetParentTaskID()].RemoveSubTask(arg.STV.GetSubTaskID());
                 SubTaskDeleted.Invoke(new SubTaskDeletedEventArgs(arg.STV));
                 arg.STV.Dispose();
