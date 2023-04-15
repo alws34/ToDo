@@ -248,6 +248,10 @@ namespace DoYourTasks
                 nv.ForeColor = ForeColor;
 
             dataController.CurrentTheme = currentTheme;
+
+            if(dataController.settings == null)
+                dataController.settings = new Settings();
+
             dataController.settings.SavedTheme = currentTheme;
 
 
