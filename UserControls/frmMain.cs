@@ -249,7 +249,7 @@ namespace DoYourTasks
 
             dataController.CurrentTheme = currentTheme;
 
-            if(dataController.settings == null)
+            if (dataController.settings == null)
                 dataController.settings = new Settings();
 
             dataController.settings.SavedTheme = currentTheme;
@@ -657,29 +657,31 @@ namespace DoYourTasks
 
         private void AddProjectAttachment()
         {
-            string filepath = GetFilefromDialog();
-            if (string.IsNullOrWhiteSpace(filepath))
-                return;
-
+            List<string> files = GetFilesFromDialog();
             string projectID = currentProjectView.GetProjectID();
-
-            Attachment attachment = new Attachment()
+            foreach (string filepath in files)
             {
-                AttachmentID = utils.GetUniqueID(),
-                ParentProjectID = projectID,
-                FilePath = filepath,
-                FileName = Path.GetFileNameWithoutExtension(filepath),
-                FileType = Path.GetExtension(filepath),
-                AddedOn = DateTime.Now.ToString("dd/MM/yy"),
-            };
+                if (string.IsNullOrWhiteSpace(filepath))
+                    continue;
 
-            dataController.GetCorrectProject(projectID).AddAttachment(attachment);//Add Attachment to object's list
+                Attachment attachment = new Attachment()
+                {
+                    AttachmentID = utils.GetUniqueID(),
+                    ParentProjectID = projectID,
+                    FilePath = filepath,
+                    FileName = Path.GetFileNameWithoutExtension(filepath),
+                    FileType = Path.GetExtension(filepath),
+                    AddedOn = DateTime.Now.ToString("dd/MM/yy"),
+                };
 
-            UCAttachmentView uca = new UCAttachmentView(attachment);
-            uca.AttachemntRemoved += ProjectAttachemntRemoved;
-            flpProjectAttachments.Controls.Add(uca);
+                dataController.GetCorrectProject(projectID).AddAttachment(attachment);//Add Attachment to object's list
+                
+                UCAttachmentView uca = new UCAttachmentView(attachment);
+                uca.AttachemntRemoved += ProjectAttachemntRemoved;
+                flpProjectAttachments.Controls.Add(uca);
 
-            flpProjectAttachments.Refresh();
+                flpProjectAttachments.Refresh();
+            }
         }
 
         private void FlpProjects_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
@@ -820,7 +822,7 @@ namespace DoYourTasks
                 foreach (Task hiddenTv in hiddenTasks)
                     frmHiddenTasks.AddControl(dataController.Taskviews[hiddenTv.GetTaskID()]);
 
-                Task task = project.GetTasks()[taskView.GetTaskID()];
+                Task task = project.GetAllTasks()[taskView.GetTaskID()];
                 int taskPriority = task.GetPriority();
 
                 if (comboBoxFilterTaskPriority.SelectedIndex == taskPriority)
@@ -847,7 +849,7 @@ namespace DoYourTasks
                 if (taskView.Parent == null || taskView.Parent.Name != flpTasks.Name)
                     continue;
 
-                int index = dataController.GetCorrectProject(projectID).GetTasks()[taskID].GetIndex();
+                int index = dataController.GetCorrectProject(projectID).GetAllTasks()[taskID].GetIndex();
 
                 //Move completed tasks to bottom
                 if (taskView.GetCheckedState())
@@ -930,7 +932,7 @@ namespace DoYourTasks
             foreach (ProjectView pv in dataController.Projectviews.Values.ToList())
             {
                 Project project = dataController.GetCorrectProject(pv.GetProjectID());
-                if(project == null)
+                if (project == null)
                     continue;
                 string projectID = project.GetProjectID();
                 int projectPriority = project.GetPriority();
@@ -1008,7 +1010,8 @@ namespace DoYourTasks
             {
                 taskView.Height += 90;
                 taskView.Refresh();
-                if (taskView.Size.Height >= taskView.MaximumSize.Height) {
+                if (taskView.Size.Height >= taskView.MaximumSize.Height)
+                {
                     taskView.Size = taskView.MaximumSize;
                     break;
                 }
@@ -1170,7 +1173,7 @@ namespace DoYourTasks
         private void SetSubTaskViewsOnScreen(string taskViewID)
         {
             flpSubTasks.Controls.Clear();
-            string id,projectID,taskID,subtaskID;
+            string id, projectID, taskID, subtaskID;
             foreach (var stv in dataController.SubTaskviews)
             {
                 stv.Value.SetTheme(currentTheme);
@@ -1202,25 +1205,27 @@ namespace DoYourTasks
         #endregion
 
         #region Utils
-        private string GetFilefromDialog()
+        private string lastPath = "c:\\";
+
+        private List<string> GetFilesFromDialog()
         {
-            string fileName;
+            List<string> fileNames = new List<string>();
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.InitialDirectory = "c:\\";
+                ofd.InitialDirectory = lastPath;
+                ofd.Multiselect = true;
                 //ofd.Filter = "All Files (*.*|*.*)";
                 //ofd.FilterIndex = 1;
                 ofd.RestoreDirectory = true;
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    fileName = ofd.FileName;
+                    fileNames = ofd.FileNames.ToList();
+                    lastPath = Path.GetDirectoryName(fileNames[0]);
                 }
-                else fileName = null;
             }
 
-            return fileName;
-
+            return fileNames;
         }
 
 
@@ -1306,23 +1311,26 @@ namespace DoYourTasks
 
         private void btnAddAttachment_Click(TaskModifiedEventArgs args)
         {
-            string filepath = GetFilefromDialog();
-            if (string.IsNullOrWhiteSpace(filepath))
-                return;
-            string taskID = args.TV.GetTaskID();
-            string projectID = args.TV.GetParentProjectID();
-            Attachment attachment = new Attachment()
-            {
-                AttachmentID = utils.GetUniqueID(),
-                ParentTaskID = taskID,
-                ParentProjectID = projectID,
-                FilePath = filepath,
-                FileName = Path.GetFileNameWithoutExtension(filepath),
-                FileType = Path.GetExtension(filepath),
-                AddedOn = DateTime.Now.ToString("dd/MM/yy"),
-            };
-            dataController.GetCorrectProject(projectID).GetTasks()[taskID].AddAttachment(attachment);
-            UpdateCurrentTaskView(new UpdateCurrentTaskViewEventArgs(currentTaskView));
+            List<string> files = GetFilesFromDialog();
+            foreach (string filepath in files) {
+                if (string.IsNullOrWhiteSpace(filepath))
+                    continue;
+
+                string taskID = args.TV.GetTaskID();
+                string projectID = args.TV.GetParentProjectID();
+                Attachment attachment = new Attachment()
+                {
+                    AttachmentID = utils.GetUniqueID(),
+                    ParentTaskID = taskID,
+                    ParentProjectID = projectID,
+                    FilePath = filepath,
+                    FileName = Path.GetFileNameWithoutExtension(filepath),
+                    FileType = Path.GetExtension(filepath),
+                    AddedOn = DateTime.Now.ToString("dd/MM/yy"),
+                };
+                dataController.GetCorrectProject(projectID).GetTasks()[taskID].AddAttachment(attachment);
+                UpdateCurrentTaskView(new UpdateCurrentTaskViewEventArgs(currentTaskView));
+            }          
         }
 
 

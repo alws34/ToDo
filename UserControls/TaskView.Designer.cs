@@ -173,7 +173,7 @@
             this.lblDueDate.ForeColor = System.Drawing.Color.Black;
             this.lblDueDate.Location = new System.Drawing.Point(3, 72);
             this.lblDueDate.Name = "lblDueDate";
-            this.lblDueDate.Size = new System.Drawing.Size(60, 16);
+            this.lblDueDate.Size = new System.Drawing.Size(77, 20);
             this.lblDueDate.TabIndex = 6;
             this.lblDueDate.Text = "Due to: ";
             this.lblDueDate.Click += new System.EventHandler(this.TaskView_Click);
@@ -186,7 +186,7 @@
             this.lblCompletedSubTasks.ForeColor = System.Drawing.Color.Black;
             this.lblCompletedSubTasks.Location = new System.Drawing.Point(120, 24);
             this.lblCompletedSubTasks.Name = "lblCompletedSubTasks";
-            this.lblCompletedSubTasks.Size = new System.Drawing.Size(28, 16);
+            this.lblCompletedSubTasks.Size = new System.Drawing.Size(35, 20);
             this.lblCompletedSubTasks.TabIndex = 3;
             this.lblCompletedSubTasks.Text = "0/0";
             this.lblCompletedSubTasks.Click += new System.EventHandler(this.TaskView_Click);
@@ -199,7 +199,7 @@
             this.lblCreatedAt.ForeColor = System.Drawing.Color.Black;
             this.lblCreatedAt.Location = new System.Drawing.Point(3, 97);
             this.lblCreatedAt.Name = "lblCreatedAt";
-            this.lblCreatedAt.Size = new System.Drawing.Size(83, 16);
+            this.lblCreatedAt.Size = new System.Drawing.Size(103, 20);
             this.lblCreatedAt.TabIndex = 10;
             this.lblCreatedAt.Tag = "Created at:";
             this.lblCreatedAt.Text = "Created at:";
@@ -223,7 +223,7 @@
             this.lblSubTasks.ForeColor = System.Drawing.Color.Black;
             this.lblSubTasks.Location = new System.Drawing.Point(3, 24);
             this.lblSubTasks.Name = "lblSubTasks";
-            this.lblSubTasks.Size = new System.Drawing.Size(85, 16);
+            this.lblSubTasks.Size = new System.Drawing.Size(103, 20);
             this.lblSubTasks.TabIndex = 4;
             this.lblSubTasks.Text = "Sub Tasks:";
             this.lblSubTasks.Click += new System.EventHandler(this.TaskView_Click);
@@ -236,7 +236,7 @@
             this.lblAttachments.ForeColor = System.Drawing.Color.Black;
             this.lblAttachments.Location = new System.Drawing.Point(3, 47);
             this.lblAttachments.Name = "lblAttachments";
-            this.lblAttachments.Size = new System.Drawing.Size(95, 16);
+            this.lblAttachments.Size = new System.Drawing.Size(104, 25);
             this.lblAttachments.TabIndex = 11;
             this.lblAttachments.Text = "Attachments:";
             this.lblAttachments.Click += new System.EventHandler(this.TaskView_Click);
@@ -249,7 +249,7 @@
             this.lblAttachmentsCount.ForeColor = System.Drawing.Color.Black;
             this.lblAttachmentsCount.Location = new System.Drawing.Point(120, 47);
             this.lblAttachmentsCount.Name = "lblAttachmentsCount";
-            this.lblAttachmentsCount.Size = new System.Drawing.Size(15, 16);
+            this.lblAttachmentsCount.Size = new System.Drawing.Size(19, 20);
             this.lblAttachmentsCount.TabIndex = 12;
             this.lblAttachmentsCount.Text = "0";
             this.lblAttachmentsCount.Click += new System.EventHandler(this.TaskView_Click);
@@ -307,7 +307,7 @@
             this.lblPriorityLvl.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblPriorityLvl.Location = new System.Drawing.Point(0, 0);
             this.lblPriorityLvl.Name = "lblPriorityLvl";
-            this.lblPriorityLvl.Size = new System.Drawing.Size(34, 16);
+            this.lblPriorityLvl.Size = new System.Drawing.Size(43, 20);
             this.lblPriorityLvl.TabIndex = 17;
             this.lblPriorityLvl.Tag = "";
             this.lblPriorityLvl.Text = "Low";
@@ -321,7 +321,7 @@
             this.lblPriority.ForeColor = System.Drawing.Color.Black;
             this.lblPriority.Location = new System.Drawing.Point(3, 0);
             this.lblPriority.Name = "lblPriority";
-            this.lblPriority.Size = new System.Drawing.Size(60, 16);
+            this.lblPriority.Size = new System.Drawing.Size(76, 20);
             this.lblPriority.TabIndex = 15;
             this.lblPriority.Tag = "Priority:";
             this.lblPriority.Text = "Priority:";
@@ -335,7 +335,7 @@
             this.lblDateCompleted.ForeColor = System.Drawing.Color.Black;
             this.lblDateCompleted.Location = new System.Drawing.Point(3, 121);
             this.lblDateCompleted.Name = "lblDateCompleted";
-            this.lblDateCompleted.Size = new System.Drawing.Size(109, 16);
+            this.lblDateCompleted.Size = new System.Drawing.Size(104, 31);
             this.lblDateCompleted.TabIndex = 17;
             this.lblDateCompleted.Tag = "Completed On:";
             this.lblDateCompleted.Text = "Completed On:";
@@ -420,7 +420,7 @@
             this.lblSelectDueDate.ForeColor = System.Drawing.Color.Black;
             this.lblSelectDueDate.Location = new System.Drawing.Point(3, 32);
             this.lblSelectDueDate.Name = "lblSelectDueDate";
-            this.lblSelectDueDate.Size = new System.Drawing.Size(84, 14);
+            this.lblSelectDueDate.Size = new System.Drawing.Size(110, 16);
             this.lblSelectDueDate.TabIndex = 16;
             this.lblSelectDueDate.Text = "Select Due Date";
             // 
@@ -428,9 +428,9 @@
             // 
             this.TaskDueDatePicker.CustomFormat = "dd/MM/yyyy HH:mm tt";
             this.TaskDueDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.TaskDueDatePicker.Location = new System.Drawing.Point(3, 49);
+            this.TaskDueDatePicker.Location = new System.Drawing.Point(3, 51);
             this.TaskDueDatePicker.Name = "TaskDueDatePicker";
-            this.TaskDueDatePicker.Size = new System.Drawing.Size(139, 20);
+            this.TaskDueDatePicker.Size = new System.Drawing.Size(139, 23);
             this.TaskDueDatePicker.TabIndex = 12;
             this.TaskDueDatePicker.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dateTimePicker1_KeyUp);
             this.TaskDueDatePicker.MouseEnter += new System.EventHandler(this.TaskDueDatePicker_MouseEnter);
@@ -448,7 +448,7 @@
             this.btnRemoveDueDate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveDueDate.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
             this.btnRemoveDueDate.ForeColor = System.Drawing.Color.Black;
-            this.btnRemoveDueDate.Location = new System.Drawing.Point(3, 75);
+            this.btnRemoveDueDate.Location = new System.Drawing.Point(3, 80);
             this.btnRemoveDueDate.Name = "btnRemoveDueDate";
             this.btnRemoveDueDate.Size = new System.Drawing.Size(139, 26);
             this.btnRemoveDueDate.TabIndex = 13;
@@ -460,9 +460,9 @@
             // comboBoxChangePriority
             // 
             this.comboBoxChangePriority.FormattingEnabled = true;
-            this.comboBoxChangePriority.Location = new System.Drawing.Point(3, 107);
+            this.comboBoxChangePriority.Location = new System.Drawing.Point(3, 112);
             this.comboBoxChangePriority.Name = "comboBoxChangePriority";
-            this.comboBoxChangePriority.Size = new System.Drawing.Size(138, 22);
+            this.comboBoxChangePriority.Size = new System.Drawing.Size(138, 24);
             this.comboBoxChangePriority.TabIndex = 14;
             this.comboBoxChangePriority.SelectedIndexChanged += new System.EventHandler(this.comboBoxChangePriority_SelectedIndexChanged);
             // 
@@ -475,7 +475,7 @@
             this.lblDrag.ForeColor = System.Drawing.Color.Black;
             this.lblDrag.Location = new System.Drawing.Point(225, 57);
             this.lblDrag.Name = "lblDrag";
-            this.lblDrag.Size = new System.Drawing.Size(145, 22);
+            this.lblDrag.Size = new System.Drawing.Size(173, 27);
             this.lblDrag.TabIndex = 15;
             this.lblDrag.Text = "Drag From Here ";
             // 
@@ -514,7 +514,7 @@
             // 
             // TaskView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(209)))), ((int)(((byte)(209)))));
             this.Controls.Add(this.pbStatus);

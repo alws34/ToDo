@@ -192,3 +192,31 @@ C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\Interop.CTV
 C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.csproj.ResolveComReference.cache
 C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.UserControls.NotificationCounter.resources
 C:\Users\alws3\OneDrive\שולחן העבודה\ToDoMockup\obj\Debug\DoYourTasks.NotificationView.resources
+C:\Users\W15a636\ToDo\bin\Debug\ReadMe.txt
+C:\Users\W15a636\ToDo\bin\Debug\DoYourTasks.exe.config
+C:\Users\W15a636\ToDo\bin\Debug\DoYourTasks.exe
+C:\Users\W15a636\ToDo\bin\Debug\DoYourTasks.pdb
+C:\Users\W15a636\ToDo\bin\Debug\Control.Draggable.dll
+C:\Users\W15a636\ToDo\bin\Debug\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\Users\W15a636\ToDo\bin\Debug\Newtonsoft.Json.dll
+C:\Users\W15a636\ToDo\bin\Debug\Newtonsoft.Json.xml
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.csproj.AssemblyReference.cache
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.csproj.SuggestedBindingRedirects.cache
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.exe.config
+C:\Users\W15a636\ToDo\obj\Debug\Interop.CTVLib.dll
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.csproj.ResolveComReference.cache
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.frmHiddenItems.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.Properties.Resources.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.UserControls.CustomControls.CustomTextBox.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.frmMain.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.UserControls.NotificationCounter.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.NotificationView.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.UserControls.ProjectView.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.UserControls.SubTaskView.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.UserControls.TaskView.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.UserControls.UCAttachmentView.resources
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.csproj.GenerateResource.cache
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.csproj.CoreCompileInputs.cache
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.csproj.CopyComplete
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.exe
+C:\Users\W15a636\ToDo\obj\Debug\DoYourTasks.pdb
